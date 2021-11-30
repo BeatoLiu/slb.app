@@ -1,0 +1,537 @@
+<template>
+	<div class="pay">
+		<div class="pay-cont">
+			<div class="address" :class="{ error: error }">
+				{{ merchantName }}
+			</div>
+			<div class="box">
+				<p>支付金额</p>
+				<div class="item" @click="show = true">
+					<span class="name">￥</span>
+					<div class="money-content">
+						<div class="money-input">
+							<div class="value plholder" :class="{ 'no-value': !sum }" v-if="!sum">请询问店员后输入</div>
+							<div class="value" v-else>{{ sum }}</div>
+							<div class="like-input" :class="{ 'no-value-like': !sum }" v-if="show"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex-space biztype">
+				<p>支付类型</p>
+				<RadioGroup v-model="payType" @change="radioChange" direction="horizontal">
+					<Radio v-for="item in payTypeListFilter" :name="item.value" :disabled="item.dis" :key="item.value">
+						{{ item.label }}
+					</Radio>
+				</RadioGroup>
+			</div>
+			<div class="return-fee flex-space">
+				<p>所需</p>
+				<p>
+					{{ exInfo }}<span> {{ payTypeName }}</span>
+				</p>
+			</div>
+			<div class="page-tips" v-if="limitDetail['结束时间']">
+				<p class="title">温馨提示：</p>
+				<div>
+					<p>开放时间为【{{ limitDetail['开始时间'] }} — {{ limitDetail['结束时间'] }}】</p>
+					<p v-if="limitDetail['结束日期']">
+						{{ limitDetail['开始日期'] }}-{{ limitDetail['结束日期'] }}将进行优化，暂时关闭此功能
+					</p>
+					<p>
+						1、到店付是为拥有USDT的消费者提供线下商店或线上电商平台购物应用的服务通道，商家收到的是人民币，到店付不为商家或消费者提供USDT的提现服务；
+					</p>
+					<p>2、使用到店付的用户，不得用到店付功能刷单变相提现，如有违反，即关闭通道服务；</p>
+					<p>
+						3、到店付功能需要收取一定的手续费，手续费根据USDT的市场汇率来设定，因为市场汇率是浮动的，所以，到店付的手续费也是浮动的；
+					</p>
+					<p>4、商户接受用户到店付的购物方式，不得为用户提供虚假交易，否则停止通道服务；</p>
+					<p>5、商户接受到店付需要自己到数联宝商家管理后台操作提现，提现到帐时间为T+1。</p>
+				</div>
+			</div>
+			<div class="footer">
+				<Button class="btn" type="primary" @click="toPay" :disabled="!dis" :loading="loading"
+					>和店员已确认，立即买单</Button
+				>
+			</div>
+		</div>
+
+		<InputPayPWD :show="showPop" @close="closePop" :typeName="payTypeName" :amount="exInfo" :pwdError="pwdError">
+		</InputPayPWD>
+
+		<van-number-keyboard
+			:show="show"
+			theme="custom"
+			extra-key="."
+			close-button-text="完成"
+			:hide-on-click-outside="false"
+			@blur="complete"
+			@input="onInput"
+			@delete="onDelete"
+		/>
+	</div>
+</template>
+
+<script lang="ts">
+import { Toast, NumberKeyboard, Dialog, Button, Icon, Field, CellGroup, RadioGroup, Radio } from 'vant'
+import { Base64 } from 'js-base64'
+
+import { getExchangeRatioinDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '../../../apis/slb'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
+import { showDictionary } from '../../../apis/common'
+// import slb from '../../../utils/jslb-1.0.0'
+import InputPayPWD from '../../../components/InputPayPWD'
+import { useRouter } from 'vue-router'
+export default defineComponent({
+	name: 'PayForShop',
+	components: {
+		[NumberKeyboard.name]: NumberKeyboard,
+		Button,
+		Icon,
+		RadioGroup,
+		Radio,
+		Field,
+		CellGroup,
+		InputPayPWD
+	},
+	setup() {
+		const { currentRoute, replace } = useRouter()
+		const data = reactive({
+			memCode: localStorage.memCode,
+			sum: '',
+			exInfo: 0,
+			lng: '',
+			lat: '',
+			show: false, //数字键盘
+			merchantName: '',
+			mCode: 0,
+			error: false,
+			// mHelpChar: '', // 登记符
+			mqcCode: '', // 分店code
+			loading: false,
+			bizType: 34, //  1 usdt; 34 zsdt
+			payType: 18, //  17 usdt; 18 zsdt
+			payTypeName: 'ZSDT',
+			laCurrencyType: 18, //  17 usdt; 18 zsdt
+			// 支付币种类型
+			payTypeList: [
+				{ value: 18, label: 'ZSDT', ishow: true, dis: false },
+				{ value: 17, label: 'USDT', ishow: true, dis: true }
+			],
+			limitDetail: {
+				开始时间: '7:00:00',
+				结束时间: '24:00:00',
+				开始日期: '',
+				结束日期: ''
+			},
+			// 密码
+			showPop: false,
+			pwdError: '',
+			allianceWalletPassword: ''
+			// timer: 0
+		})
+
+		// const timer = ref(0)
+
+		const dis = computed(() => {
+			// const permisionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
+			// const memCode = localStorage.getItem('memCode') || ''
+			// if (permisionList.includes(memCode)) {
+			// 	return true
+			// }
+
+			const h = new Date()
+			const timeNow = h.getTime()
+
+			if (data.limitDetail['结束日期']) {
+				// console.log(new Date(data.limitDetail['开始日期']))
+				const startDay = new Date(data.limitDetail['开始日期']).getTime()
+				const endDay = new Date(data.limitDetail['结束日期']).getTime()
+				if (timeNow > startDay && timeNow < endDay) {
+					return false
+				} else {
+					return data.mCode && data.sum
+				}
+			}
+
+			const day = h.getFullYear() + '/' + (h.getMonth() + 1) + '/' + h.getDate()
+			const startTimeStr = data.limitDetail['开始时间'] || '7:00:00'
+			const endTimeStr = data.limitDetail['结束时间'] || '24:00:00'
+			const startTime = new Date(day + ' ' + startTimeStr).getTime()
+			const endTime = new Date(day + ' ' + endTimeStr).getTime()
+			if (startTime <= timeNow && timeNow < endTime) {
+				return !!data.mCode && data.sum
+			} else {
+				return false
+			}
+		})
+		const payTypeListFilter = computed(() => {
+			return data.payTypeList.filter(item => item.ishow)
+		})
+
+		// 汇率换算
+		const exchangeRatioinDcToCny = () => {
+			if (data.sum) {
+				const params = {
+					laType: 2, // 0买，1卖
+					cnyMoney: +data.sum,
+					laCurrencyType: data.laCurrencyType // 7 susd; 10 usdt
+				}
+				getExchangeRatioinDcToCny(params).then(res => {
+					if (res.resultCode === 1) {
+						data.exInfo = res.data
+					}
+				})
+			} else {
+				data.exInfo = 0
+			}
+		}
+		const onInput = (value: string) => {
+			const reg = /^\d+\.?\d{0,1}$/
+			if (reg.test(data.sum) || data.sum === '') {
+				data.sum = data.sum + value
+			}
+			exchangeRatioinDcToCny()
+		}
+		const onDelete = () => {
+			data.sum = data.sum.slice(0, data.sum.length - 1)
+			exchangeRatioinDcToCny()
+			// data.exInfo = data.sum
+		}
+		const complete = () => {
+			data.show = false
+		}
+
+		const getMerInfo = () => {
+			// let res =
+			// 	'http://slpay.2qzs.com/slpay/index.html#/payDetail?id=10_DA5859D030EC4464F8723FEAE3A9530E_E1A169704C798EA7E8A8AC832DB742DB_298C9FDD2924191B591630F1A3C1144B_D653D3F3BDF3406658594771A3F0F2A0&mqcCode=0'
+
+			const query = currentRoute.value.query
+			let params = {
+				id: query.id as string,
+				mqcCode: query.mqcCode as string
+			}
+			getMerchantBymCodeAndMqcCode(params).then(res => {
+				// console.log(res)
+				if (res.resultCode === 1) {
+					data.merchantName = res.data.mName
+					data.mCode = res.data.mCode
+					data.mqcCode = query.mqcCode as string
+					// data.mHelpChar = res.data.mHelpChar
+				} else {
+					data.merchantName = res.msg
+					data.mCode = 0
+					data.error = true
+				}
+			})
+			// })
+		}
+		// 选择币种
+		const radioChange = (radio: number) => {
+			if (radio === 17) {
+				data.payTypeName = 'USDT'
+				data.laCurrencyType = 17
+				data.bizType = 33
+			} else if (radio === 18) {
+				data.payTypeName = 'ZSDT'
+				data.laCurrencyType = 18
+				data.bizType = 34
+			}
+			exchangeRatioinDcToCny()
+		}
+
+		// 点击确定
+		// const submitTransfer = () => {
+		//     data.showPop = true
+		// }
+		// 输入完密码后
+		const closePop = (pwd?: string) => {
+			if (pwd?.length === 6) {
+				// data.allianceWalletPassword = pwd || ''
+				let params = {
+					paySum: data.sum,
+					payFactSum: data.exInfo,
+					remark: data.payTypeName.toLowerCase() + '到店付',
+					lat: data.lat,
+					lng: data.lng,
+					mCode: data.mCode,
+					mName: Base64.encode(data.merchantName),
+					mqcCode: data.mqcCode,
+					payType: data.payType,
+					bizType: data.bizType,
+					memCode: localStorage.memCode,
+					allianceWalletPassword: pwd || ''
+				}
+
+				// return replace({ name: 'PayResult', query: { orderCode: 3188206 } })
+				data.loading = true
+				payShopMoneyForDc(params)
+					.then(res => {
+						data.loading = false
+						if (res.resultCode === 1) {
+							replace({ name: 'PayResult', query: { orderCode: res.data.orderCode } })
+						} else if (res.resultCode === -2) {
+							data.pwdError = res.msg
+						} else if (res.resultCode === -3) {
+							data.pwdError = res.msg
+						}
+					})
+					.catch(err => {
+						data.loading = false
+					})
+				// transfer(params).then(async res => {
+				//     if (res.resultCode === 1) {
+				//         // await store.dispatch('user/setWalletBalance', { ...walletBalance.value, mwAmount: walletBalance.value.mwAmount - (+params.amount) })
+				//         Toast('转账成功')
+				//         data.showPop = false
+				//     } else if (res.resultCode === -2) {
+				//         data.pwdError = res.msg
+				//     } else if (res.resultCode === -3) {
+				//         data.pwdError = res.msg
+				//     }
+				// })
+			} else {
+				data.showPop = false
+			}
+		}
+
+		const toPay = () => {
+			// return Toast('更新中，敬请期待')
+			data.show = false
+			// Toast('111')
+			if (data.sum) {
+				data.showPop = true
+			} else {
+				Toast('请输入金额！')
+			}
+		}
+
+		onMounted(() => {
+			showDictionary({ dType: 43 }).then(res => {
+				if (res.resultCode === 1 && res.data.length) {
+					let str = JSON.parse(res.data[0].dSubName)
+					if (str['结束时间']) {
+						data.limitDetail = str
+					}
+				}
+			})
+			getMerInfo()
+		})
+
+		return {
+			...toRefs(data),
+			dis,
+			payTypeListFilter,
+			onInput,
+			onDelete,
+			complete,
+			radioChange,
+			toPay,
+			closePop
+		}
+	}
+})
+</script>
+
+<style scoped lang="less">
+@s: 0.0133rem;
+.pay {
+	position: relative;
+	box-sizing: border-box;
+	.pay-cont {
+		box-sizing: border-box;
+		min-height: calc(100vh - 90px);
+		padding: 0 20 * @s;
+		// background: #fff;
+		.address {
+			height: 100 * @s;
+			line-height: 100 * @s;
+			text-align: center;
+			color: #808080;
+		}
+		.error {
+			color: red;
+		}
+		.login-cont {
+			margin-bottom: 20 * @s;
+		}
+		.logo {
+			text-align: center;
+		}
+		.box {
+			// border: 1px solid #BFBFBF;
+			border-radius: 10 * @s;
+			padding: 30 * @s;
+			background: #fff;
+			.item {
+				display: flex;
+				align-items: center;
+
+				font-size: 28 * @s;
+				line-height: 105 * @s;
+				position: relative;
+				.money-content {
+					flex: 1;
+					// border-bottom: 1px solid #BFBFBF;
+					.money-input {
+						position: relative;
+						display: inline-block;
+					}
+				}
+				.name {
+					// margin-left: 10*@s;
+					font-size: 40 * @s;
+				}
+				.value {
+					// flex: 1;
+					// text-align: right;
+					// margin-right: 2*@s;
+					padding-left: 20 * @s;
+					font-size: 54 * @s;
+					font-weight: 600;
+				}
+				.plholder {
+					color: #ccc;
+				}
+				.like-input {
+					position: absolute;
+					right: 0;
+					top: 20 * @s;
+					width: 2px;
+					height: 60 * @s;
+					background: #1989fa;
+					animation: flick 1s infinite;
+					-moz-animation: flick 1s infinite; /* Firefox */
+					-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
+					-o-animation: flick 1s infinite; /* Opera */
+				}
+				.no-value {
+					font-size: 28 * @s;
+				}
+				.no-value-like {
+					height: 44 * @s;
+					top: 36 * @s;
+					left: 20 * @s;
+				}
+			}
+			.remark {
+				margin-top: 20 * @s;
+				font-size: 28 * @s;
+				line-height: 100 * @s;
+				// border-bottom: 1px solid #BFBFBF;
+				input {
+					border: none;
+					border-bottom: 1px solid #bfbfbf;
+					width: 100%;
+				}
+			}
+			:last-child {
+				border-bottom: none;
+			}
+		}
+		.biztype {
+			background: #fff;
+			padding: 0 20 * @s;
+			line-height: 120 * @s;
+			border-radius: 5px;
+			margin-top: 20 * @s;
+		}
+		.return-fee {
+			background: #fff;
+			padding: 0 20 * @s;
+			line-height: 120 * @s;
+			border-radius: 5px;
+			margin-top: 20 * @s;
+			font-size: 30 * @s;
+			p:nth-child(2) {
+				font-weight: 600;
+			}
+			span {
+				color: #505050;
+				font-size: 24 * @s;
+				font-weight: 100;
+			}
+		}
+		.page-tips {
+			margin-bottom: calc(64px + 20 * @s);
+		}
+		.footer {
+			background: #f7f7f7;
+			position: fixed;
+			z-index: 12;
+			bottom: 0;
+			width: 100%;
+			text-align: center;
+			padding-bottom: 22px;
+		}
+		.btn {
+			display: block;
+			width: 660 * @s;
+			margin-left: calc(50% - 350 * @s);
+			margin-top: 20 * @s;
+			line-height: 88 * @s;
+			// background: #ed0c17;
+			border-radius: 12 * @s;
+			text-align: center;
+			font-size: 30 * @s;
+			color: #fff;
+		}
+	}
+	@keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-moz-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-webkit-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-o-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+}
+</style>

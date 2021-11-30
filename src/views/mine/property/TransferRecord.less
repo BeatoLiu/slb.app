@@ -1,0 +1,47 @@
+@import '../../../assets/css/local.less';
+.bank-order-list {
+	.top {
+		height: 200 * @fontSize;
+		background-color: #5cc8b8;
+		text-align: center;
+		color: #fff;
+		.balance {
+			margin-left: 50 * @fontSize;
+		}
+		.withdraw {
+			margin-right: 50 * @fontSize;
+		}
+		.time {
+			background-color: transparent;
+			color: #fff;
+			padding: 10px 0;
+			// margin-top: 40 * @fontSize;
+		}
+	}
+	.list {
+		.list-content {
+			padding: 20 * @fontSize;
+			margin-top: 20 * @fontSize;
+			background: #fff;
+			// p {
+			// 	padding: 10 * @fontSize 0;
+			// 	color: #999;
+			// }
+			& > p:nth-child(1) {
+				color: #000;
+				font-size: 32 * @fontSize;
+				border-bottom: 1px solid #f4f4f4;
+			}
+            .failed{
+                color: red;
+            }
+            .gain{
+                color: #f30;
+            }
+            .list-bottom{
+                color: #999;
+            }
+		}
+	}
+	
+}

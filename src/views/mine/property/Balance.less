@@ -1,0 +1,60 @@
+@import '../../../assets/css/local.less';
+.balance{
+    box-sizing: border-box;
+    .top{
+        background: @deepGreen;
+        height: 400*@fontSize;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+    }
+    .balance-container{
+        margin-top: -300*@fontSize;
+        padding: 0 20*@fontSize;
+        text-align: center;
+        div{
+            padding-top: 100*@fontSize;
+            background: #fff;
+            height: 400*@fontSize;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+        .type-name{
+            margin-top: 10px;
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: bold;
+            line-height: 20px;
+            color: #333333;
+            opacity: 1;
+        }
+        .money{
+            margin-top: 10px;
+            font-size: 30px;
+            font-family: PingFang SC;
+            font-weight: bold;
+            line-height: 42px;
+            color: #333333;
+            opacity: 1;
+        }
+    }
+    .fun-list{
+        padding: 0 20*@fontSize;
+        .list-container{
+            min-height: calc(100vh - 400px);
+            background: #fff;
+            height: 100%;
+            margin-top: 20*@fontSize;
+            padding:40*@fontSize 60*@fontSize;
+            border-radius: 10px;
+            .left{
+                margin-right: 10*@fontSize;
+            }
+            .right{
+                margin-left: 10*@fontSize;
+            }
+            .take{
+                margin-top: 20*@fontSize;
+            }
+        }
+    }
+}

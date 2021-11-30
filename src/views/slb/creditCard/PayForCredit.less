@@ -1,0 +1,186 @@
+@import '../../../assets/css/local.less';
+.repayment {
+	box-sizing: border-box;
+	padding: 20 * @fontSize;
+	// height: calc(100vh - 100px);
+	margin-bottom: 200 * @fontSize;
+	// overflow: hidden;
+	.card-desc {
+		padding: 0 20 * @fontSize;
+		background: #fff;
+		border-radius: 5px;
+		line-height: 100 * @fontSize;
+	}
+	.box {
+		margin-top: 20 * @fontSize;
+		background: #fff;
+		border-radius: 10 * @fontSize;
+		padding: 30 * @fontSize;
+		& > p:nth-child(1) {
+			color: #404040;
+		}
+		.item {
+			display: flex;
+			align-items: center;
+
+			font-size: 28 * @fontSize;
+			line-height: 105 * @fontSize;
+			position: relative;
+			.money-content {
+				flex: 1;
+				// border-bottom: 1px solid #BFBFBF;
+				.money-input {
+					position: relative;
+					display: inline-block;
+				}
+			}
+			.name {
+				// margin-left: 10*@fontSize;
+				font-size: 40 * @fontSize;
+			}
+			.value {
+				// flex: 1;
+				// text-align: right;
+				// margin-right: 2*@fontSize;
+				padding-left: 20 * @fontSize;
+				font-size: 54 * @fontSize;
+				font-weight: 600;
+			}
+			.plholder {
+				margin-top: 10 * @fontSize;
+				color: #ccc;
+			}
+			.like-input {
+				position: absolute;
+				right: 0;
+				top: 20 * @fontSize;
+				width: 2px;
+				height: 60 * @fontSize;
+				background: #1989fa;
+				animation: flick 1s infinite;
+				-moz-animation: flick 1s infinite; /* Firefox */
+				-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
+				-o-animation: flick 1s infinite; /* Opera */
+			}
+			.no-value {
+				font-size: 28 * @fontSize;
+			}
+			.no-value-like {
+				height: 44 * @fontSize;
+				top: 36 * @fontSize;
+				left: 20 * @fontSize;
+			}
+		}
+		:last-child {
+			border-bottom: none;
+		}
+	}
+	.biztype {
+		background: #fff;
+		padding: 0 20 * @fontSize;
+		line-height: 120 * @fontSize;
+		border-radius: 5px;
+		margin-top: 20 * @fontSize;
+	}
+	.return-fee {
+		background: #fff;
+		padding: 0 20 * @fontSize;
+		line-height: 120 * @fontSize;
+		border-radius: 5px;
+		margin-top: 20 * @fontSize;
+		font-size: 30 * @fontSize;
+		p:nth-child(2) {
+			font-weight: 600;
+		}
+		span {
+			color: #505050;
+			font-size: 24 * @fontSize;
+			font-weight: 100;
+		}
+	}
+	.bottom {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		background: #fff;
+		padding: 30 * @fontSize 20 * @fontSize;
+		margin-top: 20 * @fontSize;
+		font-size: 26 * @fontSize;
+		& > div:nth-child(1) {
+			text-align: right;
+			margin-right: 20 * @fontSize;
+			span {
+				font-size: 32 * @fontSize;
+				font-weight: 600;
+			}
+		}
+	}
+	.btn {
+		font-size: 30 * @fontSize;
+		// margin-top: 200*@fontSize;
+		display: inline-block;
+		width: 200 * @fontSize;
+		line-height: 80 * @fontSize;
+		border-radius: 12 * @fontSize;
+		background: #ed0c17;
+		color: #fff;
+		text-align: center;
+	}
+	@keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-moz-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-webkit-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-o-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+}

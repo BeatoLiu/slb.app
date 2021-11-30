@@ -1,0 +1,63 @@
+@import '../../../assets/css/local.less';
+.collections{
+    background: @deepGreen;
+    min-height: calc(100vh - 90px);
+    padding: 70*@fontSize 50*@fontSize;
+    box-sizing: border-box;
+    .container{
+        background: #fff;
+        padding:0 36*@fontSize;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.16);
+        border-radius: 10px;
+        position: relative;
+        &::before{
+            content: '';
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 180*@fontSize;
+            left: -18*@fontSize;
+            background: @deepGreen;
+            display: inline-block;
+            border-radius: 50%;
+            // background: transparent;
+        }
+        &::after{
+            content: '';
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 180*@fontSize;
+            right: -18*@fontSize;
+            background: @deepGreen;
+            display: inline-block;
+            border-radius: 50%;
+            // background: transparent;
+        }
+        .top{
+            height: 162*@fontSize;
+            border-bottom: 1px dashed #eee;
+            padding-top: 36*@fontSize;
+            // border-bottom-style: dashed;
+            .title{
+                color: #333;
+                font-size: 14px;
+                border-left: 2px solid #39b9b9;
+                padding-left: 20*@fontSize;
+            }
+            .addr{
+                margin-top: 20*@fontSize;
+                color: #39B9B9;
+                font-size: 10px;
+            }
+        }
+        .qr-img{
+            padding: 56*@fontSize;
+        }
+    }
+    .btn{
+        margin-top: 80*@fontSize;
+        color: @deepGreen;
+        border-radius: 10px;
+    }
+}

@@ -1,0 +1,42 @@
+@import '../../../assets/css/local.less';
+.transfer{
+    .top{
+        margin-top: 20*@fontSize;
+        background: #fff;
+        text-align: center;
+        padding-top: 100*@fontSize;
+        padding-bottom: 50*@fontSize;
+        p:nth-child(1){
+            color: @deepGreen;
+        }
+        p:nth-child(2){
+            font-size: 16px;
+        }
+    }
+    .container{
+        background: #fff;
+        margin-top: 20*@fontSize;
+        padding-top:16px;
+        .title{
+            padding-left:16px;
+
+        }
+    }
+    .btn{
+        margin-top: 100*@fontSize;
+        width: calc(100vw - 32px);
+        margin-left: 16px;
+    }
+    .err-container{
+        text-align: right; 
+        line-height: 44px;
+        padding-right: 16px;
+        height: 44px;
+        .error{
+            color:#ee0a24;
+        }
+        .tips{
+            color: #1989fa
+        }
+    }
+}

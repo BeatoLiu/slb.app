@@ -1,0 +1,5 @@
+export const BUY_PRODUCT = 'BUY_PRODUCT'
+export const DELIVERY_ADDRESS = 'DELIVERY_ADDRESS'
+
+export const USER_INFO = 'USER_INFO'
+export const WALLET_BALANCE = 'WALLET_BALANCE'
