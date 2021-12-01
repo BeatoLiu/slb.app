@@ -105,3 +105,33 @@ export interface transferModel {
     currencyType: number;
     allianceWalletPassword: string
 }
+
+/**
+ * k线图返回数据
+ */
+interface getTransferInfoKLineGraphItem {
+    createTime: string;
+    openPrice: number;
+    maxPrice: number;
+    minPrice: number;
+    closePrice: number;
+}
+interface getTransferInfoKLineGraphInfor {
+    [key: string]: getTransferInfoKLineGraphItem
+}
+export type getTransferInfoKLineGraphRes = baseResT<getTransferInfoKLineGraphInfor>
+
+/**
+ * @description K线图所需数据
+ * @param maxPrice 最高价
+ * @param minPrice 最低价
+ * @param tokenCount 交易总数量
+ * @param tokenPrice 当前价格
+ */
+interface getCurrentTaaDataItem {
+    maxPrice: number;
+    minPrice: number;
+    tokenCount: number;
+    tokenPrice: number
+}
+export type getCurrentTaaDataRes = baseResT<getCurrentTaaDataItem>

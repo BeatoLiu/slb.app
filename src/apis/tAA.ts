@@ -2,7 +2,9 @@ import { httpGet, httpPost } from './axios'
 import { baseResT } from './model/base'
 import {
     canTakeOutModel,
+    getCurrentTaaDataRes,
     getTotalAssetsRes,
+    getTransferInfoKLineGraphRes,
     selectBenefitOrderListModel,
     selectSignTokenTempTotalListModel,
     selectTakenTokenListModel,
@@ -34,7 +36,9 @@ enum Api {
     GET_MEMBER_WALLET = 'taa/getMemberWallet',
 
     CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = 'taa/changeWalletAcctOnChainForOutZs',
-    CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs'
+    CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs',
+    GET_TRANSFER_INFO_K_LINE_GRAPH = 'taa/getTransferInfoKLineGraph',
+    GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData'
 }
 
 /**
@@ -214,3 +218,15 @@ export const changeWalletAcctOnChainForOutZs = (p: transferModel) => httpPost<ba
  * @returns 
  */
 export const changeWalletAcctOnChainForInZs = (p: Omit<transferModel, "allianceWalletPassword">) => httpPost<baseResT>(Api.CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS, p)
+
+/**
+ * @description 查询TAA K线图
+ * @returns 
+ */
+export const getTransferInfoKLineGraph = () => httpPost<getTransferInfoKLineGraphRes>(Api.GET_TRANSFER_INFO_K_LINE_GRAPH)
+
+/**
+ * @description 获取勾画K线图所需数据:获取当天最高价maxPrice、最低价minPrice、交易总数量
+ * @returns 
+ */
+export const getCurrentTaaData = () => httpPost<getCurrentTaaDataRes>(Api.GET_CURRENT_TAA_DATA)

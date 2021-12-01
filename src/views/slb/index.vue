@@ -49,6 +49,27 @@
 				<img :src="picDisplayPath + 'secret/banners/movie_banner.png'" alt="" />
 			</div>
 		</section>
+		<!-- k线图 -->
+		<section>
+			<div class="echart-container">
+				<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />TAA走势</p>
+				<div class="echart-top flex-space">
+					<div class="left">{{ tAACurrentInfo.tokenPrice }}</div>
+					<div class="right">
+						<p class="flex-space">
+							<span>高</span><span>{{ tAACurrentInfo.maxPrice }}</span>
+						</p>
+						<p class="flex-space">
+							<span>低</span><span>{{ tAACurrentInfo.minPrice }}</span>
+						</p>
+						<p class="flex-space">
+							<span>24H</span><span>{{ tAACurrentInfo.tokenCount }}</span>
+						</p>
+					</div>
+				</div>
+				<div id="echart" ref="chartDom"></div>
+			</div>
+		</section>
 		<!-- 币种汇率 -->
 		<div class="cat-list">
 			<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />资讯</p>
@@ -70,33 +91,60 @@
 
 <script lang="ts">
 import { Swipe, SwipeItem, Toast, Dialog } from 'vant'
-// import * as echarts from 'echarts/core'
-// import { TitleComponent, ToolboxComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
-// import { LineChart } from 'echarts/charts'
-// import { CanvasRenderer } from 'echarts/renderers'
-// import { $ } from '../../api/axios'
-// import { stringify } from 'qs'
 import { picDisplayPath } from '../../utils/config'
 import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue-demi'
-// import { httpPost } from '../../apis/axios'
 import { getDigitalTokeExchangeFromSc } from '../../apis/slb'
 import { useI18n } from '../../hooks/setting/useI18n'
-import { appSign, unRelaxSum } from '../../apis/tAA'
+import { appSign, getCurrentTaaData, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
 import { useRouter } from 'vue-router'
-// import bannerMx from '../../assets/img/index/banner-mx.png'
-// import banner1 from '../../assets/img/slb/banner-1.png'
-// import cardImg from '../../assets/img/slb/card.png'
-// import rechargeImg from '../../assets/img/slb/recharge.png'
-// import shopImg from '../../assets/img/slb/shop.png'
-// echarts.use([
-// 	TitleComponent,
-// 	ToolboxComponent,
-// 	TooltipComponent,
-// 	GridComponent,
-// 	LegendComponent,
-// 	LineChart,
-// 	CanvasRenderer
-// ])
+
+import * as echarts from 'echarts/core'
+import {
+	TitleComponent,
+	TitleComponentOption,
+	TooltipComponent,
+	TooltipComponentOption,
+	GridComponent,
+	GridComponentOption,
+	LegendComponent,
+	LegendComponentOption,
+	DataZoomComponent,
+	DataZoomComponentOption,
+	MarkLineComponent,
+	MarkLineComponentOption,
+	MarkPointComponent,
+	MarkPointComponentOption
+} from 'echarts/components'
+import { CandlestickChart, CandlestickSeriesOption, LineChart, LineSeriesOption } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
+import { ref } from 'vue'
+
+echarts.use([
+	TitleComponent,
+	TooltipComponent,
+	GridComponent,
+	LegendComponent,
+	DataZoomComponent,
+	MarkLineComponent,
+	MarkPointComponent,
+	CandlestickChart,
+	LineChart,
+	CanvasRenderer,
+	UniversalTransition
+])
+
+type EChartsOption = echarts.ComposeOption<
+	| TitleComponentOption
+	| TooltipComponentOption
+	| GridComponentOption
+	| LegendComponentOption
+	| DataZoomComponentOption
+	| MarkLineComponentOption
+	| MarkPointComponentOption
+	| CandlestickSeriesOption
+	| LineSeriesOption
+>
 export default defineComponent({
 	name: 'Slb-alive',
 	components: {
@@ -197,6 +245,13 @@ export default defineComponent({
 				total: 0,
 				historyTotal: 0,
 				alreadyWithdraw: 0
+			},
+			// taa实时信息
+			tAACurrentInfo: {
+				maxPrice: 0,
+				minPrice: 0,
+				tokenCount: 0,
+				tokenPrice: 0
 			}
 		})
 
@@ -245,122 +300,218 @@ export default defineComponent({
 				}
 			}
 		}
+		// k线图
+		// var chartDom = document.getElementById('echart')
+		const chartDom = ref<any>(null)
+		const getK = () => {
+			getTransferInfoKLineGraph().then(res => {
+				if (res.resultCode === 1) {
+					var myChart = echarts.init(chartDom.value, 'dark')
+					var option: EChartsOption
+					const upColor = '#ec0000'
+					const upBorderColor = '#8A0000'
+					const downColor = '#00da3c'
+					const downBorderColor = '#008F28'
 
-		// const changeDay =(day)=> {
-		// 	data.incomeParams.day = day
-		// 	getIcome()
-		// }
-		// 个人收益
-		// const getIcome = () => {
-		// 	memCodeIncome(data.incomeParams).then(res => {
-		// 		if (res.resultCode === 1) {
-		// 			var chartDom = document.getElementById('echart')
-		// 			var myChart = echarts.init(chartDom)
-		// 			var option
+					let xAxisData = []
+					let seriesData = []
+					for (let key in res.data) {
+						xAxisData.push(key)
+						const { createTime, openPrice, closePrice, minPrice, maxPrice } = res.data[key]
+						seriesData.push([openPrice, closePrice, minPrice, maxPrice])
+					}
+					// Each item: open，close，lowest，highest
+					option = {
+						title: {
+							text: 'TAA交易',
+							left: 0
+						},
+						tooltip: {
+							trigger: 'axis',
+							axisPointer: {
+								type: 'cross'
+							}
+						},
+						legend: {
+							// data: ['时K', 'MA5', 'MA10', 'MA20', 'MA30']
+							// data: ['时K']
+						},
+						grid: {
+							left: '10%',
+							right: '1%',
+							bottom: '15%'
+						},
+						xAxis: {
+							type: 'category',
+							data: xAxisData,
+							scale: true,
+							boundaryGap: false,
+							axisLine: { onZero: false },
+							splitLine: { show: false },
+							min: 'dataMin',
+							max: 'dataMax'
+						},
+						yAxis: {
+							scale: true,
+							splitArea: {
+								show: true
+							}
+						},
+						dataZoom: [
+							{
+								type: 'inside',
+								start: 50,
+								end: 100
+							},
+							{
+								show: true,
+								type: 'slider',
+								top: '90%',
+								start: 50,
+								end: 100
+							}
+						],
+						series: [
+							{
+								name: '时K',
+								type: 'candlestick',
+								data: seriesData,
+								itemStyle: {
+									color: upColor,
+									color0: downColor,
+									borderColor: upBorderColor,
+									borderColor0: downBorderColor
+								}
+								// markPoint: {
+								// label: {
+								// 	formatter: function (param: any) {
+								// 		return param != null ? Math.round(param.value) + '' : ''
+								// 	}
+								// },
+								// data: [
+								// {
+								// 	name: 'Mark',
+								// 	coord: ['2013/5/31', 2300],
+								// 	value: 2300,
+								// 	itemStyle: {
+								// 		color: 'rgb(41,60,85)'
+								// 	}
+								// },
+								// {
+								// 	name: 'highest value',
+								// 	type: 'max',
+								// 	valueDim: 'highest'
+								// },
+								// {
+								// 	name: 'lowest value',
+								// 	type: 'min',
+								// 	valueDim: 'lowest'
+								// },
+								// {
+								// 	name: 'average value on close',
+								// 	type: 'average',
+								// 	valueDim: 'close'
+								// }
+								// ],
+								// tooltip: {
+								// 	formatter: function (param: any) {
+								// 		return param.name + '<br>' + (param.data.coord || '')
+								// 	}
+								// }
+								// }
+								// markLine: {
+								// 	symbol: ['none', 'none'],
+								// 	data: [
+								// 		[
+								// 			{
+								// 				name: 'from lowest to highest',
+								// 				type: 'min',
+								// 				valueDim: 'lowest',
+								// 				symbol: 'circle',
+								// 				symbolSize: 10,
+								// 				label: {
+								// 					show: false
+								// 				},
+								// 				emphasis: {
+								// 					label: {
+								// 						show: false
+								// 					}
+								// 				}
+								// 			},
+								// 			{
+								// 				type: 'max',
+								// 				valueDim: 'highest',
+								// 				symbol: 'circle',
+								// 				symbolSize: 10,
+								// 				label: {
+								// 					show: false
+								// 				},
+								// 				emphasis: {
+								// 					label: {
+								// 						show: false
+								// 					}
+								// 				}
+								// 			}
+								// 		],
+								// 		{
+								// 			name: 'min line on close',
+								// 			type: 'min',
+								// 			valueDim: 'close'
+								// 		},
+								// 		{
+								// 			name: 'max line on close',
+								// 			type: 'max',
+								// 			valueDim: 'close'
+								// 		}
+								// 	]
+								// }
+							}
+							// {
+							// 	name: 'MA5',
+							// 	type: 'line',
+							// 	data: calculateMA(5, seriesData),
+							// 	smooth: true,
+							// 	lineStyle: {
+							// 		opacity: 0.5
+							// 	}
+							// },
+							// {
+							// 	name: 'MA10',
+							// 	type: 'line',
+							// 	data: calculateMA(10, seriesData),
+							// 	smooth: true,
+							// 	lineStyle: {
+							// 		opacity: 0.5
+							// 	}
+							// }
+							// {
+							// 	name: 'MA20',
+							// 	type: 'line',
+							// 	data: calculateMA(20, seriesData),
+							// 	smooth: true,
+							// 	lineStyle: {
+							// 		opacity: 0.5
+							// 	}
+							// }
+							// {
+							// 	name: 'MA30',
+							// 	type: 'line',
+							// 	data: calculateMA(30, seriesData),
+							// 	smooth: true,
+							// 	lineStyle: {
+							// 		opacity: 0.5
+							// 	}
+							// }
+						]
+					}
 
-		// 			option = {
-		// 				title: {
-		// 					text: '收益走势'
-		// 				},
-		// 				tooltip: {
-		// 					trigger: 'axis'
-		// 				},
-		// 				legend: {
-		// 					data: [] // ['人民币', 'SUSD', 'SIE']
-		// 				},
-		// 				grid: {
-		// 					left: '3%',
-		// 					right: '4%',
-		// 					bottom: '3%',
-		// 					containLabel: true
-		// 				},
-		// 				// toolbox: {
-		// 				//     feature: {
-		// 				//         saveAsImage: {}
-		// 				//     }
-		// 				// },
-		// 				xAxis: {
-		// 					type: 'category',
-		// 					boundaryGap: false,
-		// 					data: [] // ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-		// 				},
-		// 				yAxis: {
-		// 					type: 'value'
-		// 				},
-		// 				series: [
-		// 					// {
-		// 					//     name: '人民币',
-		// 					//     type: 'line',
-		// 					//     stack: '总量',
-		// 					//     data: [120, 132, 101, 134, 90, 230, 210]
-		// 					// }
-		// 				]
-		// 			}
-		// 			let item = {}
-		// 			// 获取时间下标
-		// 			for (let key in res.data) {
-		// 				// console.log(key)
-		// 				option.xAxis.data.push(key)
-		// 				item = res.data[key]
-		// 			}
-		// 			// 获取数据币种
-		// 			for (let key in item) {
-		// 				let text = key
-		// 				option.series.push({
-		// 					name: text,
-		// 					type: 'line',
-		// 					stack: '总量',
-		// 					data: []
-		// 				})
-		// 			}
-		// 			// 各币种具体收益
-		// 			for (let key in res.data) {
-		// 				let subData = res.data[key]
-		// 				for (let subKey in subData) {
-		// 					option.series.forEach(item => {
-		// 						if (item.name === subKey) {
-		// 							item.data.push(subData[subKey])
-		// 						}
-		// 					})
-		// 				}
-		// 			}
-		// 			// 0 和 1 都是人民币，需要数据合并
-		// 			let arr = option.series.filter(item => item.name === '0')[0]
-		// 			let arr1 = option.series.filter(item => item.name === '1')[0]
-		// 			// console.log((arr))
-		// 			let length = arr.data.length
-		// 			// 合并后的对象
-		// 			let obj = {
-		// 				name: '1',
-		// 				type: 'line',
-		// 				stack: '总量',
-		// 				data: []
-		// 			}
-		// 			// 0 和 1 数据合并
-		// 			for (let i = 0; i < length; i++) {
-		// 				obj.data.push(arr.data[i] + arr1.data[i])
-		// 			}
-		// 			// 合并后，将原有的0和1替换成现在的1
-		// 			option.series.splice(0, 2, obj)
-		// 			// 将数字所代表的币种换成相应的文字描述
-		// 			option.series.forEach(item => {
-		// 				if (item.name === '1') {
-		// 					item.name = '人民币'
-		// 					option.legend.data.push('人民币')
-		// 				} else if (item.name === '6') {
-		// 					item.name = 'SIE'
-		// 					option.legend.data.push('SIE')
-		// 				} else if (item.name === '10') {
-		// 					item.name = 'SUSD'
-		// 					option.legend.data.push('SUSD')
-		// 				}
-		// 			})
-		// 			// console.log(option)
-		// 			option && myChart.setOption(option)
-		// 		}
-		// 	})
-		// }
+					option && myChart.setOption(option)
+				}
+			})
+		}
+
 		onActivated(() => {
+			// 获取各种币汇率
 			getDigitalTokeExchangeFromSc().then(res => {
 				if (res.resultCode === 1) {
 					let baseArr = JSON.parse(JSON.stringify(res.data.filter((item: any) => item.market === 'susdcny')))
@@ -378,11 +529,21 @@ export default defineComponent({
 					data.digitalTokeList = res.data
 				}
 			})
+			// 获取余额
 			getBonus()
+			// 生成k线图
+			getK()
+			// 获取taa当前交易信息
+			getCurrentTaaData().then(res => {
+				if (res.resultCode === 1) {
+					data.tAACurrentInfo = res.data
+				}
+			})
 		})
 
 		return {
 			...toRefs(data),
+			chartDom,
 			firstListNav,
 			secondListNav,
 			goRouter,
@@ -472,28 +633,37 @@ export default defineComponent({
 	}
 
 	.echart-container {
-		background: #fff;
+		// background: #fff;
 		margin-top: 20 * @fontSize;
-		padding-top: 20 * @fontSize;
-		.day {
+		> p {
+			margin-left: 20 * @fontSize;
+		}
+		// padding-top: 20 * @fontSize;
+		.echart-top {
+			// background: #100c2a;
+			background: #3b4365;
+			margin-top: 20 * @fontSize;
+			padding-bottom: 20 * @fontSize;
 			color: #fff;
-			font-size: 30 * @fontSize;
-			p {
-				margin-right: 20 * @fontSize;
+			.left {
+				color: @primaryColor;
+				// text-align: center;
+				padding-left: 40 * @fontSize;
+				width: 60%;
+				font-size: 24px;
 			}
-			.normal {
-				background: #b6bac0;
-				border-radius: 10px;
-				padding: 0 30 * @fontSize;
-			}
-			.active {
-				background: linear-gradient(135deg, #fb8b74 0%, #fe2c4b 100%);
+			.right {
+				width: 40%;
+				padding: 20 * @fontSize;
+				> p {
+					line-height: 30px;
+				}
 			}
 		}
 		#echart {
 			width: 100%;
 			height: 308px;
-			margin-top: 20 * @fontSize;
+			// margin-top: 20 * @fontSize;
 		}
 	}
 	.cat-list {

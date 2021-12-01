@@ -69,7 +69,7 @@ export default defineComponent({
                             disabled={fromChainDis.value}
                             to={{ path: '/mine/property/transferFromChain' }}
                         >
-                            {t('routes.transferFromChain')}(敬请期待)
+                            {t('routes.transferFromChain')}
                         </Button>
                     </div>
                 </div>
