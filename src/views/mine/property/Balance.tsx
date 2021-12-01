@@ -19,7 +19,8 @@ export default defineComponent({
         // const mwCurrencyType = currentRoute.value.query.mwCurrencyType as string
         // const memCode = computed(() => store.state.user.userInfo.memCode)
         const fromChainDis = computed(() =>
-            ![500004, 500111, 717260, 500010, 539241, 500012, 999739, 1892076, 2436002, 2758924, 1757470, 1193844, 2647502].includes(store.state.user.userInfo.memCode)
+            // ![500004, 500111, 717260, 500010, 539241, 500012, 999739, 1892076, 2436002, 2758924, 1757470, 1193844, 2647502].includes(store.state.user.userInfo.memCode)
+            false
         )
         return () => (
             <div class="balance">
