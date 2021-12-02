@@ -536,7 +536,7 @@ export default defineComponent({
 			// 获取taa当前交易信息
 			getCurrentTaaData().then(res => {
 				if (res.resultCode === 1) {
-					data.tAACurrentInfo = res.data
+					res.data && (data.tAACurrentInfo = res.data)
 				}
 			})
 		})
