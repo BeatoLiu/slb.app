@@ -4,6 +4,7 @@ import { Button } from 'vant'
 import './Balance.less'
 import { useI18n } from "@/hooks/setting/useI18n";
 import { useStore } from "@/store";
+import { gold } from "@/utils";
 
 /**
  * @description 钱包余额
@@ -29,7 +30,7 @@ export default defineComponent({
                     <div>
                         <p class="title">我的余额</p>
                         <p class="type-name">{walletBalance.value.mwCurrencyTypeName}</p>
-                        <p class="money">{(walletBalance.value.mwAmount).toFixed(5)}</p>
+                        <p class="money">{gold(walletBalance.value.mwAmount)}</p>
                     </div>
                 </div>
                 <div class="fun-list">

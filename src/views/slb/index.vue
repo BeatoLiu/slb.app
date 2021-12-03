@@ -12,16 +12,16 @@
 			<div class="top">
 				<div class="top-top">
 					<p>TAA总数</p>
-					<p>{{ balanceObj.historyTotal }}</p>
+					<p>{{ gold(balanceObj.historyTotal) }}</p>
 				</div>
 				<div class="flex-center top-bottom">
 					<div>
 						<p>已释放</p>
-						<p>{{ balanceObj.releaseTaa }}</p>
+						<p>{{ gold(balanceObj.releaseTaa) }}</p>
 					</div>
 					<div>
 						<p>已提T</p>
-						<p>{{ balanceObj.alreadyWithdraw }}</p>
+						<p>{{ gold(balanceObj.alreadyWithdraw) }}</p>
 					</div>
 				</div>
 			</div>
@@ -52,18 +52,18 @@
 		<!-- k线图 -->
 		<section>
 			<div class="echart-container">
-				<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />TAA走势</p>
+				<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />TAA/ZSDT走势</p>
 				<div class="echart-top flex-space">
-					<div class="left">{{ tAACurrentInfo.tokenPrice }}</div>
+					<div class="left">{{ gold(tAACurrentInfo.tokenPrice) }}</div>
 					<div class="right">
 						<p class="flex-space">
-							<span>高</span><span>{{ tAACurrentInfo.maxPrice }}</span>
+							<span>高</span><span>{{ gold(tAACurrentInfo.maxPrice) }}</span>
 						</p>
 						<p class="flex-space">
-							<span>低</span><span>{{ tAACurrentInfo.minPrice }}</span>
+							<span>低</span><span>{{ gold(tAACurrentInfo.minPrice) }}</span>
 						</p>
 						<p class="flex-space">
-							<span>24H</span><span>{{ tAACurrentInfo.tokenCount }}</span>
+							<span>24H</span><span>{{ gold(tAACurrentInfo.tokenCount) }}</span>
 						</p>
 					</div>
 				</div>
@@ -91,12 +91,13 @@
 
 <script lang="ts">
 import { Swipe, SwipeItem, Toast, Dialog } from 'vant'
-import { picDisplayPath } from '../../utils/config'
 import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue-demi'
-import { getDigitalTokeExchangeFromSc } from '../../apis/slb'
-import { useI18n } from '../../hooks/setting/useI18n'
-import { appSign, getCurrentTaaData, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
 import { useRouter } from 'vue-router'
+import { picDisplayPath } from '../../utils/config'
+import { gold } from '../../utils'
+import { useI18n } from '../../hooks/setting/useI18n'
+import { getDigitalTokeExchangeFromSc } from '../../apis/slb'
+import { appSign, getCurrentTaaData, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
 
 import * as echarts from 'echarts/core'
 import {
@@ -154,6 +155,7 @@ export default defineComponent({
 	setup() {
 		const { t } = useI18n()
 		const { push } = useRouter()
+		// const gold = gold
 		const data = reactive({
 			picDisplayPath,
 			images: [picDisplayPath + 'slbApp/slb/banner-mx.png', picDisplayPath + 'slbApp/slb/banner-1.png'],
@@ -536,7 +538,7 @@ export default defineComponent({
 			// 获取taa当前交易信息
 			getCurrentTaaData().then(res => {
 				if (res.resultCode === 1) {
-					res.data && (data.tAACurrentInfo = res.data)
+					res.data && Object.assign(data.tAACurrentInfo, res.data)
 				}
 			})
 		})
@@ -547,6 +549,7 @@ export default defineComponent({
 			firstListNav,
 			secondListNav,
 			goRouter,
+			gold,
 			t
 		}
 	}

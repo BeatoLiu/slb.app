@@ -47,7 +47,7 @@ export const checkCode6 = (value: string): boolean => {
 
 /**
  * @description 判斷設備是IOS还是Android
- * @returns 蘋果為'io's，安卓為'android'，未知為'' 
+ * @returns 蘋果為'io's，安卓為'android'，未知為''
  */
 export const isIOSorANDROID = (): string => {
     var u = navigator.userAgent
@@ -79,5 +79,21 @@ export const platform = () => {
         return 'slb'
     }
     return ''
+}
+
+/**
+ * @description 对金额进行处理，最多保留6位
+ * @param value 金额
+ * @returns 格式化后的金额
+ */
+export const gold = (value: number | string) => {
+    // console.log(value, typeof value)
+    const arr = value.toString().split('.')
+    if (arr.length === 2) {
+        if (arr[1].length > 6) {
+            return Number(value).toFixed(6)
+        }
+    }
+    return value
 }
 

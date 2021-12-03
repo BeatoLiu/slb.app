@@ -1,7 +1,7 @@
 import { transferModel } from "@/apis/model/tAAModel";
 import { transfer } from "@/apis/tAA";
 import { Button, Dialog, Field, Icon, Toast } from "vant";
-import { computed, defineComponent, onMounted, reactive, ref, StyleValue } from "vue-demi";
+import { computed, defineComponent, onMounted, reactive, ref, StyleValue } from "vue";
 
 
 import InputPayPWD from "@/components/InputPayPWD";
@@ -10,6 +10,7 @@ import slb from '@/utils/jslb-1.0.0'
 
 import './Transfer.less'
 import { useStore } from "@/store";
+import { gold } from "@/utils";
 
 export default defineComponent({
     name: 'Transfer',
@@ -97,7 +98,7 @@ export default defineComponent({
             <div class="transfer">
                 <div class="top">
                     <p>{walletBalance.value.mwCurrencyTypeName}</p>
-                    <p>{walletBalance.value.mwAmount}</p>
+                    <p>{gold(walletBalance.value.mwAmount)}</p>
                 </div>
                 <div class="container">
                     <p class="title">转账给</p>
@@ -109,7 +110,7 @@ export default defineComponent({
                     <Field
                         type="number"
                         v-model={parmas.amount}
-                        placeholder={'请输入付款金额,最多' + walletBalance.value.mwAmount}
+                        placeholder={'请输入付款金额,最多' + gold(walletBalance.value.mwAmount)}
                         label="付款金额"
                         input-align="right"
                         clearable

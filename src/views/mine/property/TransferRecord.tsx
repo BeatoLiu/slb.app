@@ -4,6 +4,7 @@ import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
 import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
 import { useStore } from "@/store"
+import { gold } from "@/utils"
 import { Calendar, List, PullRefresh, Sticky } from "vant"
 import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue"
 
@@ -76,8 +77,8 @@ export default defineComponent({
         const getSum = () => {
             selectTakeTokenDetailListSum(params).then(res => {
                 if (res.resultCode === 1) {
-                    daysInfo.total = res.data[0].total
-                    daysInfo.orderBonus = res.data[0].ttSum
+                    daysInfo.total = res.data.dataIn[0].total
+                    daysInfo.orderBonus = res.data.dataIn[0].ttSum
                 }
             })
         }
@@ -93,6 +94,8 @@ export default defineComponent({
             let title = '其它'
             if (ttBizType === 1) {
                 title = '转账-转到其它钱包'
+            } else if (ttBizType === 2) {
+                title = '提T'
             } else if (ttBizType === 3) {
                 title = '转账-来自其它钱包'
             } else if (ttBizType === 4) {
@@ -136,7 +139,7 @@ export default defineComponent({
                                             <p
                                                 class={(item.ttBizType === 3 || item.ttBizType === 5) ? 'gain' : ''}
                                             >
-                                                {(item.ttBizType === 3 || item.ttBizType === 5 || item.ttBizType === 6) ? '+' : '-'}{item.ttSum} {currencyTypeName.value}
+                                                {(item.ttBizType === 3 || item.ttBizType === 5 || item.ttBizType === 6) ? '+' : '-'}{gold(item.ttSum)} {currencyTypeName.value}
                                             </p>
                                         </div>
                                         <div class="flex-space list-bottom">

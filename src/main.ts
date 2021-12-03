@@ -6,6 +6,7 @@ import { setupI18n } from './lang'
 
 import './assets/css/reset.css'
 import './assets/font/iconfont.css'
+
 async function bootstrap() {
     const app = createApp(App);
 

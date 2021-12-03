@@ -11,6 +11,7 @@ import InputPayPWD from "@/components/InputPayPWD";
 import './Transfer.less'
 import { useStore } from "@/store";
 import useMemberWallet from "@/hooks/web/useMemberWallet";
+import { gold } from "@/utils";
 
 export default defineComponent({
     name: 'TransferToChain',
@@ -116,7 +117,7 @@ export default defineComponent({
             <div class="transfer">
                 <div class="top">
                     <p>{walletBalance.value.mwCurrencyTypeName}</p>
-                    <p>{walletBalance.value.mwAmount.toFixed(5)}</p>
+                    <p>{gold(walletBalance.value.mwAmount)}</p>
                 </div>
                 <div class="container">
                     <p class="title">转账给</p>
@@ -128,7 +129,7 @@ export default defineComponent({
                     <Field
                         type="number"
                         v-model={parmas.amount}
-                        placeholder={'请输入付款金额,最多' + (walletBalance.value.mwAmount - (walletBalance.value.mwCurrencyType === 18 ? 1 : 0)).toFixed(5)}
+                        placeholder={'请输入付款金额,最多' + gold(walletBalance.value.mwAmount - (walletBalance.value.mwCurrencyType === 18 ? 1 : 0))}
                         label="付款金额"
                         input-align="right"
                         clearable>
