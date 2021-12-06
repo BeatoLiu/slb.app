@@ -183,15 +183,15 @@ export default defineComponent({
 					icon: picDisplayPath + 'slbApp/slb/withdraw.png',
 					iconColor: '#1afa29',
 					isShow: true
-				},
-				{
-					title: '资讯',
-					id: 4,
-					to: 'https://dex.guru/token/0xe10ebe772a01d53745a5a6dac9c67ffb39c0b40f-bsc',
-					icon: picDisplayPath + 'slbApp/slb/echart.png',
-					iconColor: '#1afa29',
-					isShow: true
 				}
+				// {
+				// 	title: '资讯',
+				// 	id: 4,
+				// 	to: 'https://dex.guru/token/0xe10ebe772a01d53745a5a6dac9c67ffb39c0b40f-bsc',
+				// 	icon: picDisplayPath + 'slbApp/slb/echart.png',
+				// 	iconColor: '#1afa29',
+				// 	isShow: true
+				// }
 			],
 			secondList: [
 				{
@@ -517,6 +517,7 @@ export default defineComponent({
 			getDigitalTokeExchangeFromSc().then(res => {
 				if (res.resultCode === 1) {
 					let baseArr = JSON.parse(JSON.stringify(res.data.filter((item: any) => item.market === 'susdcny')))
+
 					res.data.forEach((item: any) => {
 						item.market = item.market.replace('susd', '')
 						// this.$set(item, 'cnyPrice', (item.price * baseArr[0].price).toFixed(4))
@@ -528,7 +529,14 @@ export default defineComponent({
 						}
 					})
 					// console.log(res.data)
-					data.digitalTokeList = res.data
+					data.digitalTokeList = res.data.filter(
+						(item: any) =>
+							item.market === 'susd' ||
+							item.market.indexOf('sie') === 0 ||
+							item.market.indexOf('usdt') === 0 ||
+							item.market.indexOf('gas') === 0 ||
+							item.market.indexOf('btc') === 0
+					)
 				}
 			})
 			// 获取余额
@@ -607,7 +615,8 @@ export default defineComponent({
 		padding: 30 * @fontSize 0;
 		color: #4b4b4b;
 		.item {
-			width: 25%;
+			// width: 25%;
+			flex: 1;
 			p {
 				margin-bottom: 10 * @fontSize;
 			}
@@ -638,9 +647,9 @@ export default defineComponent({
 	.echart-container {
 		// background: #fff;
 		margin-top: 20 * @fontSize;
-		> p {
-			margin-left: 20 * @fontSize;
-		}
+		// > p {
+		// margin-left: 20 * @fontSize;
+		// }
 		// padding-top: 20 * @fontSize;
 		.echart-top {
 			// background: #100c2a;
@@ -670,7 +679,7 @@ export default defineComponent({
 		}
 	}
 	.cat-list {
-		margin: 20 * @fontSize;
+		margin: 20 * @fontSize 0;
 		.cat-title {
 			color: #060606;
 			font-size: 28 * @fontSize;
@@ -713,6 +722,7 @@ export default defineComponent({
 			width: 10 * @fontSize;
 			margin-right: 10 * @fontSize;
 			height: 40 * @fontSize;
+			margin-left: 20 * @fontSize;
 		}
 	}
 }
