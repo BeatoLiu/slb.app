@@ -49,6 +49,7 @@
 		<!-- 導航 -->
 		<section class="nav-content">
 			<div class="nav-container">
+				<p class="title">淘客</p>
 				<div class="platform-list flex-space">
 					<div v-for="item in platformList" :key="item.plateName" @click="goPlatform(item)">
 						<div><van-image :src="item.icon" /></div>
@@ -57,6 +58,18 @@
 				</div>
 			</div>
 		</section>
+		<!-- 導航 -->
+		<!-- <section class="nav-content">
+			<div class="nav-container">
+				<p class="title">购物.生活</p>
+				<div class="platform-list flex-space">
+					<div v-for="item in shopList" :key="item.plateName" @click="goPlatform(item)">
+						<div><van-image :src="item.icon" /></div>
+						<p>{{ t(item.plateName) }}</p>
+					</div>
+				</div>
+			</div>
+		</section> -->
 		<!-- 获得taa 轮播 -->
 		<!-- <section>
 			<div class="mx-notice">
@@ -325,6 +338,7 @@ export default defineComponent({
 					type: '_blank'
 				}
 			],
+			shopList: [{ plateName: 'taoKe.jd.plateName', icon: picDisplayPath + 'slbApp/home/jd.png', to: 'Jd' }],
 			catList: [
 				{
 					title: '潮流范',
@@ -664,6 +678,12 @@ export default defineComponent({
 			border-radius: 5px;
 			background: #fff;
 			font-size: 24 * @fontSize;
+			.title {
+				padding-top: 16px;
+				padding-left: 16px;
+				font-size: 14px;
+				font-weight: bold;
+			}
 		}
 		.gaintaa-list {
 			font-weight: 400;

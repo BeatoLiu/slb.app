@@ -115,7 +115,7 @@ export default defineComponent({
 			// ttCode: -1,
 			// atdCode: -1,
 			tokenDescType: -1, //  taa分类: 1消费赠送(会员消费、商家消费)  2生态建设  3节点赠送  4分红奖励  5空投奖励
-			unlockSetStatus: 1 // 1非签到，0签到
+			unlockSetStatus: -1
 			// atdStatusList: null
 		})
 		onMounted(() => {

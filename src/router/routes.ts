@@ -8,6 +8,7 @@ import { mxRoutes } from './mxRoutes'
 import { mineRoutes } from './mineRoutes'
 import { tAARoutes } from './tAARoutes'
 import { settingsRoutes } from './settingsRoutes'
+import { jdRoutes } from './jdRoutes'
 
 
 const baseRoutes: Array<RouteRecordRaw> = [
@@ -135,5 +136,6 @@ export default [
     ...mineRoutes,
     ...taoKeRoutes,
     ...tAARoutes,
-    ...settingsRoutes
+    ...settingsRoutes,
+    ...jdRoutes
 ]

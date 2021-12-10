@@ -76,6 +76,7 @@ const payName = getPayName()
 const picName = getPicName()
 const picDisplayPath = getPicPath()
 const localtionOrigin = window.location.origin
+const jdImgPath = 'http://img13.360buyimg.com/n1/'
 
 
 
@@ -89,6 +90,8 @@ export {
     // 項目圖片的外網地址
     picDisplayPath,
     // 項目地址
-    localtionOrigin
+    localtionOrigin,
+    // 京东图片地址
+    jdImgPath
 }
 

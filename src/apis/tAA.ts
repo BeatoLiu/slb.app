@@ -38,18 +38,19 @@ enum Api {
     CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = 'taa/changeWalletAcctOnChainForOutZs',
     CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs',
     GET_TRANSFER_INFO_K_LINE_GRAPH = 'taa/getTransferInfoKLineGraph',
-    GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData'
+    GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData',
+    GET_TAA_RISE_AND_FALL = 'taa/getTaaRiseAndFall'
 }
 
 /**
 * @description 用户签到
-* @returns 
+* @returns
 */
 export const appSign = () => httpPost<baseResT>(Api.APP_SIGN)
 
 /**
 * @description 看广告领t
-* @returns 
+* @returns
 */
 export const addAdvertising = (p: any) => httpGet<baseResT>(Api.ADD_AD_VERTISING, p)
 
@@ -181,52 +182,58 @@ export const singleOnlinePay = (p: { ttCode: number }) => httpGet<baseResT>(Api.
 
 /**
  * @description 查询TAA已释放、未释放，总额
- * @returns 
+ * @returns
  */
 export const unRelaxSum = () => httpPost<baseResT>(Api.UNRELAX_SUM, {})
 
 /**
  * @description 获取会员总资产（ZSDT）
- * @returns 
+ * @returns
  */
 export const getTotalAssets = () => httpPost<getTotalAssetsRes>(Api.GET_TOTAL_ASSETS_LIST, {})
 
 /**
  * @description 钱包转账
  * @param p transferModel
- * @returns 
+ * @returns
  */
 export const transfer = (p: transferModel) => httpPost<baseResT>(Api.TRANSFER, p)
 
 /**
  * @description 获取会员对应币种账户钱包余额
  * @param p.currencyType 币种类型
- * @returns 
+ * @returns
  */
 export const getMemberWallet = (p: { currencyType: number }) => httpPost<baseResT>(Api.GET_MEMBER_WALLET, p)
 
 /**
  * @description 会员转账到链上钱包
  * @param p.currencyType 币种类型
- * @returns 
+ * @returns
  */
 export const changeWalletAcctOnChainForOutZs = (p: transferModel) => httpPost<baseResT>(Api.CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS, p)
 
 /**
  * @description 会员将链上钱包充值到展市钱包
  * @param p.currencyType 币种类型
- * @returns 
+ * @returns
  */
 export const changeWalletAcctOnChainForInZs = (p: Omit<transferModel, "allianceWalletPassword">) => httpPost<baseResT>(Api.CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS, p)
 
 /**
  * @description 查询TAA K线图
- * @returns 
+ * @returns
  */
 export const getTransferInfoKLineGraph = () => httpPost<getTransferInfoKLineGraphRes>(Api.GET_TRANSFER_INFO_K_LINE_GRAPH)
 
 /**
  * @description 获取勾画K线图所需数据:获取当天最高价maxPrice、最低价minPrice、交易总数量
- * @returns 
+ * @returns
  */
 export const getCurrentTaaData = () => httpPost<getCurrentTaaDataRes>(Api.GET_CURRENT_TAA_DATA)
+
+/**
+ * @description 获取TAA涨跌百分比
+ * @returns
+ */
+export const getTaaRiseAndFall = () => httpPost<baseResT>(Api.GET_TAA_RISE_AND_FALL)

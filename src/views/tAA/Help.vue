@@ -1,34 +1,22 @@
 <template>
-	<div v-if="$route.query.type === 'tp'">
-		<div class="footer col-blue">
-			<div id="tpWallet" :data-clipboard-text="tpWallet" @click="clipboard('#tpWallet', { des: '钱包地址' })">
-				TokenPocket钱包地址：{{ tpWallet }}
+	<div>
+		<div :class="[type === 'tp' ? 'col-blue  ' : 'col-purple', 'footer']">
+			<div id="tpWallet" :data-clipboard-text="wallet" @click="clipboard('#tpWallet', { des: '钱包地址' })">
+				钱包地址：{{ wallet }}
 				<p>(点击复制)</p>
 			</div>
 
-			<div id="proto" :data-clipboard-text="proto" @click="clipboard('#proto', { des: '代币合约' })">
-				代币合约：{{ proto }}
+			<div id="proto" :data-clipboard-text="proto" @click="clipboard('#proto', { des: 'TAA代币合约' })">
+				TAA代币合约：{{ proto }}
+				<p>(点击复制)</p>
+			</div>
+			<div id="zsdtProto" :data-clipboard-text="zsdtProto" @click="clipboard('#zsdtProto', { des: 'ZSDT代币合约' })">
+				ZSDT代币合约：{{ zsdtProto }}
 				<p>(点击复制)</p>
 			</div>
 		</div>
 		<div>
-			<img :src="picDisplayPath + 'slbApp/taa_help.png'" alt="" />
-		</div>
-	</div>
-	<div v-else-if="$route.query.type === 'nb'">
-		<div class="footer col-purple">
-			<div id="naWallet" :data-clipboard-text="naWallet" @click="clipboard('#naWallet', { des: '钱包地址' })">
-				Nabox钱包地址：{{ naWallet }}
-				<p>(点击复制)</p>
-			</div>
-
-			<div id="proto" :data-clipboard-text="proto" @click="clipboard('#proto', { des: '代币合约' })">
-				代币合约：{{ proto }}
-				<p>(点击复制)</p>
-			</div>
-		</div>
-		<div>
-			<img :src="picDisplayPath + 'slbApp/nabox.png'" alt="" />
+			<img :src="img" alt="" />
 		</div>
 	</div>
 </template>
@@ -37,16 +25,29 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import { picDisplayPath } from './../../utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
+import { useRouter } from 'vue-router'
+
 export default defineComponent({
+	name: 'Help',
 	setup() {
+		const { currentRoute } = useRouter()
+		const type = currentRoute.value.query.type as string
 		const data = reactive({
-			picDisplayPath,
-			tpWallet: 'https://dapp.mytokenpocket.vip/apk/TokenPocket-pro.apk?t=1632388655537',
-			naWallet: 'https://files.nabox.io/android/Nabox.apk',
-			proto: '0xe10EBE772A01D53745a5a6DAc9C67fFb39C0b40F'
+			// tpWallet: 'https://dapp.mytokenpocket.vip/apk/TokenPocket-pro.apk?t=1632388655537',
+			// naWallet: 'https://files.nabox.io/android/Nabox.apk',
+			// type,
+			proto: '0xe10EBE772A01D53745a5a6DAc9C67fFb39C0b40F',
+			zsdtProto: '0x36C7FE89982167a501835c60cCBA9fE502a4250b',
+			img: picDisplayPath + (type === 'tp' ? 'slbApp/taa_help.png' : 'slbApp/nabox.png'),
+			wallet:
+				type === 'tp'
+					? 'https://dapp.mytokenpocket.vip/apk/TokenPocket-pro.apk?t=1632388655537'
+					: 'https://files.nabox.io/android/Nabox.apk'
 		})
 		const clipboard = useClipboard()
+
 		return {
+			type,
 			...toRefs(data),
 			clipboard
 		}

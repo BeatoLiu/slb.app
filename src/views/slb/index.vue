@@ -54,7 +54,10 @@
 			<div class="echart-container">
 				<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />TAA/ZSDT走势</p>
 				<div class="echart-top flex-space">
-					<div class="left">{{ gold(tAACurrentInfo.tokenPrice) }}</div>
+					<div class="left">
+						<p>{{ gold(tAACurrentInfo.tokenPrice) }}</p>
+						<p :class="chg.value === '跌' ? 'chg fall' : 'chg rise'">{{ chg.value }}</p>
+					</div>
 					<div class="right">
 						<p class="flex-space">
 							<span>高</span><span>{{ gold(tAACurrentInfo.maxPrice) }}</span>
@@ -97,7 +100,7 @@ import { picDisplayPath } from '../../utils/config'
 import { gold } from '../../utils'
 import { useI18n } from '../../hooks/setting/useI18n'
 import { getDigitalTokeExchangeFromSc } from '../../apis/slb'
-import { appSign, getCurrentTaaData, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
+import { appSign, getCurrentTaaData, getTaaRiseAndFall, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
 
 import * as echarts from 'echarts/core'
 import {
@@ -168,19 +171,27 @@ export default defineComponent({
 					iconColor: '#ff976a',
 					isShow: true
 				},
-				{
-					title: '钱包余额',
-					id: 2,
-					to: { path: '/TAA/availableTokenList' },
-					icon: picDisplayPath + 'slbApp/slb/balance.png',
-					iconColor: '#07c160',
-					isShow: true
-				},
+				// {
+				// 	title: '钱包余额',
+				// 	id: 2,
+				// 	to: { path: '/TAA/availableTokenList' },
+				// 	icon: picDisplayPath + 'slbApp/slb/balance.png',
+				// 	iconColor: '#07c160',
+				// 	isShow: true
+				// },
 				{
 					title: 'routes.withdrawalTaa',
 					id: 3,
 					to: { path: '/TAA/withdrawalTaa' },
 					icon: picDisplayPath + 'slbApp/slb/withdraw.png',
+					iconColor: '#1afa29',
+					isShow: true
+				},
+				{
+					title: 'routes.property',
+					id: 5,
+					to: { path: '/mine/property' },
+					icon: picDisplayPath + 'slbApp/new-ui/my-money.png',
 					iconColor: '#1afa29',
 					isShow: true
 				}
@@ -225,14 +236,6 @@ export default defineComponent({
 					icon: picDisplayPath + 'slbApp/slb/help.png',
 					iconColor: '#1afa29',
 					isShow: true
-				},
-				{
-					title: 'routes.property',
-					id: 5,
-					to: { path: '/mine/property' },
-					icon: picDisplayPath + 'slbApp/new-ui/my-money.png',
-					iconColor: '#1afa29',
-					isShow: true
 				}
 			],
 			digitalTokeList: [],
@@ -254,6 +257,10 @@ export default defineComponent({
 				minPrice: 0,
 				tokenCount: 0,
 				tokenPrice: 0
+			},
+			chg: {
+				value: '0%',
+				key: '涨'
 			}
 		})
 
@@ -549,6 +556,12 @@ export default defineComponent({
 					res.data && Object.assign(data.tAACurrentInfo, res.data)
 				}
 			})
+			// 涨跌幅
+			getTaaRiseAndFall().then(res => {
+				if (res.resultCode === 1) {
+					data.chg = res.data
+				}
+			})
 		})
 
 		return {
@@ -663,6 +676,23 @@ export default defineComponent({
 				padding-left: 40 * @fontSize;
 				width: 60%;
 				font-size: 24px;
+				.chg {
+					font-size: 16px;
+				}
+				.fall {
+					color: #00da3c;
+					&::before {
+						content: '- ';
+						display: inline-block;
+					}
+				}
+				.rise {
+					color: #ec0000;
+					&::before {
+						content: '+ ';
+						display: inline-block;
+					}
+				}
 			}
 			.right {
 				width: 40%;
