@@ -14,7 +14,7 @@ export default defineComponent({
         onMounted(() => {
             getProductDetail({ sku: 204074 }).then(res => {
                 if (res.resultCode === 1) {
-                    const obj = JSON.parse(res.data)
+                    const obj = res.data
                     // console.log(obj.introduction.match(/width:750px;/g))
                     intr.value = obj.introduction.replace(/width:750px;/g, '')
                     param.value = obj.param

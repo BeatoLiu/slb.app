@@ -41,7 +41,6 @@ export default defineComponent({
 	},
 	setup() {
 		useTitle()
-
 		const { t } = useI18n()
 		// 當前頁面標題
 		const title = ref('')
@@ -66,7 +65,9 @@ export default defineComponent({
 				// console.log(currentRoute)
 				route = currentRoute.value
 				routeName = route.name as string
-				isNeedBg.value = ['Home', 'Login', 'Mine', 'Slb', 'PayResult', 'Property', 'Balance'].includes(routeName)
+				isNeedBg.value = ['Home', 'Login', 'Mine', 'Slb', 'PayResult', 'Property', 'Balance'].includes(
+					routeName
+				)
 				isShowArrow.value = !['Login', 'Home', 'Mine', 'MxMall', 'Slb'].includes(routeName)
 				isShowSearch.value = [
 					'TBIndex',
@@ -128,15 +129,18 @@ export default defineComponent({
 
 <style lang="less">
 @import './assets/css/local.less';
+
 body {
 	background: #f4f4f4;
 }
+
 #app {
 	font-family: 'PingFangSC-Medium', 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: #000;
 	font-size: 28 * @fontSize;
+
 	.app-header {
 		background-color: #fff;
 		// text-align: right;
@@ -149,29 +153,35 @@ body {
 		// padding-top: 44px;
 		// padding-bottom: 10px;
 		text-align: center;
+
 		.back-arrow {
 			width: 20%;
 			position: absolute;
 		}
 	}
+
 	.isNeedBg {
 		background: linear-gradient(180deg, @primaryColor 0%, @primaryColor 100%);
 		// background: linear-gradient(180deg, #fcd755 0%, #fbcb50 100%);
+
 		.van-nav-bar {
 			.van-icon {
 				color: #fff;
 			}
 			background: linear-gradient(90deg, @primaryColor 0%, @primaryColor 100%);
 			// background: linear-gradient(180deg, #fcd755 0%, #fbcb50 100%);
+
 			.van-nav-bar__title {
 				color: #fff;
 			}
 		}
 	}
+
 	.transfer-record {
 		color: #fff;
 	}
 }
+
 .flex-center {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
@@ -180,6 +190,7 @@ body {
 	justify-content: center;
 	-webkit-justify-content: center;
 }
+
 .flex-start {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
@@ -188,6 +199,7 @@ body {
 	justify-content: flex-start;
 	-webkit-justify-content: flex-start;
 }
+
 .flex-space {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
@@ -196,6 +208,7 @@ body {
 	justify-content: space-between;
 	-webkit-justify-content: space-between;
 }
+
 .flex-end {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
@@ -204,14 +217,17 @@ body {
 	justify-content: flex-end;
 	-webkit-justify-content: flex-end;
 }
+
 .page-tips {
 	border-radius: 5px;
 	margin-top: 20 * @fontSize;
 	padding: 20 * @fontSize;
 	background: #fff;
+
 	.title {
 		font-size: 30 * @fontSize;
 	}
+
 	& > div {
 		font-size: 28 * @fontSize;
 		color: #666;

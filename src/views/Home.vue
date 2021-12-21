@@ -59,7 +59,7 @@
 			</div>
 		</section>
 		<!-- 導航 -->
-		<!-- <section class="nav-content">
+		<section class="nav-content" v-if="isShowSomething">
 			<div class="nav-container">
 				<p class="title">购物.生活</p>
 				<div class="platform-list flex-space">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 			</div>
-		</section> -->
+		</section>
 		<!-- 获得taa 轮播 -->
 		<!-- <section>
 			<div class="mx-notice">
@@ -195,33 +195,37 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, ref, toRefs, computed, onActivated } from 'vue'
 import { Button, Search, Tabs, Tab, Swipe, SwipeItem, List, Image, NoticeBar, Icon, Dialog, Toast, Sticky } from 'vant'
 
-import { picDisplayPath } from './../utils/config'
+import { picDisplayPath } from '@/utils/config'
 import slb from './../utils/jslb-1.0.0'
 
-import { useI18n } from './../hooks/setting/useI18n'
-import { useHomeGoodsList } from '../hooks/web/useHomeGoodsList'
-import { useOffSetTop } from '../hooks/web/useOffSetTop'
-import { useCalcPower } from '../hooks/web/useCalcPower'
-import { useGetTAAPrice } from '../hooks/web/useGetTAAPrice'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { useHomeGoodsList } from '@/hooks/web/useHomeGoodsList'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { useCalcPower } from '@/hooks/web/useCalcPower'
+import { useGetTAAPrice } from '@/hooks/web/useGetTAAPrice'
 import { useRouter } from 'vue-router'
+import { useStore } from '@/store'
 
 // import { addAdvertising } from '../apis/tAA'
+interface ITaoBaoUrl {
+	[key: string]: string
+}
 
 export default defineComponent({
 	name: 'home-alive',
 	components: {
-		Button,
+		// Button,
 		Search,
-		Tabs,
-		Tab,
-		Swipe,
-		SwipeItem,
+		// Tabs,
+		// Tab,
+		// Swipe,
+		// SwipeItem,
 		List,
-		NoticeBar,
+		// NoticeBar,
 		Icon,
 		Sticky,
 		[Image.name]: Image
@@ -229,15 +233,17 @@ export default defineComponent({
 	setup() {
 		onActivated(() => {
 			// window.adCb = adCb
-			window.scanRes = scanRes
+			;(window as any).scanRes = scanRes
 		})
 		const { t } = useI18n()
 		const { push } = useRouter()
 		const { offSetTop } = useOffSetTop()
+		const store = useStore()
+		const memCode = computed(() => store.state.user.userInfo.memCode)
 		// taa價格
 		const { taaPrice } = useGetTAAPrice()
 		// 產品返利taa數量
-		const calcSie = item => {
+		const calcSie = (item: any) => {
 			const { commission_rate, zk_final_price } = item
 			const gCommission = (zk_final_price * commission_rate) / 10000
 			const calcPower = useCalcPower(gCommission)
@@ -312,7 +318,8 @@ export default defineComponent({
 				{
 					plateName: 'taoKe.tb.tmName',
 					icon: picDisplayPath + 'slbApp/home/tm.png',
-					to: 'taobao://s.click.taobao.com/t?union_lens=lensId%3AOPT%401602760358%400b5996e3_0ec9_1752bf639c9_e4ea%4001%3BeventPageId%3A20150318019999659&e=m%3D2%26s%3DR%2FXxNtE%2Fd5Jw4vFB6t2Z2iperVdZeJviU%2F9%2F0taeK29yINtkUhsv0B1RVA3Mk9CvA4NubRp%2Bh3fFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTLTDz05MmO4rcZs%2FlxbxCv%2Fogfc9UhHI0lKaJluSZBCVo5N7u7NTPnpvgfyVVUAbkzCbAGjvJeFYhvzeiceWLrTM7kxpdONUAK2ZesAkYM2UrHfv3%2BBYcPW%2FknKiHyNnnzx2TVyAt4KVV6jEit7Q%2BTTDDIVBsijSCjzGbClblec8wZuqbA1a%2BDEQLQFOpoRkV6yOsMozO%2BVvnxPh9IGwtCqZA1eON6i3S4Cld0SfNEBg9uNrcWnRI1T%2FwM%2FEqaICMTs%2BS44FcFJ9I2W8V7dx%2BtpotIIAR%2FK5Kni%2BR%2FIz1fMNA%3D%3D'
+					to: 'taobao://s.click.taobao.com/t?union_lens=lensId%3AOPT%401602760358%400b5996e3_0ec9_1752bf639c9_e4ea%4001%3BeventPageId%3A20150318019999659&e=m%3D2%26s%3DR%2FXxNtE%2Fd5Jw4vFB6t2Z2iperVdZeJviU%2F9%2F0taeK29yINtkUhsv0B1RVA3Mk9CvA4NubRp%2Bh3fFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTLTDz05MmO4rcZs%2FlxbxCv%2Fogfc9UhHI0lKaJluSZBCVo5N7u7NTPnpvgfyVVUAbkzCbAGjvJeFYhvzeiceWLrTM7kxpdONUAK2ZesAkYM2UrHfv3%2BBYcPW%2FknKiHyNnnzx2TVyAt4KVV6jEit7Q%2BTTDDIVBsijSCjzGbClblec8wZuqbA1a%2BDEQLQFOpoRkV6yOsMozO%2BVvnxPh9IGwtCqZA1eON6i3S4Cld0SfNEBg9uNrcWnRI1T%2FwM%2FEqaICMTs%2BS44FcFJ9I2W8V7dx%2BtpotIIAR%2FK5Kni%2BR%2FIz1fMNA%3D%3D',
+					type: '_blank'
 				},
 				{
 					plateName: 'taoKe.others.mtName',
@@ -338,7 +345,14 @@ export default defineComponent({
 					type: '_blank'
 				}
 			],
-			shopList: [{ plateName: 'taoKe.jd.plateName', icon: picDisplayPath + 'slbApp/home/jd.png', to: 'Jd' }],
+			shopList: [
+				{
+					plateName: 'taoKe.jd.plateName',
+					icon: picDisplayPath + 'slbApp/home/jd.png',
+					to: 'http://mg.2qzs.com/slbAppJD/index.html',
+					type: '_blank'
+				}
+			],
 			catList: [
 				{
 					title: '潮流范',
@@ -399,19 +413,16 @@ export default defineComponent({
 			dhbImg: picDisplayPath + 'slbApp/home/dhb.png',
 			bagImg: picDisplayPath + 'slbApp/home/bag.png'
 		})
-		const taoBaoUrl = reactive({
+		const taoBaoUrl: ITaoBaoUrl = reactive({
 			//  一淘补贴，天天领补贴，0门槛就能获得最高100元
-			yiTao:
-				'taobao://mo.m.taobao.com/etao/tmpl_mini_butie_b?pid=mm_911310084_1347250169_110094300209&union_lens=lensId%3APUB%401602759619%400bb69853_0e37_1752beaf1d5_03f0%4001',
+			yiTao: 'taobao://mo.m.taobao.com/etao/tmpl_mini_butie_b?pid=mm_911310084_1347250169_110094300209&union_lens=lensId%3APUB%401602759619%400bb69853_0e37_1752beaf1d5_03f0%4001',
 			// 淘宝特卖精选, 精选淘宝/天猫最热门优惠券
 			teMaiJingXuan:
 				'taobao://temai.m.taobao.com/index.htm?pid=mm_911310084_1347250169_110094300209&union_lens=lensId%3APUB%401602760072%400b1b8c89_0e03_1752bf1dcba_03fb%4001',
 			// 飞猪
-			feiZhu:
-				'taobao://s.click.taobao.com/t?e=m%3D2%26s%3DeT1Ml9ifoWkcQipKwQzePCperVdZeJviEViQ0P1Vf2kguMN8XjClAjp77uCLCVtq2KO1Zj%2BdyQPFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTJyVjRk%2BCrnz5lcE%2BT7wujnfu6rqwtgiq7RDtA7JsJpDL0CYBEjBf0rnE0ssjA9BPadpikUEh8L%2FRhnzH0Xe5mrtIgnkDsvGLXC13C4s4MKnasauD0yTXqwRIvEu7eKTPyETlcjedV8dDlYbm1JWdqaomfkDJRs%2BhU%3D',
+			feiZhu: 'taobao://s.click.taobao.com/t?e=m%3D2%26s%3DeT1Ml9ifoWkcQipKwQzePCperVdZeJviEViQ0P1Vf2kguMN8XjClAjp77uCLCVtq2KO1Zj%2BdyQPFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTJyVjRk%2BCrnz5lcE%2BT7wujnfu6rqwtgiq7RDtA7JsJpDL0CYBEjBf0rnE0ssjA9BPadpikUEh8L%2FRhnzH0Xe5mrtIgnkDsvGLXC13C4s4MKnasauD0yTXqwRIvEu7eKTPyETlcjedV8dDlYbm1JWdqaomfkDJRs%2BhU%3D',
 			// 爆品库
-			baoPin:
-				'taobao://mo.m.taobao.com/union/chaojidanpin20181201?pid=mm_911310084_1347250169_110094300209&union_lens=lensId%3APUB%401602760275%400b152c4e_0e78_1752bf4f567_03f9%4001',
+			baoPin: 'taobao://mo.m.taobao.com/union/chaojidanpin20181201?pid=mm_911310084_1347250169_110094300209&union_lens=lensId%3APUB%401602760275%400b152c4e_0e78_1752bf4f567_03f9%4001',
 			// 天猫国际
 			tianMaoGuoJi:
 				'taobao://s.click.taobao.com/t?union_lens=lensId%3AOPT%401602760358%400b5996e3_0ec9_1752bf639c9_e4ea%4001%3BeventPageId%3A20150318019999659&e=m%3D2%26s%3DR%2FXxNtE%2Fd5Jw4vFB6t2Z2iperVdZeJviU%2F9%2F0taeK29yINtkUhsv0B1RVA3Mk9CvA4NubRp%2Bh3fFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTLTDz05MmO4rcZs%2FlxbxCv%2Fogfc9UhHI0lKaJluSZBCVo5N7u7NTPnpvgfyVVUAbkzCbAGjvJeFYhvzeiceWLrTM7kxpdONUAK2ZesAkYM2UrHfv3%2BBYcPW%2FknKiHyNnnzx2TVyAt4KVV6jEit7Q%2BTTDDIVBsijSCjzGbClblec8wZuqbA1a%2BDEQLQFOpoRkV6yOsMozO%2BVvnxPh9IGwtCqZA1eON6i3S4Cld0SfNEBg9uNrcWnRI1T%2FwM%2FEqaICMTs%2BS44FcFJ9I2W8V7dx%2BtpotIIAR%2FK5Kni%2BR%2FIz1fMNA%3D%3D',
@@ -421,6 +432,10 @@ export default defineComponent({
 			// 天猫超市休闲食品50元，2021-08-24
 			tianMao50ShiPin:
 				'taobao://s.click.taobao.com/t?union_lens=lensId%3AOPT%401602815856%400b14dbdd_0f1b_1752f450fb1_a709%4001%3BeventPageId%3A20150318019999984&e=m%3D2%26s%3DKKNlw9n%2BaFNw4vFB6t2Z2iperVdZeJviU%2F9%2F0taeK29yINtkUhsv0E%2F1hheTT4j0hnTW7YStT8LFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTLTDz05MmO4rcZs%2FlxbxCv%2Fogfc9UhHI0lKaJluSZBCVo5N7u7NTPnpvgfyVVUAbkzCbAGjvJeFYhvzeiceWLrTM7kxpdONUAK2ZesAkYM2UrHfv3%2BBYcPW%2FknKiHyNnnwFqMlk%2BHscgsxly4mDws6anxdpjbTh11t4roDJo31w0WSTCs7hXMhm42eZNU8odRWK60WglVTt1z2smWwdEifi9MMBQPxkkOu9Gf2zmUiveQ%3D%3D'
+		})
+		// 有些功能不对外开放
+		const isShowSomething = computed(() => {
+			return [500012, 500004, 500111].includes(memCode.value)
 		})
 		// 產品列表
 		let { list, loading, finished, getData } = useHomeGoodsList()
@@ -435,7 +450,7 @@ export default defineComponent({
 		const activeTab = ref(1)
 
 		// 点击轮播图片
-		const changeImg = url => {
+		const changeImg = (url: any) => {
 			if (url) {
 				if (typeof url === 'string') {
 					window.location.href = url
@@ -445,7 +460,7 @@ export default defineComponent({
 			}
 		}
 		// 点击各平台
-		const goPlatform = async item => {
+		const goPlatform = async (item: any) => {
 			// if (item.title === 'slb.adTAA') {
 			// 	// window.SetAppTitle = 123
 			// 	// Window.SetAppTitle = 123
@@ -460,9 +475,9 @@ export default defineComponent({
 					messageAlign: 'left'
 				})
 
-				var loadDateTime = new Date()
+				const loadDateTime = new Date().getTime()
 				let timer = window.setTimeout(function () {
-					var timeOutDateTime = new Date()
+					const timeOutDateTime = new Date().getTime()
 					if (timeOutDateTime - loadDateTime < 5000) {
 						Toast(`请先下载美团App`)
 						window.clearTimeout(timer)
@@ -473,13 +488,14 @@ export default defineComponent({
 				window.location.href = item.to
 			} else if (item.type === '_blank') {
 				// console.log(item)
-				window.location.href = item.to
+				// window.location.href = item.to
+				slb.openAgentManagerUrl(item.to)
 			} else {
 				push({ name: item.to })
 			}
 		}
 		// 顶部菜单点击事件
-		const topFunc = (item, id) => {
+		const topFunc = (item: any, id: number) => {
 			if (id === 1) {
 				// if (process.env.VUE_APP_ENV === 'test') {
 				try {
@@ -498,7 +514,7 @@ export default defineComponent({
 			}
 		}
 		// 打开淘宝各活动
-		const goTaoBao = async (urlTitle, platformName) => {
+		const goTaoBao = async (urlTitle: string, platformName: string) => {
 			// console.log(this)
 			if (urlTitle === 'feiZhu') {
 				await Dialog.alert({
@@ -508,9 +524,9 @@ export default defineComponent({
 					messageAlign: 'left'
 				})
 			}
-			var loadDateTime = new Date()
+			const loadDateTime = new Date().getTime()
 			let timer = window.setTimeout(function () {
-				var timeOutDateTime = new Date()
+				const timeOutDateTime = new Date().getTime()
 				if (timeOutDateTime - loadDateTime < 5000) {
 					Toast(`请先下载${platformName}App`)
 					// console.log(1)
@@ -524,17 +540,17 @@ export default defineComponent({
 		}
 
 		// 品类
-		const getGridId = item => {
+		const getGridId = (item: any) => {
 			// console.log(item)
 			push({ name: item.to, query: { ...item } })
 		}
 
-		const goShopping = item => {
+		const goShopping = (item: any) => {
 			const url = 'taobao:' + (item.coupon_share_url ? item.coupon_share_url : item.url)
 			// if (this.$evnIsBrowser) {
-			var loadDateTime = new Date()
+			const loadDateTime = new Date().getTime()
 			let timer = window.setTimeout(function () {
-				var timeOutDateTime = new Date()
+				const timeOutDateTime = new Date().getTime()
 				if (timeOutDateTime - loadDateTime < 5000) {
 					Toast(`请先下载淘宝App`)
 					window.clearTimeout(timer)
@@ -561,7 +577,7 @@ export default defineComponent({
 		// 	})
 		// }
 		// 扫一扫回调
-		const scanRes = res => {
+		const scanRes = (res: any) => {
 			const strArr = res.split('?id=')
 
 			// 如果是支付码
@@ -595,6 +611,7 @@ export default defineComponent({
 			...toRefs(data),
 			// gainTAAListNav,
 			topListNav,
+			isShowSomething,
 			offSetTop,
 			activeTab,
 			list,
@@ -738,7 +755,7 @@ export default defineComponent({
 			background: #fff;
 			border-radius: 5 * @fontSize;
 			padding: 10 * @fontSize;
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
 			height: 352 * @fontSize;
 			.tehui {
 				background: linear-gradient(180deg, #fff1eb 100%, #ffd4be 100%);
@@ -778,7 +795,7 @@ export default defineComponent({
 						width: 50%;
 						text-align: center;
 						border-radius: 20px;
-						color: #ff0000;
+						color: #f00;
 					}
 				}
 			}
@@ -838,7 +855,7 @@ export default defineComponent({
 			background: #fff;
 			border-radius: 10 * @fontSize;
 			padding: 20 * @fontSize;
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
 			.cat-title {
 				font-size: 32 * @fontSize;
 				font-weight: bold;
@@ -886,7 +903,7 @@ export default defineComponent({
 		padding: 0 20 * @fontSize;
 		.hot-title {
 			font-size: 34 * @fontSize;
-			font-family: PingFang SC;
+			font-family: PingFang SC, sans-serif;
 			font-weight: bold;
 			line-height: 51 * @fontSize;
 			color: #06121e;
@@ -962,7 +979,7 @@ export default defineComponent({
 						font-size: 32 * @fontSize;
 						font-weight: bold;
 						color: #ef0401;
-						&:before {
+						&::before {
 							content: '￥';
 							display: inline-block;
 							font-size: 24 * @fontSize;

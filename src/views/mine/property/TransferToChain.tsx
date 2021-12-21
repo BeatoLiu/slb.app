@@ -1,7 +1,7 @@
 import { transferModel } from "@/apis/model/tAAModel";
 import { changeWalletAcctOnChainForOutZs } from "@/apis/tAA";
 import { Button, Field, Toast } from "vant";
-import { computed, defineComponent, onMounted, reactive, ref, StyleValue } from "vue-demi";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue-demi";
 import { useRouter } from "vue-router";
 
 import InputPayPWD from "@/components/InputPayPWD";

@@ -1,6 +1,5 @@
 [*.{js,jsx,ts,tsx,vue,json}]
-indent_style = space
+indent_style = tab
 indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
-format_on_save = true

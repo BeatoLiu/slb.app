@@ -63,11 +63,11 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
 import { Toast, Field, CellGroup, Button, Icon, ImagePreview } from 'vant'
-import Clipboard from 'clipboard'
 import { getMemberWalletUrl, updateWalletUrl } from '../../apis/tAA'
 import { useRouter } from 'vue-router'
 import { picDisplayPath } from '../../utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
+import { useStore } from '@/store'
 
 export default defineComponent({
 	name: 'TakeCashAccount-alive',
@@ -81,6 +81,7 @@ export default defineComponent({
 	setup() {
 		const { go } = useRouter()
 		const clipboard = useClipboard()
+		const store = useStore()
 		// const { t } = useI18n()
 		// const countDown = useCountDown({
 		// 	// 倒计时 24 小时
@@ -104,7 +105,10 @@ export default defineComponent({
 			// counting: true
 
 			showHelpImg: false,
-			helpImages: [picDisplayPath + 'slbApp/slb/wallet-help-1.png', picDisplayPath + 'slbApp/slb/wallet-help-2.png'],
+			helpImages: [
+				picDisplayPath + 'slbApp/slb/wallet-help-1.png',
+				picDisplayPath + 'slbApp/slb/wallet-help-2.png'
+			],
 			steps: ['1、打开去中心化钱包首页，点击“收款”', '2、复制钱包地址，在数联宝APP粘贴即可'],
 			idx: 0
 		})
@@ -116,7 +120,9 @@ export default defineComponent({
 			// data.alipayAcctEdit = false
 			// data.walletUrlEdit = false
 			data.walletUrlEdit = !data.walletUrlEdit
-			!data.walletUrlEdit ? ((data.editText = '取消'), (data.walletUrl = data.baseWalletUrl)) : (data.editText = '修改')
+			!data.walletUrlEdit
+				? ((data.editText = '取消'), (data.walletUrl = data.baseWalletUrl))
+				: (data.editText = '修改')
 		}
 		const onChange = (index: number) => {
 			data.idx = index
@@ -130,6 +136,8 @@ export default defineComponent({
 			}
 			updateWalletUrl(params).then(res => {
 				if (res.resultCode === 1) {
+					const userInfo = { ...JSON.parse(localStorage.userInfo), walletUrl: data.walletUrl }
+					store.dispatch('user/setUserInfo', userInfo)
 					Toast('钱包地址上传成功')
 					// push('/mine')
 					go(-1)

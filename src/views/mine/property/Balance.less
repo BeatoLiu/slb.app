@@ -1,58 +1,69 @@
-@import '../../../assets/css/local.less';
-.balance{
+@import "../../../assets/css/local.less";
+
+.balance {
     box-sizing: border-box;
-    .top{
+
+    .top {
         background: @deepGreen;
         height: 400*@fontSize;
         border-bottom-left-radius: 50%;
         border-bottom-right-radius: 50%;
     }
-    .balance-container{
+
+    .balance-container {
         margin-top: -300*@fontSize;
         padding: 0 20*@fontSize;
         text-align: center;
-        div{
+
+        div {
             padding-top: 100*@fontSize;
             background: #fff;
             height: 400*@fontSize;
             border-radius: 10px;
             box-sizing: border-box;
         }
-        .type-name{
+
+        .type-name {
             margin-top: 10px;
             font-size: 14px;
-            font-family: PingFang SC;
+            font-family: "PingFang SC", sans-serif;
             font-weight: bold;
             line-height: 20px;
-            color: #333333;
+            color: #333;
             opacity: 1;
         }
-        .money{
+
+        .money {
             margin-top: 10px;
             font-size: 30px;
-            font-family: PingFang SC;
+            font-family: "PingFang SC", sans-serif;
             font-weight: bold;
             line-height: 42px;
-            color: #333333;
+            color: #333;
             opacity: 1;
         }
     }
-    .fun-list{
+
+    .fun-list {
         padding: 0 20*@fontSize;
-        .list-container{
+
+        .list-container {
+            border-radius: 10px;
             min-height: calc(100vh - 400px);
             background: #fff;
             height: 100%;
             margin-top: 20*@fontSize;
-            padding:40*@fontSize 60*@fontSize;
-            border-radius: 10px;
-            .left{
+            padding: 40*@fontSize 60*@fontSize;
+
+            .left {
                 margin-right: 10*@fontSize;
             }
-            .right{
+
+            .right {
                 margin-left: 10*@fontSize;
             }
-            .take{
+
+            .take {
                 margin-top: 20*@fontSize;
             }
         }

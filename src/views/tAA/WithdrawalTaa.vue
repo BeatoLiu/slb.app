@@ -45,7 +45,6 @@ export default defineComponent({
 		const balance = ref(0)
 		// const showComponent = ref(false)
 		// const loading = ref(false)
-
 		const { push } = useRouter()
 		const counting = ref(false)
 		const countDown = useCountDown({

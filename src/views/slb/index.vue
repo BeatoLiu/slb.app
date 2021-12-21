@@ -20,7 +20,7 @@
 						<p>{{ gold(balanceObj.releaseTaa) }}</p>
 					</div>
 					<div>
-						<p>已提T</p>
+						<p>余额</p>
 						<p>{{ gold(balanceObj.alreadyWithdraw) }}</p>
 					</div>
 				</div>
@@ -29,13 +29,23 @@
 		<section class="padding-section">
 			<div class="menu-container">
 				<div class="first-child flex-start">
-					<div class="item" v-for="item in firstListNav" :key="item.id" @click="goRouter(item.to, item.title)">
+					<div
+						class="item"
+						v-for="item in firstListNav"
+						:key="item.id"
+						@click="goRouter(item.to, item.title)"
+					>
 						<p><img :src="item.icon" alt="" /></p>
 						<div class="name">{{ t(item.title) }}</div>
 					</div>
 				</div>
 				<div class="second-child flex-start">
-					<div class="item" v-for="item in secondListNav" :key="item.title" @click="goRouter(item.to, item.title)">
+					<div
+						class="item"
+						v-for="item in secondListNav"
+						:key="item.title"
+						@click="goRouter(item.to, item.title)"
+					>
 						<p><img :src="item.icon" alt="" /></p>
 						<div class="name">{{ t(item.title) }}</div>
 					</div>
@@ -52,11 +62,13 @@
 		<!-- k线图 -->
 		<section>
 			<div class="echart-container">
-				<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />TAA/ZSDT走势</p>
+				<p class="cat-title flex-start main-title">
+					<img src="../../assets/img/title-left.png" alt="" />TAA/ZSDT走势
+				</p>
 				<div class="echart-top flex-space">
 					<div class="left">
 						<p>{{ gold(tAACurrentInfo.tokenPrice) }}</p>
-						<p :class="chg.value === '跌' ? 'chg fall' : 'chg rise'">{{ chg.value }}</p>
+						<p :class="chg.key === '-' ? 'chg fall' : 'chg rise'">{{ chg.key + chg.value }}</p>
 					</div>
 					<div class="right">
 						<p class="flex-space">
@@ -93,14 +105,14 @@
 </template>
 
 <script lang="ts">
-import { Swipe, SwipeItem, Toast, Dialog } from 'vant'
+import { Toast, Dialog } from 'vant'
 import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue-demi'
 import { useRouter } from 'vue-router'
-import { picDisplayPath } from '../../utils/config'
-import { gold } from '../../utils'
-import { useI18n } from '../../hooks/setting/useI18n'
-import { getDigitalTokeExchangeFromSc } from '../../apis/slb'
-import { appSign, getCurrentTaaData, getTaaRiseAndFall, getTransferInfoKLineGraph, unRelaxSum } from '../../apis/tAA'
+import { picDisplayPath } from '@/utils/config'
+import { gold } from '@/utils'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { getDigitalTokeExchangeFromSc } from '@/apis/slb'
+import { appSign, getCurrentTaaData, getTaaRiseAndFall, getTransferInfoKLineGraph, unRelaxSum } from '@/apis/tAA'
 
 import * as echarts from 'echarts/core'
 import {
@@ -151,10 +163,10 @@ type EChartsOption = echarts.ComposeOption<
 >
 export default defineComponent({
 	name: 'Slb-alive',
-	components: {
-		Swipe,
-		SwipeItem
-	},
+	// components: {
+	// 	Swipe,
+	// 	SwipeItem
+	// },
 	setup() {
 		const { t } = useI18n()
 		const { push } = useRouter()
@@ -260,7 +272,7 @@ export default defineComponent({
 			},
 			chg: {
 				value: '0%',
-				key: '涨'
+				key: '+'
 			}
 		})
 
@@ -315,8 +327,8 @@ export default defineComponent({
 		const getK = () => {
 			getTransferInfoKLineGraph().then(res => {
 				if (res.resultCode === 1) {
-					var myChart = echarts.init(chartDom.value, 'dark')
-					var option: EChartsOption
+					const myChart = echarts.init(chartDom.value, 'dark')
+					let option: EChartsOption
 					const upColor = '#ec0000'
 					const upBorderColor = '#8A0000'
 					const downColor = '#00da3c'
@@ -326,7 +338,7 @@ export default defineComponent({
 					let seriesData = []
 					for (let key in res.data) {
 						xAxisData.push(key)
-						const { createTime, openPrice, closePrice, minPrice, maxPrice } = res.data[key]
+						const { openPrice, closePrice, minPrice, maxPrice } = res.data[key]
 						seriesData.push([openPrice, closePrice, minPrice, maxPrice])
 					}
 					// Each item: open，close，lowest，highest
@@ -536,6 +548,7 @@ export default defineComponent({
 						}
 					})
 					// console.log(res.data)
+					// data.digitalTokeList = res.data
 					data.digitalTokeList = res.data.filter(
 						(item: any) =>
 							item.market === 'susd' ||
@@ -656,7 +669,6 @@ export default defineComponent({
 			}
 		}
 	}
-
 	.echart-container {
 		// background: #fff;
 		margin-top: 20 * @fontSize;
@@ -681,17 +693,17 @@ export default defineComponent({
 				}
 				.fall {
 					color: #00da3c;
-					&::before {
-						content: '- ';
-						display: inline-block;
-					}
+					// &::before {
+					// 	content: '- ';
+					// 	display: inline-block;
+					// }
 				}
 				.rise {
 					color: #ec0000;
-					&::before {
-						content: '+ ';
-						display: inline-block;
-					}
+					// &::before {
+					// 	content: '+ ';
+					// 	display: inline-block;
+					// }
 				}
 			}
 			.right {
@@ -719,7 +731,7 @@ export default defineComponent({
 			background: #fff;
 			border-radius: 5 * @fontSize;
 			padding: 20 * @fontSize 0;
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
 			margin-top: 18 * @fontSize;
 			.th {
 				padding: 0 20 * @fontSize;

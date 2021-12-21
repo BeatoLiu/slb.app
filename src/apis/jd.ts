@@ -14,7 +14,7 @@ enum Apis {
  * @param p
  * @returns
  */
-export const getProductDetail = (p: Isku) => httpPost<baseResT<string>>(Apis.GET_PRODUCT_DETAIL, p)
+export const getProductDetail = (p: Isku) => httpPost<baseResT>(Apis.GET_PRODUCT_DETAIL, p)
 
 /**
  * @description 查询商品样式

@@ -9,7 +9,6 @@ import './assets/font/iconfont.css'
 
 async function bootstrap() {
     const app = createApp(App);
-
     // Configure store
     setupStore(app);
 

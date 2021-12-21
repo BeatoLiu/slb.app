@@ -9,7 +9,8 @@
 						<div class="flex-space">
 							<p>订单编号：{{ item.orderCode }}</p>
 							<p>
-								金额：{{ item.orderPayFactSum }}{{ item.orderPayTypeName === '现金' ? 'USDT' : item.orderPayTypeName }}
+								金额：{{ item.orderPayFactSum
+								}}{{ item.orderPayTypeName === '现金' ? 'USDT' : item.orderPayTypeName }}
 							</p>
 						</div>
 						<div class="flex-space">
@@ -31,7 +32,10 @@
 									v-if="item.orderPayStatus === 0 && item.orderPlat === 'ums'"
 									>转账凭证</Button
 								>
-								<div class="flex-space biztype-func" v-if="item.orderPayStatus === 2 && olderTime(item.createTime)">
+								<div
+									class="flex-space biztype-func"
+									v-if="item.orderPayStatus === 2 && olderTime(item.createTime)"
+								>
 									<p>是否续期：</p>
 									<van-switch
 										:model-value="item.autoFlag"
@@ -98,13 +102,13 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { Sticky, PullRefresh, List, Button, Cell, Uploader, Switch, Dialog } from 'vant'
 
-import { pullRefreshListRes } from '../../../apis/model/commonModel'
-import { showPayOrderListByMemCodeItem, showPayOrderListModel } from '../../../apis/model/slbModel'
-import { updateMemberWJSConfirmLazyFlag } from '../../../apis/slb'
+import { pullRefreshListRes } from '@/apis/model/commonModel'
+import { showPayOrderListByMemCodeItem, showPayOrderListModel } from '@/apis/model/slbModel'
+import { updateMemberWJSConfirmLazyFlag } from '@/apis/slb'
 
-import { usePullRefreshPageList } from '../../../hooks/web/usePullRefreshPageList'
-import { useUploadImg } from '../../../hooks/web/useUploadImg'
-import { useImgPath } from '../../../hooks/mx/useImgPath'
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useUploadImg } from '@/hooks/web/useUploadImg'
+import { useImgPath } from '@/hooks/mx/useImgPath'
 export default defineComponent({
 	name: 'bankTransOrderYDB-alive',
 	components: {

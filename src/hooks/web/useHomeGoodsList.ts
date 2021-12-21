@@ -1,11 +1,11 @@
 import { reactive, ref } from "vue";
 
-import { showTaoKeGoodsFromApi } from '../../apis/taoKe'
+import { showTaoKeGoodsFromApi } from '@/apis/taoKe'
 
 export const useHomeGoodsList = () => {
-    let loading = ref(false)
-    let finished = ref(false)
-    let list = reactive([])
+    const loading = ref(false)
+    const finished = ref(false)
+    const list = reactive([])
     const params = reactive({
         sortType: 'total_sales', // 销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price
         sortPattern: 'des', // des（降序）,asc（升序） (ortType不为空时候，不能为空)
@@ -16,7 +16,7 @@ export const useHomeGoodsList = () => {
     })
 
     const getData = () => {
-        params.pageNum++
+		params.pageNum++
         showTaoKeGoodsFromApi(params).then(res => {
             // 加载状态结束
             // console.log(JSON.parse(res.data))

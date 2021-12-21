@@ -129,8 +129,8 @@ export default defineComponent({
 			// 购买币种类型
 			payTypeList: [
 				{ value: 18, label: 'ZSDT', ishow: true, dis: false },
-				{ value: 7, label: 'SUSD', ishow: true, dis: false },
 				{ value: 16, label: 'BNB', ishow: true, dis: false },
+				{ value: 7, label: 'SUSD', ishow: true, dis: true },
 				{ value: 10, label: 'USDT', ishow: true, dis: true }
 			],
 

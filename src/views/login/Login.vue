@@ -10,8 +10,20 @@
 			</div>
 			<div class="login-content">
 				<!-- <CellGroup> -->
-				<Field v-model="params.memMobile" type="number" left-icon="contact" placeholder="请输入手机" clearable />
-				<Field v-model="params.memPassword" type="password" left-icon="shield-o" placeholder="请输入密码" clearable />
+				<Field
+					v-model="params.memMobile"
+					type="number"
+					left-icon="contact"
+					placeholder="请输入手机"
+					clearable
+				/>
+				<Field
+					v-model="params.memPassword"
+					type="password"
+					left-icon="shield-o"
+					placeholder="请输入密码"
+					clearable
+				/>
 				<!-- </CellGroup> -->
 				<div class="save">
 					<Button type="primary" size="large" :disabled="!dis" @click="login">{{ t('routes.login') }}</Button>
@@ -19,7 +31,9 @@
 				<p class="find-pwd" @click="$router.push('/findPWD')">{{ t('routes.findPWD') }}</p>
 				<p class="register flex-center">
 					您还未注册账号？前去&nbsp;
-					<Button type="primary" size="small" @click="$router.push('/register')">{{ t('routes.register') }}</Button>
+					<Button type="primary" size="small" @click="$router.push('/register')">{{
+						t('routes.register')
+					}}</Button>
 				</p>
 			</div>
 		</div>
@@ -29,7 +43,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { CellGroup, Field, Button } from 'vant'
+import { Field, Button } from 'vant'
 
 import { useI18n } from '../../hooks/setting/useI18n'
 import { picDisplayPath } from '../../utils/config'
@@ -40,7 +54,6 @@ import { useStore } from '../../store'
 export default defineComponent({
 	name: 'login',
 	components: {
-		CellGroup,
 		Field,
 		Button
 	},
@@ -59,7 +72,10 @@ export default defineComponent({
 			memPassword: process.env.VUE_APP_ENV !== 'production' ? '123456' : ''
 		})
 		const dis = computed(() => {
-			return /^[a-zA-Z0-9_-]{6,20}$/.test(params.memPassword) && /^1[3|4|5|6|7|8|9][0-9]\d{8}$/.test(params.memMobile)
+			return (
+				/^[a-zA-Z0-9_-]{6,20}$/.test(params.memPassword) &&
+				/^1[3|4|5|6|7|8|9][0-9]\d{8}$/.test(params.memMobile)
+			)
 		})
 		const login = () => {
 			pwdLogin(params).then(async res => {

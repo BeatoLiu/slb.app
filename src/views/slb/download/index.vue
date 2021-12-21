@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { CellGroup, Cell, Icon } from 'vant'
+// import { CellGroup, Cell, Icon } from 'vant'
 // import { isIOSorANDROID } from '../../utils'
 
 // import scImg from '../../../assets/img/payLogo/sc.png'
@@ -18,7 +18,7 @@ import naImg from '../../../assets/img/slb/nabox.png'
 import { defineComponent } from 'vue-demi'
 export default defineComponent({
 	name: 'DownloadIndex',
-	components: { CellGroup, Cell, Icon },
+	// components: { CellGroup, Cell, Icon },
 	data() {
 		// const memCode = localStorage.getItem('memCode')
 		return {

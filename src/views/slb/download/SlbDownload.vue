@@ -36,8 +36,9 @@
 										id="walletAdd"
 										:data-clipboard-text="downUrl"
 										@click="clipboard('#walletAdd', { des: '下载地址' })"
-										>复制下载地址</a
 									>
+										复制下载地址
+									</a>
 								</div>
 								<!-- <div>
 									<img src="../../assets/img/taoke/7777.png" alt="" />
