@@ -104,17 +104,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch, unref } from 'vue'
-import { PullRefresh, List, Icon, Toast } from 'vant'
-import Clipboard from 'clipboard'
+import { defineComponent, reactive, unref, watch } from "vue";
+import { Icon, List, PullRefresh } from "vant";
 
-import { usePullRefreshPageList } from '../../../hooks/web/usePullRefreshPageList'
-import { showSelfTaoKeOrderModel, showSelfTaoKeOrderItem } from '../../../apis/model/taoKeModel'
-import { pullRefreshListRes } from '../../../apis/model/commonModel'
-import { useI18n } from '../../../hooks/setting/useI18n'
-import { useRouter } from 'vue-router'
-import { useCalcPower } from '../../../hooks/web/useCalcPower'
-import useClipboard from '../../../hooks/web/useClipboard'
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList";
+import { IShowSelfTaoKeOrderItem, IShowSelfTaoKeOrderModel } from "@/apis/model/taoKeModel";
+import { IPullRefreshListRes } from "@/apis/model/commonModel";
+import { useI18n } from "@/hooks/setting/useI18n";
+import { useRouter } from "vue-router";
+import { useCalcPower } from "@/hooks/web/useCalcPower";
+import useClipboard from "../../../hooks/web/useClipboard";
 
 export default defineComponent({
 	name: 'selfTaoKeOrderItem',
@@ -122,12 +121,12 @@ export default defineComponent({
 	setup() {
 		const { t } = useI18n()
 		const clipboard = useClipboard()
-		const params = reactive<showSelfTaoKeOrderModel>({
+		const params = reactive<IShowSelfTaoKeOrderModel>({
 			pageSize: 10,
 			pageNum: 0,
 			oScRetStatus: -1
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <pullRefreshListRes<showSelfTaoKeOrderItem>>(
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <IPullRefreshListRes<IShowSelfTaoKeOrderItem>>(
 			usePullRefreshPageList('mg/taoke/showSelfTaokeOrder', params)
 		)
 		const { currentRoute } = useRouter()
@@ -142,10 +141,9 @@ export default defineComponent({
 			{ deep: true }
 		)
 		// 返利
-		const calcSie = (item: showSelfTaoKeOrderItem) => {
+		const calcSie = (item: IShowSelfTaoKeOrderItem) => {
 			const { oCommissionSum } = item
-			const calcPower = useCalcPower(oCommissionSum)
-			return calcPower
+			return useCalcPower(oCommissionSum)
 		}
 
 		return {
@@ -168,9 +166,9 @@ export default defineComponent({
 .order-list {
 	.list {
 		.title {
-			font-size: 34 * @fontSize;
-			font-weight: bold;
 			margin: 30 * @fontSize 0 26 * @fontSize 20 * @fontSize;
+			font-weight: bold;
+			font-size: 34 * @fontSize;
 		}
 		.waterfall {
 			// overflow: hidden;
@@ -180,26 +178,26 @@ export default defineComponent({
 					padding: 20 * @fontSize 20 * @fontSize;
 					background-color: #fff;
 					.shop-name {
-						height: 74 * @fontSize;
 						display: flex;
-						justify-content: space-between;
 						align-items: center;
+						justify-content: space-between;
+						height: 74 * @fontSize;
 						img {
-							height: 34 * @fontSize;
 							flex-shrink: 0;
+							height: 34 * @fontSize;
 							margin-right: 5px;
 						}
 					}
 					.order {
 						display: flex;
-						justify-content: space-between;
 						align-items: flex-start;
+						justify-content: space-between;
 						.order-img {
 							width: 34%;
 							text-align: center;
 							i {
-								font-size: 50px;
 								color: red;
+								font-size: 50px;
 							}
 						}
 						img {
@@ -208,17 +206,17 @@ export default defineComponent({
 							border-radius: 5px;
 						}
 						.order-name {
+							width: 66%;
 							padding: 0 20 * @fontSize;
 							font-size: 28 * @fontSize;
-							width: 66%;
 							.gname {
 								height: 78 * @fontSize;
 								overflow: hidden;
 							}
 							.order-id {
 								// text-align: center;
-								color: #909090;
 								padding-top: 5px;
+								color: #909090;
 								font-size: 26 * @fontSize;
 							}
 						}
@@ -227,17 +225,17 @@ export default defineComponent({
 							.money {
 								font-size: 28 * @fontSize;
 								&::before {
-									content: '\00A5';
 									font-size: 18 * @fontSize;
+									content: '\00A5';
 								}
 							}
 						}
 					}
 					.order-pay {
 						padding: 10px 0;
-						text-align: right;
-						letter-spacing: 1px;
 						color: #505050;
+						letter-spacing: 1px;
+						text-align: right;
 					}
 					.order-pre {
 						padding: 10px 0;

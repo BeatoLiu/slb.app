@@ -1,4 +1,4 @@
-import { selectTakenTokenListItem, selectTakenTokenListModel } from "@/apis/model/tAAModel"
+import { ISelectTakenTokenListItem, ISelectTakenTokenListModel } from "@/apis/model/tAAModel"
 import { selectTakeTokenDetailListSum } from "@/apis/tAA"
 import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
 import { useOffSetTop } from "@/hooks/web/useOffSetTop"
@@ -37,7 +37,7 @@ export default defineComponent({
         const minDate = ref(new Date('2021/09/1'))
         const maxDate = ref(new Date())
         // <selectTakenTokenListModel>
-        const params = reactive<selectTakenTokenListModel & IExtend>({
+        const params = reactive<ISelectTakenTokenListModel & IExtend>({
             pageSize: 10,
             pageNum: 0,
             startTime: '',
@@ -59,7 +59,7 @@ export default defineComponent({
             getSum()
         })
         const { refreshing, loading, finished, dataList, onRefresh, onLoad } =
-            usePullRefreshPageList<selectTakenTokenListItem, selectTakenTokenListModel>('taa/selectTakeTokenDetailList', params, { method: 'GET' })
+            usePullRefreshPageList<ISelectTakenTokenListItem, ISelectTakenTokenListModel>('taa/selectTakeTokenDetailList', params, { method: 'GET' })
 
         // 選擇時間
         const onConfirm = (date: any) => {
@@ -89,7 +89,7 @@ export default defineComponent({
                 getSum()
             }
         })
-        const des = (item: selectTakenTokenListItem) => {
+        const des = (item: ISelectTakenTokenListItem) => {
             const { ttBizType } = item
             let title = '其它'
             if (ttBizType === 1) {
@@ -122,7 +122,7 @@ export default defineComponent({
                                 <p>{currencyTypeName.value}</p>
                             </div>
                         </div>
-                        <div class="time flex-space" onClick={() => showTime.value = true}>
+                        <div class="time flex-space" onClick={() => {showTime.value = true}}>
                             <div class="balance">选择日期区间</div>
                             <div class="withdraw">{dateDisplay.value}</div>
                         </div>

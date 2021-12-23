@@ -1,4 +1,4 @@
-import { transferModel } from "@/apis/model/tAAModel";
+import { ITransferModel } from "@/apis/model/tAAModel";
 import { changeWalletAcctOnChainForOutZs } from "@/apis/tAA";
 import { Button, Field, Toast } from "vant";
 import { computed, defineComponent, onMounted, reactive, ref } from "vue-demi";
@@ -17,7 +17,7 @@ export default defineComponent({
     name: 'TransferToChain',
     setup() {
         onMounted(() => {
-            useMemberWallet({ currencyType: 18 }).then(res => rest.value = res)
+            useMemberWallet({ currencyType: 18 }).then(res => {rest.value = res})
         })
         const store = useStore()
         const wallet = computed(() => store.state.user.userInfo.walletUrl)
@@ -25,7 +25,7 @@ export default defineComponent({
         const rest = ref(0)
         const { push } = useRouter()
         // 参数
-        const parmas = reactive<transferModel>({
+        const params = reactive<ITransferModel>({
             currencyType: walletBalance.value.mwCurrencyType,
             amount: '',
             toChainAddr: wallet.value,
@@ -44,13 +44,13 @@ export default defineComponent({
         })
         const closePop = (pwd?: string) => {
             if (pwd?.length === 6) {
-                parmas.allianceWalletPassword = pwd || ''
+                params.allianceWalletPassword = pwd || ''
                 // 提交转账
-                changeWalletAcctOnChainForOutZs(parmas).then(async res => {
+                changeWalletAcctOnChainForOutZs(params).then(async res => {
                     if (res.resultCode === 1 || res.resultCode === 98) {
                         await store.dispatch('user/setWalletBalance', {
                             ...walletBalance.value,
-                            mwAmount: walletBalance.value.mwAmount - (+parmas.amount) - (walletBalance.value.mwCurrencyType === 18 ? 1 : 0)
+                            mwAmount: walletBalance.value.mwAmount - (+params.amount) - (walletBalance.value.mwCurrencyType === 18 ? 1 : 0)
                         })
                         Toast('转账成功，请到链上钱包查看到账情况')
                         data.showPop = false
@@ -80,7 +80,7 @@ export default defineComponent({
                     </div>
                 )
             }
-            if (!parmas.toChainAddr) {
+            if (!params.toChainAddr) {
                 data.inputError = true
                 return (
                     <div class="err-container">
@@ -90,7 +90,7 @@ export default defineComponent({
                 )
             }
             if (walletBalance.value.mwCurrencyType === 18) {
-                if (!(+parmas.amount <= +(walletBalance.value.mwAmount - 1).toFixed(5) && +parmas.amount > 0)) {
+                if (!(+params.amount <= +(walletBalance.value.mwAmount - 1).toFixed(5) && +params.amount > 0)) {
                     data.inputError = true
                     return (
                         <div class="err-container">
@@ -99,7 +99,7 @@ export default defineComponent({
                     )
                 }
             } else {
-                if (!(+parmas.amount <= walletBalance.value.mwAmount && +parmas.amount > 0)) {
+                if (!(+params.amount <= walletBalance.value.mwAmount && +params.amount > 0)) {
                     data.inputError = true
                     return (
                         <div class="err-container">
@@ -110,7 +110,7 @@ export default defineComponent({
             }
 
             data.inputError = false
-            return <div class="err-container"></div>
+            return <div class="err-container"/>
 
         }
         return () => (
@@ -121,20 +121,20 @@ export default defineComponent({
                 </div>
                 <div class="container">
                     <p class="title">转账给</p>
-                    <Field placeholder="接收方地址" disabled v-model={parmas.toChainAddr}>
+                    <Field placeholder="接收方地址" disabled v-model={params.toChainAddr}>
                         {{
                             // 'right-icon': () => (<Icon name="scan" color="#39b9b9" size="20" onClick={scan}></Icon>)
                         }}
                     </Field>
                     <Field
                         type="number"
-                        v-model={parmas.amount}
+                        v-model={params.amount}
                         placeholder={'请输入付款金额,最多' + gold(walletBalance.value.mwAmount - (walletBalance.value.mwCurrencyType === 18 ? 1 : 0))}
                         label="付款金额"
                         input-align="right"
                         clearable>
                     </Field>
-                    <Field readonly label="矿工费" model-value={"1 ZSDT"} input-align="right" ></Field>
+                    <Field readonly label="矿工费" model-value={ "1 ZSDT" } input-align="right" />
                     {tips()}
                 </div>
                 <div class="page-tips">
@@ -148,7 +148,7 @@ export default defineComponent({
                     show={data.showPop}
                     onClose={closePop}
                     typeName={walletBalance.value.mwCurrencyTypeName}
-                    amount={parmas.amount}
+                    amount={params.amount}
                     pwdError={data.pwdError}>
                 </InputPayPWD>
             </div>

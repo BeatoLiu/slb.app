@@ -17,13 +17,13 @@
 			<div class="left">
 				<div
 					class="item"
-					:class="{ active: active == item.ccCode }"
+					:class="{ active: active === item.ccCode }"
 					v-for="item in classList"
 					:key="item.ccCode"
 					@click="chooseItem(item)"
 				>
 					<div class="active-img flex-start">
-						<img src="../../assets/img/title-left.png" alt="" v-if="active == item.ccCode" />
+						<img src="../../assets/img/title-left.png" alt="" v-if="active === item.ccCode" />
 					</div>
 					<p>{{ item.ccName }}</p>
 				</div>
@@ -64,10 +64,10 @@
 import { List, PullRefresh, Search, Icon } from 'vant'
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { showCommodityClassFilterItem } from '../../apis/model/mxModel'
-import { showCommodityClassFilter } from '../../apis/mx'
-import { useGoodsList } from '../../hooks/mx/useGoodsList'
-import { useImgPath } from '../../hooks/mx/useImgPath'
+import { IShowCommodityClassFilterItem } from '@/apis/model/mxModel'
+import { showCommodityClassFilter } from '@/apis/mx'
+import { useGoodsList } from '@/hooks/mx/useGoodsList'
+import { useImgPath } from '@/hooks/mx/useImgPath'
 
 import TAAPrice from './components/TAAPrice.vue'
 
@@ -98,14 +98,14 @@ export default defineComponent({
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = useGoodsList(data.params)
 
-		const classList = ref<showCommodityClassFilterItem[]>([]) //类列表
+		const classList = ref<IShowCommodityClassFilterItem[]>([]) // 类列表
 
 		const getClass = () => {
 			const params = {
 				ccType: 3
 			}
 			showCommodityClassFilter(params).then(res => {
-				if (res.resultCode == 1) {
+				if (res.resultCode === 1) {
 					classList.value = res.data
 					data.active = res.data[0].ccCode
 					data.params.ccRelation = res.data[0].ccRelation
@@ -113,7 +113,7 @@ export default defineComponent({
 			})
 		}
 
-		const chooseItem = (item: showCommodityClassFilterItem) => {
+		const chooseItem = (item: IShowCommodityClassFilterItem) => {
 			data.active = item.ccCode
 			data.params.ccRelation = item.ccRelation
 			onRefresh()
@@ -158,18 +158,18 @@ export default defineComponent({
 		height: calc(100vh - 144px);
 		overflow: auto;
 		.item {
-			border-top: 1px solid #f0f0f0;
-			text-align: center;
 			line-height: 95 * @fontSize;
+			text-align: center;
+			border-top: 1px solid #f0f0f0;
 		}
 		.active {
-			background: #fff;
 			position: relative;
+			background: #fff;
 			.active-img {
 				position: absolute;
-				left: 20 * @fontSize;
 				top: 0;
 				bottom: 0;
+				left: 20 * @fontSize;
 			}
 			img {
 				width: 8 * @fontSize;
@@ -182,22 +182,22 @@ export default defineComponent({
 	}
 
 	.list {
-		background: #fff;
-		padding-bottom: 30 * @fontSize;
-		// padding:0 20*@fontSize;
 		flex: 1;
-		height: calc(100vh - 144px);
-		overflow: auto;
 		box-sizing: border-box;
+		height: calc(100vh - 144px);
+		padding-bottom: 30 * @fontSize;
+		overflow: auto;
+		background: #fff;
+		// padding:0 20*@fontSize;
 		.list-banner {
+			padding: 20 * @fontSize;
 			border-top: 1px solid #f0f0f0;
 			border-bottom: 1px solid #f0f0f0;
-			padding: 20 * @fontSize;
 		}
 		.item {
-			padding: 20 * @fontSize;
 			display: flex;
 			align-items: center;
+			padding: 20 * @fontSize;
 			border-bottom: 1px solid #f0f0f0;
 			img {
 				width: 160 * @fontSize;
@@ -205,30 +205,30 @@ export default defineComponent({
 			}
 			.info {
 				display: inline-block;
-				margin-left: 20 * @fontSize;
 				width: calc(100% - 160 * @fontSize);
+				margin-left: 20 * @fontSize;
 				.title {
+					display: -webkit-box;
+					overflow: hidden;
+					-webkit-line-clamp: 2;
 					font-size: 24 * @fontSize;
 					// line-height: 1.5;
 					// font-weight: bold;
-					display: -webkit-box;
 					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
-					overflow: hidden;
 					text-overflow: ellipsis;
 				}
 				.desc {
-					color: #999;
 					margin-top: 10 * @fontSize;
-					font-size: 24 * @fontSize;
 					margin-bottom: 10 * @fontSize;
+					color: #999;
+					font-size: 24 * @fontSize;
 					p:nth-child(1) {
-						color: #ff0000;
+						color: #f00;
 					}
 				}
 				.ori-price {
-					font-size: 28 * @fontSize;
 					margin-right: 10 * @fontSize;
+					font-size: 28 * @fontSize;
 					text-decoration: line-through;
 				}
 				.pro-price {
@@ -244,12 +244,12 @@ export default defineComponent({
 				}
 				.price {
 					color: #ff0700;
+					font-weight: bold;
 					font-size: 30 * @fontSize;
-					font-weight: Bold;
 					&::before {
 						display: inline-block;
-						content: '￥';
 						font-size: 24 * @fontSize;
+						content: '￥';
 					}
 				}
 			}

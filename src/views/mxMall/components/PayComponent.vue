@@ -8,7 +8,7 @@
 				<CellGroup>
 					<Cell v-for="item in payTypeList" :key="item.value" :title="item.label" center clickable>
 						<template #icon>
-							<img class="img-icon" :src="item.imgSrc" />
+							<img class="img-icon" :src="item.imgSrc" alt="" />
 						</template>
 						<template #right-icon>
 							<Radio :name="item.value" :disabled="item.dis">
@@ -21,7 +21,7 @@
 				</CellGroup>
 			</RadioGroup>
 			<div style="text-align: center">
-				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoding" @click="toPay">立即付款</Button>
+				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoading" @click="toPay">立即付款</Button>
 			</div>
 		</Popup>
 		<!-- 支付二维码 -->
@@ -44,10 +44,10 @@ import scImg from '../../../assets/img/payLogo/sc.png'
 import alipayImg from '../../../assets/img/payLogo/zhifubao.png'
 import wxImg from '../../../assets/img/payLogo/weixin.png'
 import piImg from '../../../assets/img/payLogo/pi.png'
-import { baseResT } from '../../../apis/model/base'
-import { isIOSorANDROID } from '../../../utils'
+import { IBaseResT } from '@/apis/model/base'
+import { isIOSorANDROID } from '@/utils'
 import { useRouter } from 'vue-router'
-import { mallPayOnline, mallPayOnlineDetail, selectPayOrderByBizOrderCode } from '../../../apis/mx'
+import { mallPayOnline, mallPayOnlineDetail, selectPayOrderByBizOrderCode } from '@/apis/mx'
 
 export default defineComponent({
 	name: 'mxPayComponent',
@@ -89,7 +89,7 @@ export default defineComponent({
 		const qrText = ref('')
 		const showQr = ref(false)
 		const images = ref<any[]>([])
-		const payLoding = ref(false)
+		const payLoading = ref(false)
 		const payTypeName = ref('')
 		const radio = ref('')
 		const cRecPayTypeStr = ref('')
@@ -99,7 +99,7 @@ export default defineComponent({
 				label: 'SIE',
 				imgSrc: scImg,
 				dSubCode: '6',
-				ishow: false,
+				isShow: false,
 				dis: false
 			},
 			{
@@ -107,7 +107,7 @@ export default defineComponent({
 				label: 'SUSD',
 				imgSrc: scImg,
 				dSubCode: '7',
-				ishow: false,
+				isShow: false,
 				dis: false
 			},
 			{
@@ -115,15 +115,15 @@ export default defineComponent({
 				label: 'PIC',
 				imgSrc: piImg,
 				dSubCode: '8',
-				ishow: false,
+				isShow: false,
 				dis: false
 			},
-			{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, ishow: false, dis: false },
-			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, ishow: true, dis: false }
+			{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, isShow: false, dis: false },
+			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, isShow: true, dis: false }
 		])
 		const payTypeList = computed(() => {
-			let str = cRecPayType.value || cRecPayTypeStr.value || '1'
-			return payType.filter(item => item.ishow && str.indexOf(item.dSubCode) > -1)
+			const str = cRecPayType.value || cRecPayTypeStr.value || '1'
+			return payType.filter(item => item.isShow && str.indexOf(item.dSubCode) > -1)
 		})
 
 		const radioChange = () => {
@@ -135,7 +135,7 @@ export default defineComponent({
 				imageUrl.value = wxImg
 			}
 		}
-		const payResult = (res: baseResT, poCode: number) => {
+		const payResult = (res: IBaseResT, poCode: number) => {
 			if (res.resultCode >= 1) {
 				if (res.msg === '成功' && (radio.value === 'sc' || radio.value === 'susd' || radio.value === 'pic')) {
 					// let params = JSON.parse(res.data).data
@@ -161,18 +161,18 @@ export default defineComponent({
 						qrText.value = res.msg
 						// 不知道怎么处理 ImagePreview 和 VueQr 的异步问题，只好延迟执行了
 						window.setTimeout(() => {
-							let div = document.getElementById('qr')
-							let imgUrl = div!.getElementsByTagName('img')[0] // 获取二维码
+							const div = document.getElementById('qr')
+							const imgUrl = div!.getElementsByTagName('img')[0] // 获取二维码
 							images.value = [imgUrl.src]
 							showQr.value = true
 						}, 500)
 
-						let newParams = {
+						const newParams = {
 							orderBizCode: poCode,
 							orderBizType: 1
 						}
 						let count = 0
-						let timer = window.setInterval(() => {
+						const timer = window.setInterval(() => {
 							if (count < 4) {
 								selectPayOrderByBizOrderCode(newParams).then(res => {
 									if (res.resultCode === 1 && res.data.orderPayStatus) {
@@ -197,29 +197,29 @@ export default defineComponent({
 			if (!radio.value) {
 				return Toast('未选择支付方式！')
 			}
-			let params1 = {
+			const params1 = {
 				payPlat: radio.value, // 支付平台
 				poCode: poCode.value, // 订单编号, 第一次生成订单
 				podCode: podCode.value // 订单编号，订单列表和订单详情中
 			}
-			payLoding.value = true
+			payLoading.value = true
 			if (!podCode.value) {
 				mallPayOnline(params1)
 					.then(res => {
 						payResult(res, poCode.value)
-						payLoding.value = false
+						payLoading.value = false
 					})
-					.catch(err => {
-						payLoding.value = false
+					.catch(() => {
+						payLoading.value = false
 					})
 			} else {
 				mallPayOnlineDetail(params1)
 					.then(res => {
 						payResult(res, poCode.value)
-						payLoding.value = false
+						payLoading.value = false
 					})
-					.catch(err => {
-						payLoding.value = false
+					.catch(() => {
+						payLoading.value = false
 					})
 			}
 		}
@@ -234,7 +234,7 @@ export default defineComponent({
 			showQr,
 			images,
 			payTypeName,
-			payLoding,
+			payLoading,
 			radio,
 			payTypeList,
 			radioChange,
@@ -249,23 +249,23 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .pay-result {
 	.img-icon {
-		margin-right: 20 * @fontSize;
 		height: 100%;
+		margin-right: 20 * @fontSize;
 	}
 	.btn {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.pop-close {
-		text-align: right;
-		margin-right: 40 * @fontSize;
 		margin-top: 40 * @fontSize;
+		margin-right: 40 * @fontSize;
+		text-align: right;
 	}
 	.qr-img {
 		text-align: center;

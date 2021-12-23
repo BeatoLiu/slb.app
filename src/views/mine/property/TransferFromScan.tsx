@@ -1,7 +1,7 @@
 import { useRouter } from "vue-router";
-import { Button, Cell, Field, Icon, Popup, Picker, Toast } from 'vant'
-import { getTotalAssetsItem, transferModel } from "@/apis/model/tAAModel";
-import { defineComponent, reactive, computed, onMounted, ref, StyleValue } from "vue";
+import { Button, Cell, Field, Icon, Popup, Picker, Toast } from "vant";
+import { IGetTotalAssetsItem, ITransferModel } from "@/apis/model/tAAModel";
+import { defineComponent, reactive, computed, onMounted, ref } from "vue";
 import { getTotalAssets, transfer } from "@/apis/tAA";
 import InputPayPWD from "@/components/InputPayPWD";
 
@@ -24,12 +24,12 @@ export default defineComponent({
             mwCurrencyTypeName: 'TAA'
         })
         // 参数
-        const params = reactive<transferModel>({
-            currencyType: walletBalance.mwCurrencyType,
-            amount: '',
-            toChainAddr: walletUrl,
-            allianceWalletPassword: ''
-        })
+		const params = reactive<ITransferModel>({
+			currencyType: walletBalance.mwCurrencyType,
+			amount: "",
+			toChainAddr: walletUrl,
+			allianceWalletPassword: ""
+		});
         // 支付密码
         const data = reactive({
             showPop: false,
@@ -43,7 +43,7 @@ export default defineComponent({
             rest: 0
         })
         // 币种集合
-        const list = ref<getTotalAssetsItem[]>([])
+		const list = ref<IGetTotalAssetsItem[]>([]);
 
         const dis = computed(() => {
             return !(params.amount.length && +params.amount <= +walletBalance.mwAmount && (/^0xzs00/.test(params.toChainAddr) && params.toChainAddr.length === 40))
@@ -53,12 +53,12 @@ export default defineComponent({
             params.amount = walletBalance.mwAmount + ''
         }
         // 确认选择币种
-        const onConfirm = (item: getTotalAssetsItem) => {
-            Object.assign(walletBalance, item)
-            params.amount = ''
-            params.currencyType = item.mwCurrencyType
-            data.showPicker = false
-        }
+		const onConfirm = (item: IGetTotalAssetsItem) => {
+			Object.assign(walletBalance, item);
+			params.amount = "";
+			params.currencyType = item.mwCurrencyType;
+			data.showPicker = false;
+		};
         // 点击确定
         const submitTransfer = () => {
             data.showPop = true
@@ -119,24 +119,24 @@ export default defineComponent({
                     </div>
                 )
             } else {
-                return <div class="err-container"></div>
+				return <div class="err-container" />;
             }
         }
         return () => (
             <div class="transfer-scan">
                 <div class="top">
                     <div class="flex-space">
-                        <p class="title">收款地址</p>
-                        <Icon
-                            name="column"
-                            size="28"
-                            color="#39b9b9"
-                            class="clip"
-                            data-clipboard-text={walletUrl}
-                            onClick={() => clipboard('.clip', { des: '地址' })}
-                        ></Icon>
-                    </div>
-                    <Field type="textarea" v-model={walletUrl}></Field>
+						<p class="title">收款地址</p>
+						<Icon
+							name="column"
+							size="28"
+							color="#39b9b9"
+							class="clip"
+							data-clipboard-text={ walletUrl }
+							onClick={ () => clipboard(".clip", { des: "地址" }) }
+						/>
+					</div>
+					<Field type="textarea" v-model={ walletUrl } />
                 </div>
                 <div class="container">
                     <p class="title">转账金额</p>
@@ -152,7 +152,7 @@ export default defineComponent({
                             )
                         }}
                     </Field>
-                    <Cell title="选择币种" value={walletBalance.mwCurrencyTypeName} onClick={() => data.showPicker = true} isLink>
+                    <Cell title="选择币种" value={walletBalance.mwCurrencyTypeName} onClick={() => {data.showPicker = true}} isLink>
                     </Cell>
                     <Cell title="钱包余额" value={walletBalance.mwAmount} >
                     </Cell>
@@ -176,7 +176,7 @@ export default defineComponent({
                     <Picker
                         columns={list.value}
                         columnsFieldNames={data.customFieldName}
-                        onCancel={() => data.showPicker = false}
+                        onCancel={() => {data.showPicker = false}}
                         onConfirm={onConfirm}
                     />
                 </Popup>

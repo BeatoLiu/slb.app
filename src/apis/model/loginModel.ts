@@ -1,10 +1,10 @@
-import { baseResT } from './base'
-/**--------------------------------request----------------------------------------------------*/
+import { IBaseResT } from './base'
+/** --------------------------------request---------------------------------------------------- */
 
 /**
  * 登錄參數
  */
-export type pwdLoginModel = {
+export type IPwdLoginModel = {
     memMobile: string;
     memPassword: string
 }
@@ -12,15 +12,15 @@ export type pwdLoginModel = {
 /**
  * 註冊(和修改密碼,兩者相同)參數
  */
-export type registerModel = pwdLoginModel & {
+export type IRegisterModel = IPwdLoginModel & {
     vCode: string;
     memChannel: number
 }
 
 
-/** ---------------------------------response item-----------------------------------------*/
+/** ---------------------------------response item----------------------------------------- */
 
-export interface pwdLoginInfo {
+export interface IPwdLoginInfo {
     walletUrl: string;
     memCode: number;
     memName: string;
@@ -29,8 +29,8 @@ export interface pwdLoginInfo {
     hasAllianceWalletPwd: string
 }
 
-/** ---------------------------------response-----------------------------------------*/
+/** ---------------------------------response----------------------------------------- */
 /**
  * 登錄結果
  */
-export type pwdLoginRes = baseResT<pwdLoginInfo>
+export type IPwdLoginRes = IBaseResT<IPwdLoginInfo>

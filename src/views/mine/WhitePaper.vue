@@ -195,7 +195,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue-demi'
-import { picDisplayPath } from './../../utils/config'
+import { picDisplayPath } from "@/utils/config"
 export default defineComponent({
 	data() {
 		return {
@@ -207,8 +207,8 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .white-paper {
-	background: #fff;
 	padding: 0 10px;
+	background: #fff;
 	h1 {
 		text-align: center;
 	}
@@ -219,9 +219,9 @@ export default defineComponent({
 		font-size: 16px;
 	}
 	p {
+		padding: 10px 0;
 		font-size: 16px;
 		line-height: 0.6rem;
-		padding: 10px 0;
 		letter-spacing: 1.8px;
 	}
 	.flex-start {
@@ -230,23 +230,23 @@ export default defineComponent({
 	.black-solid {
 		&::before {
 			display: inline-block;
-			content: '';
 			width: 12px;
 			height: 12px;
-			background: #000;
 			margin-right: 5px;
+			background: #000;
+			content: '';
 		}
 	}
 	.white-solid {
 		display: flex;
 		&::before {
-			content: '';
 			display: block;
 			width: 6px;
 			height: 6px;
-			border: 3px solid #000;
-			margin-right: 5px;
 			margin-top: 14px;
+			margin-right: 5px;
+			border: 3px solid #000;
+			content: '';
 		}
 		p {
 			width: calc(100% - 17px);

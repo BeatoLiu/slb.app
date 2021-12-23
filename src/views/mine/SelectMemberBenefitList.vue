@@ -59,20 +59,20 @@
 import { defineComponent, reactive } from 'vue'
 import { PullRefresh, List, Dialog } from 'vant'
 
-import { basePageParams } from '../../apis/model/base'
-import { pullRefreshListRes } from '../../apis/model/commonModel'
-import { selectMemberBenefitListItem } from '../../apis/model/memModel'
-import { usePullRefreshPageList } from '../../hooks/web/usePullRefreshPageList'
+import { IBasePageParams } from "@/apis/model/base"
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
+import { ISelectMemberBenefitListItem } from "@/apis/model/memModel"
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
 export default defineComponent({
 	name: 'selectMemberBenefitList-alive',
 	components: { PullRefresh, List },
 	setup() {
-		const params = reactive<basePageParams>({
+		const params = reactive<IBasePageParams>({
 			pageSize: 10,
 			pageNum: 0
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			pullRefreshListRes<selectMemberBenefitListItem>
+			IPullRefreshListRes<ISelectMemberBenefitListItem>
 		>usePullRefreshPageList('mem/memberAcct/selectMemberBenefitList', params, { method: 'POST' })
 
 		const showRemark = (madCode: number, maRemark: string) => {
@@ -101,17 +101,17 @@ export default defineComponent({
 .order-list {
 	// margin-top: 46px;
 	.search {
-		background: #ffffff;
-		text-align: center;
 		line-height: 3;
+		text-align: center;
+		background: #fff;
 		border: 5px solid #f2f2f2;
 	}
 	.list {
 		.title {
-			font-size: 34 * @fontSize;
-			font-weight: bold;
-			// line-height: 1;
 			margin: 30 * @fontSize 0 26 * @fontSize 20 * @fontSize;
+			font-weight: bold;
+			font-size: 34 * @fontSize;
+			// line-height: 1;
 		}
 		.waterfall {
 			// padding: 0 20*@fontSize;
@@ -125,13 +125,13 @@ export default defineComponent({
 					padding: 20 * @fontSize 20 * @fontSize;
 					background-color: #fff;
 					.shop-name {
-						height: 74 * @fontSize;
 						display: flex;
-						justify-content: space-between;
 						align-items: center;
+						justify-content: space-between;
+						height: 74 * @fontSize;
 						img {
-							height: 34 * @fontSize;
 							flex-shrink: 0;
+							height: 34 * @fontSize;
 							margin-right: 5px;
 						}
 					}
@@ -145,11 +145,11 @@ export default defineComponent({
 							border-radius: 5px;
 						}
 						.order-name {
+							flex: 1;
 							width: 50%;
-							text-align: left;
 							padding: 0 20 * @fontSize;
 							font-size: 28 * @fontSize;
-							flex: 1;
+							text-align: left;
 							// color: #1eeb37;
 							.gname {
 								height: 78 * @fontSize;
@@ -157,8 +157,8 @@ export default defineComponent({
 							}
 							.order-id {
 								// text-align: center;
-								color: #909090;
 								padding-top: 5px;
+								color: #909090;
 								font-size: 26 * @fontSize;
 							}
 
@@ -167,29 +167,29 @@ export default defineComponent({
 							}
 						}
 						.order-remark {
-							white-space: nowrap;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							color: blue;
-							text-decoration: underline;
 							width: 50%;
+							overflow: hidden;
+							color: blue;
+							white-space: nowrap;
+							text-decoration: underline;
+							text-overflow: ellipsis;
 						}
 						.order-content {
 							text-align: right;
 							.money {
 								font-size: 28 * @fontSize;
 								&::before {
-									content: '\00A5';
 									font-size: 18 * @fontSize;
+									content: '\00A5';
 								}
 							}
 						}
 					}
 					.order-pay {
 						padding: 10px 0;
-						text-align: right;
-						letter-spacing: 1px;
 						color: #505050;
+						letter-spacing: 1px;
+						text-align: right;
 					}
 					.order-pre {
 						height: 100 * @fontSize;

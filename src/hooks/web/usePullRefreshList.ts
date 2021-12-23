@@ -1,6 +1,6 @@
 import { httpRequest } from "@/apis/axios"
-import { baseResList } from "@/apis/model/base"
-import { pullRefreshListRes } from "@/apis/model/commonModel"
+import { IBaseResList } from "@/apis/model/base"
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
 import { Method } from "axios"
 import { onUnmounted, ref } from "vue"
 
@@ -15,9 +15,10 @@ interface optionsType {
  * @description 用於下拉刷新和加載列表(數據無分頁)
  * @param api 請求路徑
  * @param p 請求參數，各頁面不盡相同
+ * @param options
  * @returns 返回組件所需屬性及頁面渲染所需數據dataList
  */
-export function usePullRefreshList<T extends pullRefreshListRes<V>, V, K>(api: string, p: K, options: optionsType = { method: 'GET' }): T {
+export function usePullRefreshList<V, K>(api: string, p: K, options: optionsType = { method: 'GET' }): IPullRefreshListRes<V> {
     // 是否處於加載狀態中（下拉）
     const refreshing = ref(false)
     // 是否處於加載狀態（List）
@@ -33,7 +34,7 @@ export function usePullRefreshList<T extends pullRefreshListRes<V>, V, K>(api: s
     // 獲取數據
     const getData = async () => {
         // let res = await httpGet<baseResList<V>>(api, p)
-        let res = await httpRequest<baseResList<V>>(options.method, api, p, options)
+        const res = await httpRequest<IBaseResList<V>>(options.method, api, p, options)
         loading.value = false
         if (res.resultCode === 1) {
             res.data.forEach((item: any) => {
@@ -79,5 +80,5 @@ export function usePullRefreshList<T extends pullRefreshListRes<V>, V, K>(api: s
         dataList,
         onRefresh,
         onLoad
-    } as unknown as T
+    } as unknown as IPullRefreshListRes<V>
 }

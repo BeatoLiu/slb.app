@@ -23,7 +23,7 @@ export default defineComponent({
                         <p class="addr">{walletUrl.value && walletUrl.value.substring(0, 8) + '*****' + walletUrl.value.substring(30)}</p>
                     </div>
                     <div id="qr" class="qr-img" >
-                        <VueQr logoSrc={logoImg} text={walletUrl.value} size={260} margin={5} dotScale={1} logoScale={10}></VueQr>
+                        <VueQr logoSrc={ logoImg } text={ walletUrl.value } size={ 260 } margin={ 5 } dotScale={ 1 } logoScale={ 10 }/>
                     </div>
                 </div>
                 <Button size="large" class="btn" data-clipboard-text={walletUrl.value} onClick={() => clipboard('.btn')}>复制收款地址</Button>

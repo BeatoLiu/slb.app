@@ -30,8 +30,8 @@
 import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import { Button, Toast } from 'vant'
 import { useCountDown } from '@vant/use'
-import { canTakeOut, withdrawalTaa } from '../../apis/tAA'
-import { canTakeOutModel } from '../../apis/model/tAAModel'
+import { canTakeOut, withdrawalTaa } from '@/apis/tAA'
+import { ICanTakeOutModel } from '@/apis/model/tAAModel'
 import { useRouter } from 'vue-router'
 // import WithdrawPayComponent from './components/WithdrawPayComponent.vue'
 
@@ -54,7 +54,7 @@ export default defineComponent({
 			}
 		})
 
-		const params = reactive<canTakeOutModel>({
+		const params = reactive<ICanTakeOutModel>({
 			// pageSize: 10,
 			// pageNum: 0,
 			startTime: '',
@@ -133,23 +133,23 @@ export default defineComponent({
 		// justify-content: center;
 		// align-items: center;
 		// height: 440 * @fontSize;
-		border-radius: 10px;
-		padding: 100 * @fontSize 0;
 		margin: -300 * @fontSize 20 * @fontSize 0 20 * @fontSize;
-		// text-align: center;
+		padding: 100 * @fontSize 0;
 		background: #fff;
+		border-radius: 10px;
+		// text-align: center;
 		div {
 			flex: 1;
 			// padding-left: 43*@fontSize;
-			text-align: center;
 			font-weight: 400;
+			text-align: center;
 			p:nth-child(1) {
 				font-size: 24 * @fontSize;
 			}
 			p:nth-child(2) {
 				// margin-top: 10*@fontSize;
-				font-size: 60 * @fontSize;
 				color: #ff0700;
+				font-size: 60 * @fontSize;
 			}
 			&:not(:last-child) {
 				border-right: 1px solid #e8e8e8;

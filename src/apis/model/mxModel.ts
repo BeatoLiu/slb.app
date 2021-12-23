@@ -1,31 +1,31 @@
-import { basePageParams, baseResList, baseResPageList, baseResT } from './base'
+import { IBasePageParams, IBaseResList, IBaseResPageList, IBaseResT } from './base'
 
 // 具體規格描述
-interface paramsItem {
+interface IParamsItem {
     pcdSubCode: number;
     pcdSubName: string;
     input: string;
     pcName: string;
 }
 // 規格描述
-export interface prdCsSkuCollectionItem {
+export interface IPrdCsSkuCollectionItem {
     pcName: string;
     pcCode: number;
     // pcdSubCode: number;
     pcSourceType: number;
 
-    params: paramsItem[]
+    params: IParamsItem[]
 }
 /**
- * 
+ *
  */
-export type showMemberCommodityModel = basePageParams & {
+export type IShowMemberCommodityModel = IBasePageParams & {
     cInvestType?: number; //
     cAuditStatus: number; // 审核状态
     cName?: string;
     ccRelation?: string
 }
-export interface showMemberCommodityItem {
+export interface IShowMemberCommodityItem {
     createTime: string;
     cPrice: number;
     cShowPrice: number;
@@ -37,14 +37,14 @@ export interface showMemberCommodityItem {
     cName: string;
     cTotalAmount: number;
 }
-export type showMemberCommodityRes = baseResPageList<showMemberCommodityItem>
+export type IShowMemberCommodityRes = IBaseResPageList<IShowMemberCommodityItem>
 
 
-export interface cDetailPicItem {
+export interface ICDetailPicItem {
     utPath: string;
     utCode: number;
 }
-export interface csbListItem {
+export interface ICsbListItem {
     csPrice: number;
     csPrice1: number;
     csPrice2: number;
@@ -55,33 +55,33 @@ export interface csbListItem {
     cCode: number;
     csCode: number;
     csPicName: string;
-    csSkuCollection: prdCsSkuCollectionItem[];
+    csSkuCollection: IPrdCsSkuCollectionItem[];
 }
 /**
  * 商品详情
  */
-export interface showCommodityDetailInfo extends showMemberCommodityItem {
+export interface IShowCommodityDetailInfo extends IShowMemberCommodityItem {
 
     cUnitPrice: number;
     cWholesalePrice: number;
     cRecPayType: string;
     cStockAmount: number;
-    cDetailPic: cDetailPicItem[];
-    cSpuCollection: prdCsSkuCollectionItem[];
-    csbList: csbListItem[]
+    cDetailPic: ICDetailPicItem[];
+    cSpuCollection: IPrdCsSkuCollectionItem[];
+    csbList: ICsbListItem[]
 }
-export type showCommodityDetailRes = baseResT<showCommodityDetailInfo>
+export type IShowCommodityDetailRes = IBaseResT<IShowCommodityDetailInfo>
 /**
  * @description 會員的秘選訂單列表
  * @param payStatus 支付狀態
  * @param oStatus 訂單狀態
  */
-export type showSelfOrderDetailModel = basePageParams & {
+export type IShowSelfOrderDetailModel = IBasePageParams & {
     payStatus: number; //
     oStatus: number // 审核状态
 }
 // 會員秘選訂單記錄信息
-export interface showSelfOrderDetailItem {
+export interface IShowSelfOrderDetailItem {
     podCode: number;
     poCode: number;
     prdCCode: number;
@@ -96,22 +96,22 @@ export interface showSelfOrderDetailItem {
     prdSum: number;
     orderPayTypeName: string;
     podStatus: number,
-    prdCsSkuCollection: prdCsSkuCollectionItem[]
+    prdCsSkuCollection: IPrdCsSkuCollectionItem[]
 }
 
 /**
  * @description 確認收貨
  * @param podCode 訂單編號
  */
-export interface confirmTakeDeliveryModel {
+export interface IConfirmTakeDeliveryModel {
     podCode: number
 }
 
 // 订单详情
-export interface getMallPrdOrderDetailMode {
+export interface IGetMallPrdOrderDetailMode {
     podCode: number;
 }
-export interface getMallPrdOrderDetailItem extends showSelfOrderDetailItem {
+export interface IGetMallPrdOrderDetailItem extends IShowSelfOrderDetailItem {
     podRemark: string;
     prdSentTime: string;
     prdReceivedTime: string;
@@ -125,10 +125,10 @@ export interface getMallPrdOrderDetailItem extends showSelfOrderDetailItem {
     orderPayType: number,
 
 }
-export type getMallPrdOrderDetailRes = baseResT<getMallPrdOrderDetailItem>
+export type IGetMallPrdOrderDetailRes = IBaseResT<IGetMallPrdOrderDetailItem>
 
 // 退款
-export interface insertRefundOrderModel {
+export interface IInsertRefundOrderModel {
     podCode: number; // 产品编号
     roType: number; // 退货类型
     roRecType: number; // 是否已收货
@@ -137,7 +137,7 @@ export interface insertRefundOrderModel {
 }
 
 // 商品分類類型列表
-export interface showCommodityClassFilterItem {
+export interface IShowCommodityClassFilterItem {
     ccCode: number;
     pCcCode: number;
     ccType: number;
@@ -145,4 +145,4 @@ export interface showCommodityClassFilterItem {
     ccRelation: string;
     ccRation: number
 }
-export type showCommodityClassFilterRes = baseResList<showCommodityClassFilterItem>
+export type IShowCommodityClassFilterRes = IBaseResList<IShowCommodityClassFilterItem>

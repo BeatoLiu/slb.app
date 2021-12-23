@@ -1,4 +1,4 @@
-import { jdGoodsListModel } from "@/apis/model/taoKeModel"
+import { IJdGoodsListModel } from "@/apis/model/taoKeModel"
 import { showJdjxByEliteId } from "@/apis/taoKe"
 import { onUnmounted, ref } from "vue"
 
@@ -7,7 +7,7 @@ import { onUnmounted, ref } from "vue"
  * @param p 請求參數，各頁面不盡相同
  * @returns 京東淘客根據物料id查詢商品
  */
-export function useJDEliteGoods(p: jdGoodsListModel) {
+export function useJDEliteGoods(p: IJdGoodsListModel) {
     // 是否處於加載狀態中（下拉）
     const refreshing = ref(false)
     // 是否處於加載狀態（List）
@@ -23,7 +23,7 @@ export function useJDEliteGoods(p: jdGoodsListModel) {
     // 獲取數據
     const getData = async () => {
         // let res = await httpGet<baseResList<V>>(api, p)
-        let res = await showJdjxByEliteId(p)
+        const res = await showJdjxByEliteId(p)
         loading.value = false
         if (res.resultCode === 1) {
             const data = res.data ? JSON.parse(res.data) : {}

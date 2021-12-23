@@ -45,14 +45,14 @@ import { computed, defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { Field, Button } from 'vant'
 
-import { useI18n } from '../../hooks/setting/useI18n'
-import { picDisplayPath } from '../../utils/config'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { picDisplayPath } from '@/utils/config'
 
-import { pwdLoginModel } from '../../apis/model/loginModel'
-import { pwdLogin } from '../../apis/login'
-import { useStore } from '../../store'
+import { IPwdLoginModel } from '@/apis/model/loginModel'
+import { pwdLogin } from '@/apis/login'
+import { useStore } from '@/store'
 export default defineComponent({
-	name: 'login',
+	name: 'SlbLogin',
 	components: {
 		Field,
 		Button
@@ -65,7 +65,7 @@ export default defineComponent({
 			bgImg: picDisplayPath + 'slbApp/login/lg-bg.png',
 			logo: picDisplayPath + 'slbApp/logo.png'
 		})
-		const params = reactive<pwdLoginModel>({
+		const params = reactive<IPwdLoginModel>({
 			// memMobile: '15267087635',
 			// memPassword: '123456'
 			memMobile: process.env.VUE_APP_ENV !== 'production' ? '15267087635' : '',
@@ -112,8 +112,8 @@ export default defineComponent({
 		// margin-top: -46px;
 
 		img {
-			height: 100%;
 			width: 100%;
+			height: 100%;
 		}
 	}
 	.login-container {
@@ -126,10 +126,10 @@ export default defineComponent({
 		margin-top: 40 * @fontSize;
 		text-align: center;
 		.title {
-			font-family: PingFang SC;
 			margin-top: 20 * @fontSize;
 			font-weight: bold;
 			font-size: 30 * @fontSize;
+			font-family: PingFang SC, sans-serif;
 		}
 		.login-content {
 			margin-top: 30 * @fontSize;

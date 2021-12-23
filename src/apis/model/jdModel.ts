@@ -1,25 +1,25 @@
-import { baseResList, baseResT } from "./base";
+import { IBaseResList, IBaseResT } from "./base";
 
-export interface Isku {
+export interface ISku {
     sku: number
 }
 
 
-export interface getProductDetailStyleModel extends Isku {
+export interface IGetProductDetailStyleModel extends ISku {
     queryExts: string[]
 }
 
 
-export interface getProductSkuImageMode {
+export interface IGetProductSkuImageMode {
     skuIdList: number[]
 }
-export interface getProductSkuImageItem {
+export interface IGetProductSkuImageItem {
     id: number;
     path: string;
     isPrimary: number;
     orderSort: number
 }
-interface getProductSkuImageInfo {
-    [key: string]: getProductSkuImageItem[]
+interface IGetProductSkuImageInfo {
+    [key: string]: IGetProductSkuImageItem[]
 }
-export type getProductSkuImageRes = baseResT<getProductSkuImageInfo>
+export type IGetProductSkuImageRes = IBaseResT<IGetProductSkuImageInfo>

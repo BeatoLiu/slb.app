@@ -1,7 +1,7 @@
 import { httpPost, httpGet } from './axios'
 // import { stringify } from 'qs'
-import { baseResT } from './model/base'
-import { pwdLoginModel, pwdLoginRes, registerModel } from './model/loginModel'
+import { IBaseResT } from './model/base'
+import { IPwdLoginModel, IPwdLoginRes, IRegisterModel } from './model/loginModel'
 
 enum Api {
     PWD_LOGIN = 'mem/member/pwdLogin',
@@ -15,7 +15,7 @@ enum Api {
  * @param p.memPassword 密碼
  * @returns 登錄信息
  */
-export const pwdLogin = (p: pwdLoginModel) => httpGet<pwdLoginRes>(Api.PWD_LOGIN, p)
+export const pwdLogin = (p: IPwdLoginModel) => httpGet<IPwdLoginRes>(Api.PWD_LOGIN, p)
 
 /**
  * @description 註冊
@@ -25,7 +25,7 @@ export const pwdLogin = (p: pwdLoginModel) => httpGet<pwdLoginRes>(Api.PWD_LOGIN
  * @param p.memChannel 生成會員的渠道
  * @returns 登錄信息
  */
-export const register = (p: registerModel) => httpPost<baseResT>(Api.REGISTER, p)
+export const register = (p: IRegisterModel) => httpPost<IBaseResT>(Api.REGISTER, p)
 
 /**
 * @description 修改密碼
@@ -35,4 +35,4 @@ export const register = (p: registerModel) => httpPost<baseResT>(Api.REGISTER, p
 * @param p.memChannel 生成會員的渠道
 * @returns 登錄信息
 */
-export const modifyPassword = (p: registerModel) => httpPost<baseResT>(Api.MODIFY_PASSWORD, p)
+export const modifyPassword = (p: IRegisterModel) => httpPost<IBaseResT>(Api.MODIFY_PASSWORD, p)

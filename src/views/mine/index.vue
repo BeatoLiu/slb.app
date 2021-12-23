@@ -64,32 +64,29 @@
 				</CellGroup>
 			</div>
 		</section>
-		<!-- <section class="pay-entr">
-			<Button type="primary" size="large" @click="logout">退出登录</Button>
-		</section> -->
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onActivated, reactive, ref } from 'vue'
-import { CellGroup, Cell, Icon, ActionSheet, Button, Field } from 'vant'
+import { computed, defineComponent, onActivated, reactive } from 'vue'
+import { CellGroup, Cell, Icon } from 'vant'
 
-import { picDisplayPath, localtionOrigin } from './../../utils/config'
+import { picDisplayPath, locationOrigin } from '@/utils/config'
 import slb from '../../utils/jslb-1.0.0'
-import { useI18n } from '../../hooks/setting/useI18n'
+import { useI18n } from '@/hooks/setting/useI18n'
 
 import { useRouter } from 'vue-router'
-import { useStore } from '../../store'
+import { useStore } from '@/store'
 
 export default defineComponent({
 	name: 'Mine-alive',
 	components: {
 		CellGroup,
 		Cell,
-		Icon,
-		ActionSheet,
-		Button,
-		Field
+		Icon
+		// ActionSheet,
+		// Button,
+		// Field
 	},
 	setup() {
 		const { t } = useI18n()
@@ -102,7 +99,7 @@ export default defineComponent({
 
 		const data = reactive({
 			isPayShow: true, // ['500004', '500111', '717260', '500010', '539241', '500012', '999739', '1892076'].includes(memCode),
-			avatarImg: picDisplayPath + 'slbApp/logo.png', //picDisplayPath + 'slb/logo.jpg',
+			avatarImg: picDisplayPath + 'slbApp/logo.png', // picDisplayPath + 'slb/logo.jpg',
 			userName: localStorage.getItem('userName'),
 
 			// 秘密相关
@@ -267,7 +264,7 @@ export default defineComponent({
 		// 渠道管理
 		const goEleManage = (path: string | object) => {
 			if (typeof path === 'string') {
-				slb.openAgentManagerUrl(localtionOrigin + path)
+				slb.openAgentManagerUrl(locationOrigin + path)
 				// slb.openAgentManagerUrl('http://mg.2qzs.com/slmer/index.html#/')
 				// window.location.href = localtionOrigin + path
 			} else {
@@ -313,21 +310,21 @@ export default defineComponent({
 	.top {
 		box-sizing: border-box;
 		height: 284 * @fontSize;
+		color: #fff;
 		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
 		background-size: contain;
-		color: #fff;
 		// padding-top: 88 * @fontSize;
 		.mine-img {
 			width: 120 * @fontSize;
 			height: 120 * @fontSize;
-			margin-left: 50 * @fontSize;
 			margin-right: 40 * @fontSize;
+			margin-left: 50 * @fontSize;
 			img {
 				box-sizing: border-box;
 				width: 120 * @fontSize;
 				height: 120 * @fontSize;
-				border-radius: 50%;
 				border: 2px solid #fff;
+				border-radius: 50%;
 			}
 		}
 	}
@@ -342,8 +339,8 @@ export default defineComponent({
 		margin-top: -60px;
 	}
 	.search-icon {
-		font-size: 48 * @fontSize;
 		margin-right: 20 * @fontSize;
+		font-size: 48 * @fontSize;
 	}
 }
 </style>

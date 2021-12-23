@@ -1,6 +1,6 @@
 import { httpRequest } from "@/apis/axios"
-import { basePageParams, baseResPageList } from "@/apis/model/base"
-import { pullRefreshListRes } from "@/apis/model/commonModel"
+import { IBasePageParams, IBaseResPageList } from "@/apis/model/base"
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
 import { Method } from "axios"
 // import { stringify } from "qs"
 import { onDeactivated, onUnmounted, ref } from "vue"
@@ -16,9 +16,10 @@ interface optionsType {
  * @description 用於下拉刷新和無限加載列表（數據有分頁）(其實我也不知道這個范型要怎麼弄，各種試，花了一下午，僅是沒報錯，還不甚理解)
  * @param api 請求路徑
  * @param p 請求參數，各頁面不盡相同
+ * @param options
  * @returns 返回組件所需屬性及頁面渲染所需數據dataList
  */
-export function usePullRefreshPageList<V, K extends basePageParams>(api: string, p: K, options: optionsType = { method: 'GET' }): pullRefreshListRes<V> {
+export function usePullRefreshPageList<V, K extends IBasePageParams>(api: string, p: K, options: optionsType = { method: 'GET' }): IPullRefreshListRes<V> {
     // 是否處於加載狀態中（下拉）
     const refreshing = ref(false)
     // 是否處於加載狀態（List）
@@ -33,7 +34,7 @@ export function usePullRefreshPageList<V, K extends basePageParams>(api: string,
     const timer = ref(0)
     // 獲取數據
     const getData = async () => {
-        let res = await httpRequest<baseResPageList<V>>(options.method, api, p, options)
+        const res = await httpRequest<IBaseResPageList<V>>(options.method, api, p, options)
 
         loading.value = false
         if (res.resultCode === 1) {
@@ -85,5 +86,5 @@ export function usePullRefreshPageList<V, K extends basePageParams>(api: string,
         dataList,
         onRefresh,
         onLoad
-    } as pullRefreshListRes<V>
+    } as IPullRefreshListRes<V>
 }

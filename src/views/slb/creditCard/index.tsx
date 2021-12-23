@@ -1,5 +1,5 @@
 import { deleteCreditCard, showCreditCardList } from "@/apis/bankCard";
-import { showCreditCardListItem } from "@/apis/model/bankCardModel";
+import { IShowCreditCardListItem } from "@/apis/model/bankCardModel";
 import { defineComponent, onMounted, reactive, ref } from "vue-demi";
 import { Button, Dialog, Icon, Toast } from "vant"
 import './index.less'
@@ -9,7 +9,7 @@ export default defineComponent({
     name: 'CreditCard',
     setup() {
         const { push } = useRouter()
-        const dataList = ref<showCreditCardListItem[]>([])
+        const dataList = ref<IShowCreditCardListItem[]>([])
         const params = reactive({
             mccCardType: 2
         })
@@ -37,7 +37,7 @@ export default defineComponent({
             })
         }
         //  去还信用卡界面
-        const goPay = (item: showCreditCardListItem) => {
+        const goPay = (item: IShowCreditCardListItem) => {
             if (item.mccTipFlag !== 1) {
                 push({
                     name: 'PayForCredit',

@@ -1,16 +1,15 @@
-import { getProductDetail, getProductDetailStyle, getProductSellPrice, getProductSkuImage } from "@/apis/jd";
+import { getProductDetail, getProductSellPrice, getProductSkuImage} from "@/apis/jd";
 import { defineComponent, onMounted, ref } from "vue-demi";
 import { Swipe, SwipeItem, Image } from 'vant'
 import { jdImgPath } from '@/utils/config'
-import { getProductSkuImageItem } from "@/apis/model/jdModel";
+import { IGetProductSkuImageItem } from "@/apis/model/jdModel";
 
 export default defineComponent({
-    name: 'Jd',
+    name: 'Jd-index',
     setup() {
         const intr = ref('')
         const param = ref('')
-        const styles = ref('')
-        const images = ref<getProductSkuImageItem[]>([])
+        const images = ref<IGetProductSkuImageItem[]>([])
         onMounted(() => {
             getProductDetail({ sku: 204074 }).then(res => {
                 if (res.resultCode === 1) {
@@ -50,8 +49,8 @@ export default defineComponent({
                         </SwipeItem>
                     ))}
                 </Swipe>
-                <div innerHTML={intr.value}></div>
-                <div innerHTML={param.value}></div>
+                <div innerHTML={intr.value} />
+                <div innerHTML={param.value}/>
             </div>
         )
     }

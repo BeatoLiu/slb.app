@@ -2,10 +2,17 @@ import axios, { AxiosRequestConfig, Method } from 'axios'
 import { stringify } from "qs"
 import { Toast } from 'vant'
 
-import { hostName, payName } from '../utils/config'
-import logoImg from '../assets/img/pay-logo.png'
+import { hostName, payName } from "@/utils/config"
+// import logoImg from '../assets/img/pay-logo.png'
 
 
+// 接口配置项
+interface configInter {
+	// 是否要loading
+	showLoading?: boolean,
+	// 接口地址
+	type?: string;
+}
 
 axios.defaults.timeout = 60000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form/urlencoded;charset=UTF-8'
@@ -21,9 +28,9 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = hostName
 
 axios.interceptors.request.use(config => {
-    const token = localStorage.token
-    config.headers['token'] = token
-    document.cookie = `token=${token}`
+    // const token = localStorage.token
+    config.headers.token = localStorage.token
+    // document.cookie = `token=${token}`
     return config
 })
 
@@ -52,7 +59,7 @@ axios.interceptors.request.use(config => {
 //     return error
 // })
 
-const ajax_main = <T = any>(method: Method, url: string, params: any, config: configInter): Promise<T> => {
+const ajaxMain = <T = any>(method: Method, url: string, params: any, config: configInter): Promise<T> => {
     return new Promise((resolve, reject) => {
         const notBodyMethod = ["GET", "DELETE"];
 
@@ -109,13 +116,7 @@ const ajax_main = <T = any>(method: Method, url: string, params: any, config: co
             })
     })
 }
-// 接口配置项
-interface configInter {
-    // 是否要loading
-    showLoading?: boolean,
-    // 接口地址
-    type?: string;
-}
+
 // export default {
 /**
  * { showLoading = true, type }: configInter = {}
@@ -123,19 +124,19 @@ interface configInter {
  */
 export function httpGet<T = any>(url: string, params?: any, { showLoading = true, type }: configInter = {}): Promise<T> {
     const config: configInter = { showLoading, type }
-    return ajax_main("GET", url, params, config)
+    return ajaxMain("GET", url, params, config)
 }
 export function httpPost<T = any>(url: string, params?: any, { showLoading = true, type }: configInter = {}): Promise<T> {
     const config: configInter = { showLoading, type }
-    return ajax_main("POST", url, params, config)
+    return ajaxMain("POST", url, params, config)
 }
 export const httpDelete = (url: string, params?: any, { showLoading = true, type }: configInter = {}) => {
     const config: configInter = { showLoading, type }
-    return ajax_main("DELETE", url, params, config)
+    return ajaxMain("DELETE", url, params, config)
 }
 export const httpPut = (url: string, params?: any, { showLoading = true, type }: configInter = {}) => {
     const config: configInter = { showLoading, type }
-    return ajax_main("PUT", url, params, config)
+    return ajaxMain("PUT", url, params, config)
 }
 
 /**
@@ -144,11 +145,11 @@ export const httpPut = (url: string, params?: any, { showLoading = true, type }:
  * @param url 請求地址
  * @param params 參數
  * @param param3 配置信息
- * @returns 
+ * @returns
  */
 export const httpRequest = <T = any>(method: Method, url: string, params: any, { showLoading = true, type }: configInter = {}): Promise<T> => {
     const config: configInter = { showLoading, type }
-    return ajax_main(method, url, params, config)
+    return ajaxMain(method, url, params, config)
 }
 // }
 

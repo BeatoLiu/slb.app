@@ -65,10 +65,10 @@ import { Button, Uploader, Cell, Dialog } from 'vant'
 
 import ElePayComponent from './components/ElePayComponent.vue'
 
-import { getMerchantList } from '../../apis/mem'
-import { getMerchantListItem } from '../../apis/model/memModel'
-import { useImgPath } from '../../hooks/mx/useImgPath'
-import { useUploadImg } from '../../hooks/web/useUploadImg'
+import { getMerchantList } from "@/apis/mem"
+import { IGetMerchantListItem } from "@/apis/model/memModel"
+import { useImgPath } from "@/hooks/mx/useImgPath"
+import { useUploadImg } from "@/hooks/web/useUploadImg"
 
 export default defineComponent({
 	name: 'eleList',
@@ -88,7 +88,7 @@ export default defineComponent({
 		// 節點類型，用以過濾支付方式
 		const cRecPayType = ref(0)
 		const mCode = ref(0)
-		const dataList = ref<getMerchantListItem[]>([])
+		const dataList = ref<IGetMerchantListItem[]>([])
 		const getMerchant = () => {
 			getMerchantList().then(res => {
 				if (res.resultCode === 1) {
@@ -100,13 +100,13 @@ export default defineComponent({
 			// console.log(val)
 			show.value = val
 		}
-		const showPay = (item: getMerchantListItem) => {
+		const showPay = (item: IGetMerchantListItem) => {
 			show.value = true
 			mCode.value = item.mCode
 			cRecPayType.value = item.mRole
 		}
 		// 喚起上傳轉賬憑證modal
-		const showUpload = (item: getMerchantListItem) => {
+		const showUpload = (item: IGetMerchantListItem) => {
 			showUploadDialog.value = true
 			mCode.value = item.mCode
 			if (item.mMoneyProve) {
@@ -121,7 +121,7 @@ export default defineComponent({
 		}
 		// 上傳圖片
 		const upload = async () => {
-			let file = imgList.value[0].file
+			const file = imgList.value[0].file
 			const formData = new FormData()
 			formData.append('mCode', mCode.value + '')
 			imgMsg.value = '上传中'
@@ -161,8 +161,8 @@ export default defineComponent({
 @import '../../assets/css/local.less';
 .ele-list {
 	& > div {
-		padding: 20 * @fontSize;
 		margin-top: 20 * @fontSize;
+		padding: 20 * @fontSize;
 		background: #fff;
 		p {
 			padding: 10 * @fontSize 0;
@@ -175,9 +175,9 @@ export default defineComponent({
 		}
 	}
 	.img-item {
+		padding-top: 20 * @fontSize;
 		border-top: 1px solid #ebedf0;
 		border-bottom: 1px solid #ebedf0;
-		padding-top: 20 * @fontSize;
 		p {
 			margin-right: 40 * @fontSize;
 		}

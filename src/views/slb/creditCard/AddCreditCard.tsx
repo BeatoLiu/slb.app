@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { useImgPath } from "@/hooks/mx/useImgPath";
 import './AddCreditCard.less'
 import { addCreditCard, getCreditCardByMccCode, showBankList, updateCreditCard } from "@/apis/bankCard";
-import { showBankListItem } from "@/apis/model/bankCardModel";
+import { IShowBankListItem } from "@/apis/model/bankCardModel";
 import { useUploadImg } from "@/hooks/web/useUploadImg";
 
 export default defineComponent({
@@ -23,19 +23,19 @@ export default defineComponent({
             imgMsg: '上传',
             isImgUpload: false,
             // 选择银行相关
-            showBanLiskPicker: false,
+            showBankListPop: false,
             keywords: '',
         })
         const imgList = ref<UploaderFileListItem[]>([])
-        const bankList = ref<showBankListItem[]>([])
-        const dataList = ref<showBankListItem[]>([])
+        const bankList = ref<IShowBankListItem[]>([])
+        const dataList = ref<IShowBankListItem[]>([])
         const afterRead = () => {
             data.imgMsg = '上传'
             data.isImgUpload = false
         }
         // 上传图片
         const upload = async () => {
-            let file = imgList.value[0].file as File
+            const file = imgList.value[0].file as File
             const formData = new FormData()
             const res = await uploadImg(file, 'ocr/bankCard', formData)
             if (res.resultCode === 1) {
@@ -119,15 +119,14 @@ export default defineComponent({
                                     data.imgMsg
                                 }</Button>
                             </div>
-                            <Field v-model={[data.mccCard]} center clearable type="digit" label="卡号" placeholder="信用卡卡号">
-                            </Field>
+                            <Field v-model={[data.mccCard]} center clearable type="digit" label="卡号" placeholder="信用卡卡号" />
                             <Field
                                 v-model={[data.mccBankName]}
                                 label="银行"
                                 placeholder="发卡银行"
                                 right-icon="arrow"
                                 readonly
-                                onClick={() => data.showBanLiskPicker = true}
+                                onClick={() => {data.showBankListPop = true}}
                             />
                             <Field v-model={[data.mccCardName]} clearable label="姓名" placeholder="持卡人姓名" />
                         </CellGroup>
@@ -140,10 +139,10 @@ export default defineComponent({
                         </div>
                         <Button type="primary" class="btn" onClick={toSign} disabled={!dis.value}>提 交</Button>
                     </div>
-                    <Popup v-model={[data.showBanLiskPicker, "show"]} position="top">
+                    <Popup v-model={[data.showBankListPop, "show"]} position="top">
                         <div class="bank-list">
                             <p class="title">银行选择</p>
-                            <Search shape="round" placeholder="请输入银行名称" clearable onInput={filterBank}></Search>
+                            <Search shape="round" placeholder="请输入银行名称" clearable onInput={ filterBank }/>
                             <CellGroup>
                                 {bankList.value.map(item => {
                                     return (
@@ -154,7 +153,7 @@ export default defineComponent({
                                                 () => {
                                                     data.mccBankName = item.biName
                                                     data.mccBankId = item.bankId
-                                                    data.showBanLiskPicker = false
+                                                    data.showBankListPop = false
                                                 }
                                             }
                                         >

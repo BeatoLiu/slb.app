@@ -87,12 +87,12 @@
 import { defineComponent, reactive, ref, onMounted } from 'vue'
 import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader, Dialog } from 'vant'
 
-import { pullRefreshListRes } from '../../../apis/model/commonModel'
-import { showPayOrderListByMemCodeItem, showPayOrderListByMemCodeModel } from '../../../apis/model/slbModel'
-import { usePullRefreshPageList } from '../../../hooks/web/usePullRefreshPageList'
-import { useUploadImg } from '../../../hooks/web/useUploadImg'
-import { useImgPath } from '../../../hooks/mx/useImgPath'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
+import { IShowPayOrderListByMemCodeItem, IShowPayOrderListByMemCodeModel } from "@/apis/model/slbModel"
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
+import { useUploadImg } from "@/hooks/web/useUploadImg"
+import { useImgPath } from "@/hooks/mx/useImgPath"
+import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 export default defineComponent({
 	name: 'BankTransOrderSUSD-alive',
 	components: {
@@ -122,7 +122,7 @@ export default defineComponent({
 		const maxDate = ref(new Date())
 		const idx = ref(0)
 		const orderCode = ref(0)
-		const params = reactive<showPayOrderListByMemCodeModel>({
+		const params = reactive<IShowPayOrderListByMemCodeModel>({
 			pageSize: 10,
 			pageNum: 0,
 			startTime: '',
@@ -137,7 +137,7 @@ export default defineComponent({
 			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' 23:59:59'
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			pullRefreshListRes<showPayOrderListByMemCodeItem>
+			IPullRefreshListRes<IShowPayOrderListByMemCodeItem>
 		>usePullRefreshPageList('mg/slpay/showPayOrderListByMemCodeApp', params, { method: 'POST' })
 
 		const formatDate = (date: Date) => {
@@ -175,7 +175,7 @@ export default defineComponent({
 			imgIsLoading.value = false
 		}
 		// 喚起上傳modal
-		const showUpload = (item: showPayOrderListByMemCodeItem, index: number) => {
+		const showUpload = (item: IShowPayOrderListByMemCodeItem, index: number) => {
 			showUploadDialog.value = true
 			orderCode.value = item.orderCode
 			if (item.moneyProve) {
@@ -216,9 +216,9 @@ export default defineComponent({
 .bank-order-list {
 	.top {
 		height: 100 * @fontSize;
-		background-color: #5cc8b8;
-		text-align: center;
 		color: #fff;
+		text-align: center;
+		background-color: #5cc8b8;
 		.balance {
 			margin-left: 50 * @fontSize;
 		}
@@ -226,16 +226,16 @@ export default defineComponent({
 			margin-right: 50 * @fontSize;
 		}
 		.time {
-			background-color: transparent;
-			color: #fff;
 			padding: 10px 0;
+			color: #fff;
+			background-color: transparent;
 			// margin-top: 40 * @fontSize;
 		}
 	}
 	.van-list {
 		& > div {
-			padding: 20 * @fontSize;
 			margin-top: 20 * @fontSize;
+			padding: 20 * @fontSize;
 			background: #fff;
 			p {
 				padding: 10 * @fontSize 0;
@@ -249,9 +249,9 @@ export default defineComponent({
 		}
 	}
 	.img-item {
+		padding-top: 20 * @fontSize;
 		border-top: 1px solid #ebedf0;
 		border-bottom: 1px solid #ebedf0;
-		padding-top: 20 * @fontSize;
 		p {
 			margin-right: 40 * @fontSize;
 		}

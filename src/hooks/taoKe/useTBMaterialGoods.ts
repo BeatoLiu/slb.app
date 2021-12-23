@@ -1,7 +1,7 @@
 // import { httpRequest } from "@/apis/axios"
 // import { baseResList } from "@/apis/model/base"
 // import { pullRefreshListRes } from "@/apis/model/commonModel"
-import { showTaoKeGoodsBymaterialIdModel } from "@/apis/model/taoKeModel"
+import { IShowTaoKeGoodsBymaterialIdModel } from "@/apis/model/taoKeModel"
 import { showTaoKeGoodsBymaterialId } from "@/apis/taoKe"
 // import { Method } from "axios"
 import { onUnmounted, ref } from "vue"
@@ -11,7 +11,7 @@ import { onUnmounted, ref } from "vue"
  * @param p 請求參數，各頁面不盡相同
  * @returns 淘寶淘客根據物料id查詢商品
  */
-export function useTBMaterialGoods(p: showTaoKeGoodsBymaterialIdModel) {
+export function useTBMaterialGoods(p: IShowTaoKeGoodsBymaterialIdModel) {
     // 是否處於加載狀態中（下拉）
     const refreshing = ref(false)
     // 是否處於加載狀態（List）
@@ -27,7 +27,7 @@ export function useTBMaterialGoods(p: showTaoKeGoodsBymaterialIdModel) {
     // 獲取數據
     const getData = async () => {
         // let res = await httpGet<baseResList<V>>(api, p)
-        let res = await showTaoKeGoodsBymaterialId(p)
+        const res = await showTaoKeGoodsBymaterialId(p)
         loading.value = false
         if (res.resultCode === 1) {
             const data = res.data ? JSON.parse(res.data) : {}

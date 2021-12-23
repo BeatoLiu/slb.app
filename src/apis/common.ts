@@ -1,6 +1,9 @@
 import { httpGet, httpPost } from './axios'
-import { baseResT } from './model/base'
-import { showDictionaryModel, showDictionaryRes, showSubAreaModel, showSubAreaRes, smsModel } from './model/commonModel'
+import { IBaseResT } from "./model/base";
+import {
+	IShowDictionaryModel, IShowDictionaryRes,
+	IShowSubAreaModel, IShowSubAreaRes, ISmsModel,
+} from "./model/commonModel";
 
 
 enum Api {
@@ -15,26 +18,26 @@ enum Api {
  * @param p.type 業務類型
  * @returns 發送結果
  */
-export const sendSmsCode = (p: smsModel) => httpGet<baseResT>(Api.SEND_SMS_CODE, p)
+export const sendSmsCode = (p: ISmsModel) => httpGet<IBaseResT>(Api.SEND_SMS_CODE, p)
 
 /**
  * @description 查詢字典
  * @param p.dType 業務類型
- * @returns 
+ * @returns
  */
-export const showDictionary = (p: showDictionaryModel) => httpGet<showDictionaryRes>(Api.SHOW_DICTIONARY, p);
+export const showDictionary = (p: IShowDictionaryModel) => httpGet<IShowDictionaryRes>(Api.SHOW_DICTIONARY, p);
 
 /**
  * @description 查詢字典
  * @param p.dType 業務類型
- * @returns 
+ * @returns
  */
-export const showSubArea = (p: showSubAreaModel) => httpGet<showSubAreaRes>(Api.SHOW_SUB_AREA, p);
+export const showSubArea = (p: IShowSubAreaModel) => httpGet<IShowSubAreaRes>(Api.SHOW_SUB_AREA, p);
 
 
 /**
  * @description 獲取TAA價格
  * @param p.dType 業務類型
- * @returns 
+ * @returns
  */
-export const getTAAPrice = () => httpPost<baseResT<number>>(Api.GET_TAA_PRICE);
+export const getTAAPrice = () => httpPost<IBaseResT<number>>(Api.GET_TAA_PRICE);

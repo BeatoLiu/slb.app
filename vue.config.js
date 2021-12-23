@@ -23,7 +23,7 @@ const outputDir = () => {
 }
 
 module.exports = {
-    publicPath: './',
+	publicPath: './',
     // outputDir: 'slbApp',
     outputDir: outputDir(),
     productionSourceMap: false,

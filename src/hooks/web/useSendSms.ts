@@ -1,13 +1,13 @@
 import { sendSmsCode } from "@/apis/common";
-import { smsModel } from "@/apis/model/commonModel";
+import { ISmsModel } from "@/apis/model/commonModel";
 import { checkPhone } from "@/utils";
 import { Toast } from "vant";
 /**
  * @description 發送短信
- * @param p 
- * @returns 
+ * @param p
+ * @returns
  */
-export const useSendSms = async (p: smsModel) => {
+export const useSendSms = async (p: ISmsModel) => {
     let status = 0
     if (checkPhone(p.phoneNum)) {
         const res = await sendSmsCode(p)

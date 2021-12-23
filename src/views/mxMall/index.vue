@@ -20,11 +20,17 @@
 		</div>
 		<section class="hot-big flex-space" v-if="proList1.length && proList2.length">
 			<div>
-				<div class="flex-start" @click="$router.push({ name: 'GoodsSearch', query: { cTag: 1, title: '热销榜' } })">
+				<div
+					class="flex-start"
+					@click="$router.push({ name: 'GoodsSearch', query: { cTag: 1, title: '热销榜' } })"
+				>
 					<p class="title">热销榜</p>
 					<p class="sub-title hot-sub">限时促销</p>
 				</div>
-				<p class="sub-title flex-start" style="margin: 0"><Icon name="bullhorn-o" />爆款限时抢购</p>
+				<p class="sub-title flex-start" style="margin: 0">
+					<Icon name="bullhorn-o" />
+					爆款限时抢购
+				</p>
 				<div class="flex-start" style="overflow: hidden">
 					<div v-for="item in proList1" :key="item.cCode" class="pro-content" @click="toFood(item.cCode)">
 						<img :src="imgPath(item.cPicName)" alt="" />
@@ -37,11 +43,17 @@
 				</div>
 			</div>
 			<div>
-				<div class="flex-start" @click="$router.push({ name: 'GoodsSearch', query: { cTag: 2, title: '大红包' } })">
+				<div
+					class="flex-start"
+					@click="$router.push({ name: 'GoodsSearch', query: { cTag: 2, title: '大红包' } })"
+				>
 					<p class="title">大红包</p>
 					<p class="sub-title big-sub">省钱利器</p>
 				</div>
-				<p class="sub-title flex-start" style="margin: 0"><Icon name="bullhorn-o" />买就返大额TAA</p>
+				<p class="sub-title flex-start" style="margin: 0">
+					<Icon name="bullhorn-o" />
+					买就返大额TAA
+				</p>
 				<div class="flex-start" style="overflow: hidden">
 					<div v-for="item in proList2" :key="item.cCode" class="pro-content" @click="toFood(item.cCode)">
 						<img :src="imgPath(item.cPicName)" alt="" />
@@ -55,13 +67,19 @@
 			</div>
 		</section>
 		<section class="benifit" v-if="proList3.length">
-			<div class="flex-space" @click="$router.push({ name: 'GoodsSearch', query: { cTag: 3, title: '限时优惠' } })">
+			<div
+				class="flex-space"
+				@click="$router.push({ name: 'GoodsSearch', query: { cTag: 3, title: '限时优惠' } })"
+			>
 				<div class="main-title flex-start">
 					<img src="../../assets/img/title-left.png" alt="" />
 					<p class="title">限时优惠</p>
-					<p class="sub-title benifit-sub flex-start"><Icon name="fire-o" />爆款限时抢购</p>
+					<p class="sub-title benifit-sub flex-start">
+						<Icon name="fire-o" />
+						爆款限时抢购
+					</p>
 				</div>
-				<p style="color: #999999">更多&nbsp;></p>
+				<p style="color: #999">更多&nbsp;></p>
 			</div>
 			<div class="flex-space" style="overflow: hidden">
 				<div v-for="item in proList3" :key="item.cCode" class="benifit-content" @click="toFood(item.cCode)">
@@ -109,10 +127,10 @@
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { Search, PullRefresh, List, Icon } from 'vant'
 import { useRouter } from 'vue-router'
-import { showMemberCommodity } from '../../apis/mx'
-import { showMemberCommodityItem } from '../../apis/model/mxModel'
-import { useImgPath } from '../../hooks/mx/useImgPath'
-import { useGoodsList } from '../../hooks/mx/useGoodsList'
+// import { showMemberCommodity } from '@/apis/mx'
+import { IShowMemberCommodityItem } from '@/apis/model/mxModel'
+import { useImgPath } from '@/hooks/mx/useImgPath'
+import { useGoodsList } from '@/hooks/mx/useGoodsList'
 // import { useEcGasCalc } from '../../hooks/mx/useEcGasCalc'
 
 import TAAPrice from './components/TAAPrice.vue'
@@ -145,27 +163,27 @@ export default defineComponent({
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = useGoodsList(data.params)
 		// const proList = ref<showMemberCommodityItem[]>([])
-		const proList1 = ref<showMemberCommodityItem[]>([]) // 热销榜
-		const proList2 = ref<showMemberCommodityItem[]>([]) // 大红包
-		const proList3 = ref<showMemberCommodityItem[]>([]) // 限时优惠
+		const proList1 = ref<IShowMemberCommodityItem[]>([]) // 热销榜
+		const proList2 = ref<IShowMemberCommodityItem[]>([]) // 大红包
+		const proList3 = ref<IShowMemberCommodityItem[]>([]) // 限时优惠
 		// 标签商品列表
-		const getTagProList = (params: any) => {
-			showMemberCommodity(params).then(res => {
-				if (res.resultCode == 1) {
-					res.data.dataIn.forEach(ele => {
-						ele.cPrice = Number(ele.cPrice)
-						ele.cShowPrice = Number(ele.cShowPrice)
-					})
-					if (params.cTag === 1) {
-						proList1.value = res.data.dataIn
-					} else if (params.cTag === 2) {
-						proList2.value = res.data.dataIn
-					} else if (params.cTag === 3) {
-						proList3.value = res.data.dataIn
-					}
-				}
-			})
-		}
+		// const getTagProList = (params: any) => {
+		// 	showMemberCommodity(params).then(res => {
+		// 		if (res.resultCode === 1) {
+		// 			res.data.dataIn.forEach(ele => {
+		// 				ele.cPrice = Number(ele.cPrice)
+		// 				ele.cShowPrice = Number(ele.cShowPrice)
+		// 			})
+		// 			if (params.cTag === 1) {
+		// 				proList1.value = res.data.dataIn
+		// 			} else if (params.cTag === 2) {
+		// 				proList2.value = res.data.dataIn
+		// 			} else if (params.cTag === 3) {
+		// 				proList3.value = res.data.dataIn
+		// 			}
+		// 		}
+		// 	})
+		// }
 		const toFood = (code: number) => {
 			push({ name: 'GoodsDetail', query: { cCode: code } })
 		}
@@ -202,21 +220,23 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '../../assets/css/local.less';
 .mx-mall {
-	background: #fff;
 	padding: 0 10 * @fontSize;
+	background: #fff;
+
 	.title {
-		font-family: 'PingFang SC';
-		font-size: 32 * @fontSize;
-		font-weight: bold;
 		color: #060606;
+		font-weight: bold;
+		font-size: 32 * @fontSize;
+		font-family: 'PingFang SC', sans-serif;
 	}
+
 	.sub-title {
-		font-size: 20 * @fontSize;
-		// line-height: 28*@fontSize;
-		color: #ff484e;
-		padding: 1 * @fontSize 14 * @fontSize;
-		border-radius: 10px;
 		margin-left: 20 * @fontSize;
+		// line-height: 28*@fontSize;
+		padding: 1 * @fontSize 14 * @fontSize;
+		color: #ff484e;
+		font-size: 20 * @fontSize;
+		border-radius: 10px;
 	}
 	// 每个类别标题
 	.main-title {
@@ -228,61 +248,63 @@ export default defineComponent({
 	}
 	.child-title {
 		// font-size: 22*@fontSize;
-		font-weight: bold;
-		line-height: 1.3;
-		color: #333;
-		text-align: left;
 		margin-top: 10 * @fontSize;
 		margin-left: 5 * @fontSize;
-		white-space: nowrap; /*强制在一行显示*/
-		text-overflow: ellipsis; /*设置超出内容显示...*/
-		overflow: hidden; /*一定不能少 超出的内容进行隐藏*/
+		overflow: hidden; /* 一定不能少 超出的内容进行隐藏 */
+		color: #333;
+		font-weight: bold;
+		line-height: 1.3;
+		white-space: nowrap; /* 强制在一行显示 */
+		text-align: left;
+		text-overflow: ellipsis; /* 设置超出内容显示... */
 	}
 	.price {
 		text-align: left;
 		.orige {
-			text-decoration: line-through;
 			// margin-right: 10*@fontSize;
-			font-size: 14 * @fontSize;
 			color: #808080;
+			font-size: 14 * @fontSize;
+			text-decoration: line-through;
 		}
 		.group-price {
+			margin-right: 10 * @fontSize;
 			color: #ed0c17;
 			// font-size: 18*@fontSize;
 			font-size: 32 * @fontSize;
-			margin-right: 10 * @fontSize;
 		}
 	}
 	.search {
-		padding: 10 * @fontSize 20 * @fontSize;
 		position: relative;
+		padding: 10 * @fontSize 20 * @fontSize;
 		background: #fff;
-		.seaech-img {
-			position: absolute;
-			top: 30 * @fontSize;
-			left: 50 * @fontSize;
-			width: 37 * @fontSize;
-			height: 37 * @fontSize;
-		}
+		//.search-img {
+		//	position: absolute;
+		//	top: 30 * @fontSize;
+		//	left: 50 * @fontSize;
+		//	width: 37 * @fontSize;
+		//	height: 37 * @fontSize;
+		//}
 		form {
 			width: 600 * @fontSize;
 		}
+
 		input {
 			// width: 580*@fontSize;
-			border: 1px solid #dcdcdc;
-			padding: 13 * @fontSize 0 13 * @fontSize 85 * @fontSize;
-			border-radius: 10 * @fontSize;
 			box-sizing: border-box;
+			padding: 13 * @fontSize 0 13 * @fontSize 85 * @fontSize;
+			border: 1px solid #dcdcdc;
+			border-radius: 10 * @fontSize;
 		}
 		.btn {
 			display: inline-block;
-			margin-left: 10 * @fontSize;
 			width: 120 * @fontSize;
-			line-height: 70 * @fontSize;
-			background: #ed0c17;
-			text-align: center;
-			border-radius: 10 * @fontSize;
+			margin-left: 10 * @fontSize;
 			color: #fff;
+			line-height: 70 * @fontSize;
+			text-align: center;
+			background: #ed0c17;
+			border-radius: 10 * @fontSize;
+
 			img {
 				width: 25 * @fontSize;
 				margin-top: 22 * @fontSize;
@@ -294,40 +316,46 @@ export default defineComponent({
 		min-height: 180 * @fontSize;
 		margin: 20 * @fontSize 0;
 		padding: 20 * @fontSize;
-		box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
 		border-radius: 10px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+
 		& > div {
 			width: 48%;
+
 			.hot-sub {
+				color: #fff;
 				background: linear-gradient(137deg, #8bedff 0%, #00a3ed 100%);
-				color: #fff;
 			}
+
 			.big-sub {
-				background: linear-gradient(135deg, #b68dff 0%, #6b60f2 100%);
 				color: #fff;
+				background: linear-gradient(135deg, #b68dff 0%, #6b60f2 100%);
 			}
 		}
 	}
 	.benifit {
-		box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
-		border-radius: 10px;
-		padding: 20 * @fontSize;
 		min-height: 180 * @fontSize;
+		padding: 20 * @fontSize;
+		border-radius: 10px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+
 		.benifit-sub {
 			border: 1px solid #ff484e;
 		}
 	}
 	.pro-content {
-		margin-top: 10 * @fontSize;
 		flex: 1;
 		width: 50%;
+		margin-top: 10 * @fontSize;
 		margin-right: 10 * @fontSize;
 		overflow: hidden;
+
 		img {
 			width: 160 * @fontSize;
 			height: 160 * @fontSize;
 			// height: 100%;
 		}
+
 		.child-title {
 			font-size: 22 * @fontSize;
 		}
@@ -341,32 +369,34 @@ export default defineComponent({
 		}
 	}
 	.orige {
-		text-decoration: line-through;
 		// margin-right: 10*@fontSize;
-		font-size: 14 * @fontSize;
 		color: #808080;
+		font-size: 14 * @fontSize;
+		text-decoration: line-through;
 	}
 	.benifit-content {
-		margin-top: 10 * @fontSize;
 		flex: 1;
 		width: 50%;
+		margin-top: 10 * @fontSize;
 		margin-right: 10 * @fontSize;
 		overflow: hidden;
+
 		img {
 			width: 220 * @fontSize;
 			height: 220 * @fontSize;
 			// height: 100%;
 		}
+
 		.child-title {
 			font-size: 22 * @fontSize;
 		}
 		.price {
 			text-align: left;
 			.orige {
-				text-decoration: line-through;
 				// margin-right: 10*@fontSize;
-				font-size: 16 * @fontSize;
 				color: #808080;
+				font-size: 16 * @fontSize;
+				text-decoration: line-through;
 			}
 			.group-price {
 				color: #ed0c17;
@@ -375,86 +405,52 @@ export default defineComponent({
 		}
 	}
 	.hots {
+		margin-top: 20 * @fontSize;
 		background: #fff;
-		// padding: 0 20*@fontSize 0 30*@fontSize;
 
 		.hots-title {
 			padding: 20 * @fontSize;
 		}
-		.wrap {
-			display: flex;
-			align-items: center;
-			padding: 0 10 * @fontSize 30 * @fontSize 0;
-			overflow: hidden;
-			.item {
-				width: 115 * @fontSize;
-				text-align: center;
-				flex-shrink: 0;
 
-				img {
-					width: 100 * @fontSize;
-					height: 100 * @fontSize;
-				}
-				p {
-					font-size: 18 * @fontSize;
-					color: #ff5252;
-					line-height: 1;
-					margin-top: 12 * @fontSize;
-					span {
-						font-size: 26 * @fontSize;
-					}
-				}
-				.original {
-					color: #696969;
-					text-decoration: line-through;
-					margin-top: 5 * @fontSize;
-				}
-			}
-		}
-	}
-	.hots {
-		margin-top: 20 * @fontSize;
 		.child-content {
 			display: flex;
 			flex-wrap: wrap;
+			justify-content: flex-start;
 			box-sizing: border-box;
 			// flex: 1;
 			// padding-left: 1%;
-			justify-content: flex-start;
 			// align-items: center;
 		}
+
 		.child {
 			// width: 345*@fontSize;
+			box-sizing: border-box;
 			width: 48%;
-			margin-left: 1%;
+			margin-top: 20 * @fontSize;
 			margin-right: 1%;
-			border: 1px solid #f4f4f4;
+			margin-left: 1%;
+			padding: 20 * @fontSize 20 * @fontSize 10 * @fontSize;
 			// display: inline-block;
 			// flex: 1;
-			padding: 20 * @fontSize 20 * @fontSize 10 * @fontSize;
-			box-sizing: border-box;
 			text-align: center;
+			border: 1px solid #f4f4f4;
 			// margin-left: 20*@fontSize;
-			margin-top: 20 * @fontSize;
 
 			img {
 				height: 280 * @fontSize;
 				// width: 280*@fontSize;
 			}
+
 			.foot {
 				// margin-top: -6*@fontSize;
-				font-size: 20 * @fontSize;
-				color: #808080;
 				display: flex;
-				// align-items:center;
 				justify-content: space-between;
+				color: #808080;
+				font-size: 20 * @fontSize;
+				// align-items:center;
 				// span{
 				//     display: block;
 				// }
-				.tuan {
-					height: 50 * @fontSize;
-					// margin-left: 10*@fontSize;
-				}
 			}
 		}
 	}

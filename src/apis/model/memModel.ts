@@ -1,7 +1,7 @@
-import { baseResList, baseResT } from "./base";
+import { IBaseResList, IBaseResT } from "./base";
 
 /**餘額信息 */
-interface getMemberCashAcctInfo {
+interface IGetMemberCashAcctInfo {
     acctCash: number;
     acctSie: number;
     acctSusd: number;
@@ -12,11 +12,11 @@ interface getMemberCashAcctInfo {
 /**
  * 會員錢包餘額
  */
-export type getMemberCashAcctRes = baseResT<getMemberCashAcctInfo>
+export type IGetMemberCashAcctRes = IBaseResT<IGetMemberCashAcctInfo>
 
 
 // 會員收益明細記錄信息
-export interface selectMemberBenefitListItem {
+export interface ISelectMemberBenefitListItem {
     createTime: string;
     maSetStatusName: string;
     maRemark: string;
@@ -34,7 +34,7 @@ export interface selectMemberBenefitListItem {
 /**
  * 當前帳號為收益人帳號的節點信息
  */
-export interface getMerchantListItem {
+export interface IGetMerchantListItem {
     mLinkName: string;
     rName: string;
     mName: string;
@@ -48,13 +48,13 @@ export interface getMerchantListItem {
 /**
  * 當前帳號為收益人帳號的節點列表
  */
-export type getMerchantListRes = baseResList<getMerchantListItem>
+export type IGetMerchantListRes = IBaseResList<IGetMerchantListItem>
 
 
 /**
  * 會員支付節點申請費用
  */
-export interface nodePayProxyModel {
+export interface INodePayProxyModel {
     payPlat: string;
     payType: number;
     mCode: number;
@@ -64,7 +64,7 @@ export interface nodePayProxyModel {
 /**
  * 修改提現帳號
  */
-export interface bindMemberAliPayAcctModel {
+export interface IBindMemberAliPayAcctModel {
     alipayAcct: string;
     certCode: string;
     realName: string
@@ -74,14 +74,14 @@ export interface bindMemberAliPayAcctModel {
 /**
  * 修改紅包類型
  */
-export interface changeIncomeTypeModel {
+export interface IChangeIncomeTypeModel {
     incomeType: number
 }
 
 /**
  * 地址信息
  */
-export interface showSelfDeliveryAddressItem {
+export interface IShowSelfDeliveryAddressItem {
     daCode: number;
     daName: string;
     daMobile: string;
@@ -90,13 +90,13 @@ export interface showSelfDeliveryAddressItem {
     daDetailAddress: string;
     daAcquiesceType: number
 }
-export type showSelfDeliveryAddressRes = baseResList<showSelfDeliveryAddressItem>
+export type IShowSelfDeliveryAddressRes = IBaseResList<IShowSelfDeliveryAddressItem>
 
 
 /**
  * 地址新增
  */
-export interface addDeliveryAddressModel {
+export interface IAddDeliveryAddressModel {
     daName: string;
     daMobile: string;
     aName: string;
@@ -107,21 +107,21 @@ export interface addDeliveryAddressModel {
 /**
  * 設置默認地址（刪除地址）
  */
-export interface modifyAcquiesceDeliveryAddressModel {
+export interface IModifyAcquiesceDeliveryAddressModel {
     daCode: number;
 }
 
 /**
  * 地址修改
  */
-export type modifyDeliveryAddressModel = addDeliveryAddressModel & modifyAcquiesceDeliveryAddressModel
+export type IModifyDeliveryAddressModel = IAddDeliveryAddressModel & IModifyAcquiesceDeliveryAddressModel
 
 /**
  * @description 设置会员联盟钱包地址对应密码
  * @param allianceWalletPassword pwd
  * @param allianceWalletPasswordConfirm rePwd
  */
-export interface setMemberAllianceWalletPwdModel {
+export interface ISetMemberAllianceWalletPwdModel {
     allianceWalletPassword: string;
     allianceWalletPasswordConfirm: string;
     vCode: string

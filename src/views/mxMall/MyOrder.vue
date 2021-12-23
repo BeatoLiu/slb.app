@@ -41,9 +41,9 @@
 
 					<div class="foot">
 						<!-- v-if="item.podStatus == 0" -->
-						<div class="btn active" @click="choosePayType(item)" v-if="item.podStatus == 0">付款</div>
-						<div class="btn active" v-if="item.podStatus == 3" @click="conReception(item.podCode)">确认收货</div>
-						<div class="btn active" v-if="item.podStatus == 1">评价</div>
+						<div class="btn active" @click="choosePayType(item)" v-if="item.podStatus === 0">付款</div>
+						<div class="btn active" v-if="item.podStatus === 3" @click="conReception(item.podCode)">确认收货</div>
+						<div class="btn active" v-if="item.podStatus === 1">评价</div>
 						<div class="btn active" @click="$router.push({ name: 'MyOrderDetail', query: { podCode: item.podCode } })">
 							订单详情
 						</div>
@@ -59,13 +59,13 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { PullRefresh, List, Tab, Tabs, Icon, Dialog } from 'vant'
 
-import { usePullRefreshPageList } from '../../hooks/web/usePullRefreshPageList'
-import { useI18n } from '../../hooks/setting/useI18n'
-import { useImgPath } from '../../hooks/mx/useImgPath'
-import { useSkuName } from '../../hooks/mx/useSkuName'
-import { showSelfOrderDetailModel, showSelfOrderDetailItem } from '../../apis/model/mxModel'
-import { pullRefreshListRes } from '../../apis/model/commonModel'
-import { confirmTakeDelivery } from '../../apis/mx'
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
+import { useI18n } from "@/hooks/setting/useI18n"
+import { useImgPath } from "@/hooks/mx/useImgPath"
+import { useSkuName } from "@/hooks/mx/useSkuName"
+import { IShowSelfOrderDetailModel, IShowSelfOrderDetailItem } from "@/apis/model/mxModel"
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
+import { confirmTakeDelivery } from "@/apis/mx"
 import PayComponent from './components/PayComponent.vue'
 export default defineComponent({
 	name: 'ShowSelfOrderDetail-alive',
@@ -75,14 +75,14 @@ export default defineComponent({
 		const { imgPath } = useImgPath()
 		const { skuName } = useSkuName()
 
-		const params = reactive<showSelfOrderDetailModel>({
+		const params = reactive<IShowSelfOrderDetailModel>({
 			pageSize: 10,
 			pageNum: 0,
 			payStatus: -1,
 			oStatus: -1
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			pullRefreshListRes<showSelfOrderDetailItem>
+			IPullRefreshListRes<IShowSelfOrderDetailItem>
 		>usePullRefreshPageList('mem/order/showSelfOrderDetail', params)
 
 		const active = ref(0)
@@ -105,7 +105,7 @@ export default defineComponent({
 		const poCode = ref(0)
 		// const paychild = ref(null)
 		// 支付
-		const choosePayType = (item: showSelfOrderDetailItem) => {
+		const choosePayType = (item: IShowSelfOrderDetailItem) => {
 			show.value = true
 			podCode.value = item.podCode
 			poCode.value = item.poCode
@@ -154,8 +154,8 @@ export default defineComponent({
 .my-order {
 	.list {
 		margin-top: 20 * @fontSize;
-		background: #fff;
 		padding: 0 30 * @fontSize;
+		background: #fff;
 		.title {
 			display: flex;
 			align-items: center;
@@ -164,9 +164,9 @@ export default defineComponent({
 				width: 32 * @fontSize;
 			}
 			span {
-				color: #333;
-				margin-left: 20 * @fontSize;
 				flex: 1;
+				margin-left: 20 * @fontSize;
+				color: #333;
 			}
 			.state {
 				color: #ed0c17;
@@ -179,20 +179,20 @@ export default defineComponent({
 			}
 			.info {
 				display: inline-block;
-				margin-left: 20 * @fontSize;
 				width: 450 * @fontSize;
+				margin-left: 20 * @fontSize;
 				.title {
 					color: #333;
 				}
 				p {
-					font-size: 24 * @fontSize;
-					color: #999;
 					margin-top: 10 * @fontSize;
+					color: #999;
+					font-size: 24 * @fontSize;
 				}
 
 				.price {
-					font-size: 24 * @fontSize;
 					margin-top: 10 * @fontSize;
+					font-size: 24 * @fontSize;
 					span {
 						color: #ed0c17;
 					}
@@ -204,10 +204,10 @@ export default defineComponent({
 			}
 		}
 		.wrapper {
-			text-align: right;
-			line-height: 87 * @fontSize;
-			border-bottom: 1px solid #f2f2f2;
 			font-size: 24 * @fontSize;
+			line-height: 87 * @fontSize;
+			text-align: right;
+			border-bottom: 1px solid #f2f2f2;
 			span {
 				font-size: 32 * @fontSize;
 			}
@@ -216,18 +216,18 @@ export default defineComponent({
 			}
 		}
 		.foot {
-			text-align: right;
 			line-height: 88 * @fontSize;
+			text-align: right;
 			.btn {
-				font-size: 24 * @fontSize;
 				display: inline-block;
 				width: 130 * @fontSize;
-				line-height: 50 * @fontSize;
+				margin-left: 20 * @fontSize;
 				color: #808080;
+				font-size: 24 * @fontSize;
+				line-height: 50 * @fontSize;
+				text-align: center;
 				border: 1px solid #808080;
 				border-radius: 25 * @fontSize;
-				text-align: center;
-				margin-left: 20 * @fontSize;
 			}
 			.active {
 				color: #ed0c17;
@@ -236,22 +236,22 @@ export default defineComponent({
 		}
 	}
 	.tip {
-		line-height: 88 * @fontSize;
 		color: #999;
+		line-height: 88 * @fontSize;
 		text-align: center;
 	}
 	.img-icon {
 		margin-right: 20 * @fontSize;
 	}
 	.btn1 {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 }
 </style>

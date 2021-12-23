@@ -1,32 +1,32 @@
-import { baseDateParams, basePageDateParams, baseResPageList, baseResT } from "./base";
+import { IBaseDateParams, IBasePageDateParams, IBaseResPageList, IBaseResT } from "./base";
 
 /**
  * taa訂單列表
  */
-export interface selectBenefitOrderListModel extends basePageDateParams {
+export interface ISelectBenefitOrderListModel extends IBasePageDateParams {
     boCode: number;
     bizOrderCode: number
 }
-export interface selectBenefitOrderListItem {
+export interface ISelectBenefitOrderListItem {
     createTime: string;
     orderEndTime: string;
     boCode: number;
     orderBonus: number;
     orderBonusPerDay: number;
 }
-export type selectBenefitOrderListRes = baseResPageList<selectBenefitOrderListItem>
+export type ISelectBenefitOrderListRes = IBaseResPageList<ISelectBenefitOrderListItem>
 
 /**
  * 解锁列表
  */
-export interface selectSignTokenTempTotalListModel extends basePageDateParams {
+export interface ISelectSignTokenTempTotalListModel extends IBasePageDateParams {
     unlockSetStatus: number;
     tokenDescType: number;
     // boCode: number;
     // atdCode: number;
     // atdStatusList: Array<number> | null
 }
-export interface selectSignTokenTempTotalListItem {
+export interface ISelectSignTokenTempTotalListItem {
     createTime: string;
     ptCode: number;
     tokenType: number;
@@ -44,11 +44,11 @@ export interface selectSignTokenTempTotalListItem {
 /**
  * 提币列表
  */
-export interface selectTakenTokenListModel extends basePageDateParams {
+export interface ISelectTakenTokenListModel extends IBasePageDateParams {
     ttCode: number;
     ttSetStatus: number;
 }
-export interface selectTakenTokenListItem {
+export interface ISelectTakenTokenListItem {
     createTime: string;
     ttCode: number;
     ttSum: number;
@@ -61,7 +61,7 @@ export interface selectTakenTokenListItem {
 /**
  * 可提币
  */
-export interface canTakeOutModel extends baseDateParams {
+export interface ICanTakeOutModel extends IBaseDateParams {
     ttCode: number,
     atdCode: number,
     boCode: number,
@@ -71,7 +71,7 @@ export interface canTakeOutModel extends baseDateParams {
 /**
  * 提幣
  */
-export interface withdrawalTaaModel {
+export interface IWithdrawalTaaModel {
     payPlat: string;
     payType: number;
 }
@@ -79,18 +79,18 @@ export interface withdrawalTaaModel {
 /**
  * 获取会员总资产（ZSDT）
  */
-export interface getTotalAssetsItem {
+export interface IGetTotalAssetsItem {
     mwCurrencyTypeName: string;
     exchangeRate: number;
     mwAmount: number;
     mwCurrencyType: number;
     exchangeNum: number
 }
-interface getTotalAssetsInfo {
+interface IGetTotalAssetsInfo {
     total: number;
-    list: getTotalAssetsItem[]
+    list: IGetTotalAssetsItem[]
 }
-export type getTotalAssetsRes = baseResT<getTotalAssetsInfo>
+export type IGetTotalAssetsRes = IBaseResT<IGetTotalAssetsInfo>
 
 /**
  * @description 转账
@@ -99,7 +99,7 @@ export type getTotalAssetsRes = baseResT<getTotalAssetsInfo>
  * @param amount 金额
  * @param allianceWalletPassword 支付密码
  */
-export interface transferModel {
+export interface ITransferModel {
     amount: string;
     toChainAddr: string;
     currencyType: number;
@@ -109,17 +109,17 @@ export interface transferModel {
 /**
  * k线图返回数据
  */
-interface getTransferInfoKLineGraphItem {
+interface IGetTransferInfoKLineGraphItem {
     createTime: string;
     openPrice: number;
     maxPrice: number;
     minPrice: number;
     closePrice: number;
 }
-interface getTransferInfoKLineGraphInfor {
-    [key: string]: getTransferInfoKLineGraphItem
+interface IGetTransferInfoKLineGraphInfor {
+    [key: string]: IGetTransferInfoKLineGraphItem
 }
-export type getTransferInfoKLineGraphRes = baseResT<getTransferInfoKLineGraphInfor>
+export type IGetTransferInfoKLineGraphRes = IBaseResT<IGetTransferInfoKLineGraphInfor>
 
 /**
  * @description K线图所需数据
@@ -128,10 +128,10 @@ export type getTransferInfoKLineGraphRes = baseResT<getTransferInfoKLineGraphInf
  * @param tokenCount 交易总数量
  * @param tokenPrice 当前价格
  */
-interface getCurrentTaaDataItem {
+interface IGetCurrentTaaDataItem {
     maxPrice: number;
     minPrice: number;
     tokenCount: number;
     tokenPrice: number
 }
-export type getCurrentTaaDataRes = baseResT<getCurrentTaaDataItem>
+export type IGetCurrentTaaDataRes = IBaseResT<IGetCurrentTaaDataItem>

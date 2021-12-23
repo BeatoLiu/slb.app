@@ -102,8 +102,8 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { Sticky, PullRefresh, List, Button, Cell, Uploader, Switch, Dialog } from 'vant'
 
-import { pullRefreshListRes } from '@/apis/model/commonModel'
-import { showPayOrderListByMemCodeItem, showPayOrderListModel } from '@/apis/model/slbModel'
+import { IPullRefreshListRes } from '@/apis/model/commonModel'
+import { IShowPayOrderListByMemCodeItem, IShowPayOrderListModel } from '@/apis/model/slbModel'
 import { updateMemberWJSConfirmLazyFlag } from '@/apis/slb'
 
 import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
@@ -133,7 +133,7 @@ export default defineComponent({
 		const imgIsLoading = ref(false)
 		const idx = ref(0)
 		const orderCode = ref(0)
-		const params = reactive<showPayOrderListModel>({
+		const params = reactive<IShowPayOrderListModel>({
 			pageSize: 10,
 			pageNum: 0,
 			startTime: '',
@@ -148,7 +148,7 @@ export default defineComponent({
 			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' 23:59:59'
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			pullRefreshListRes<showPayOrderListByMemCodeItem>
+			IPullRefreshListRes<IShowPayOrderListByMemCodeItem>
 		>usePullRefreshPageList('mg/slpay/showPayOrderListApp', params, { method: 'POST' })
 
 		const afterRead = () => {
@@ -169,7 +169,7 @@ export default defineComponent({
 			}
 			imgIsLoading.value = false
 		}
-		const showUpload = (item: showPayOrderListByMemCodeItem, index: number) => {
+		const showUpload = (item: IShowPayOrderListByMemCodeItem, index: number) => {
 			showUploadDialog.value = true
 			orderCode.value = item.orderCode
 			if (item.moneyProve) {
@@ -179,7 +179,7 @@ export default defineComponent({
 			}
 			idx.value = index
 		}
-		const onInput = (item: showPayOrderListByMemCodeItem) => {
+		const onInput = (item: IShowPayOrderListByMemCodeItem) => {
 			const autoFlag = item.autoFlag === 1 ? 0 : 1
 			Dialog.confirm({
 				title: '提醒',
@@ -228,9 +228,9 @@ export default defineComponent({
 .bank-order-list {
 	.top {
 		height: 100 * @fontSize;
-		background-color: #fc3e38;
-		text-align: center;
 		color: #fff;
+		text-align: center;
+		background-color: #fc3e38;
 		.balance {
 			margin-left: 50 * @fontSize;
 		}
@@ -238,16 +238,16 @@ export default defineComponent({
 			margin-right: 50 * @fontSize;
 		}
 		.time {
-			background-color: transparent;
-			color: #fff;
 			padding: 10px 0;
+			color: #fff;
+			background-color: transparent;
 			// margin-top: 40 * @fontSize;
 		}
 	}
 	.van-list {
 		& > div {
-			padding: 20 * @fontSize;
 			margin-top: 20 * @fontSize;
+			padding: 20 * @fontSize;
 			background: #fff;
 			p {
 				padding: 10 * @fontSize 0;
@@ -261,9 +261,9 @@ export default defineComponent({
 		}
 	}
 	.img-item {
+		padding-top: 20 * @fontSize;
 		border-top: 1px solid #ebedf0;
 		border-bottom: 1px solid #ebedf0;
-		padding-top: 20 * @fontSize;
 		p {
 			margin-right: 40 * @fontSize;
 		}
@@ -271,5 +271,3 @@ export default defineComponent({
 }
 </style>
 
-function updateMemberWJSConfirmLazyFlag(arg0: { memSecretOpenid: any; orderCode: number; autoFlag: number }) { throw new
-Error('Function not implemented.') }

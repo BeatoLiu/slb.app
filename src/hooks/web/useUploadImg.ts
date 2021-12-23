@@ -1,10 +1,10 @@
 import { httpPost } from "@/apis/axios"
-import { baseResT } from "@/apis/model/base"
+import { IBaseResT } from "@/apis/model/base"
 import Compressor from 'compressorjs'
 import { Toast } from "vant"
 /**
  * @description 上傳圖片用
- * @returns 
+ * @returns
  */
 export const useUploadImg = () => {
     /**
@@ -14,9 +14,10 @@ export const useUploadImg = () => {
      * @param params 其它額外參數
      * @returns 圖片上傳結果
      */
-    const uploadImg = (file: File, api: string, params: FormData): Promise<baseResT> => {
+    const uploadImg = (file: File, api: string, params: FormData): Promise<IBaseResT> => {
         return new Promise((resolve) => {
             // 壓縮
+			// eslint-disable-next-line no-new
             new Compressor(file, {
                 quality: 0.6,
                 convertSize: 2000000,
@@ -28,11 +29,11 @@ export const useUploadImg = () => {
                     }
                     // console.log(result)
                     params.append('file', result, file.name)
-                    const res = await httpPost<baseResT>(api, params)
+                    const res = await httpPost<IBaseResT>(api, params)
                     if (res.resultCode === 1) {
                         Toast('图片上传成功')
                     }
-                    resolve(res as unknown as Promise<baseResT>)
+                    resolve(res as unknown as Promise<IBaseResT>)
 
                 },
                 error(err) {

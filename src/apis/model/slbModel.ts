@@ -1,9 +1,9 @@
-import { basePageDateParams, baseResT } from "./base";
+import { IBasePageDateParams, IBaseResT } from "./base";
 
 // 數點兌換交易列表
-export type showPayOrderListByMemCodeModel = basePageDateParams
+export type IShowPayOrderListByMemCodeModel = IBasePageDateParams
 
-export interface showPayOrderListByMemCodeItem {
+export interface IShowPayOrderListByMemCodeItem {
     orderCode: number;
     mName: string;
     orderBizTypeName: string;
@@ -20,22 +20,22 @@ export interface showPayOrderListByMemCodeItem {
 
 
 // 溢多寶交易列表
-export type showPayOrderListModel = basePageDateParams & {
+export type IShowPayOrderListModel = IBasePageDateParams & {
     orderPayStatus: number;
     orderBizTypeList: Array<number>
 }
 
 // 溢多寶是否續期
-export interface updateMemberWJSConfirmLazyFlagModel {
+export interface IUpdateMemberWJSConfirmLazyFlagModel {
     orderCode: number;
     autoFlag: number
 }
 
 // 兌換限額查詢
-export interface showLimitAcctModel {
+export interface IShowLimitAcctModel {
     laCode: number
 }
-export interface showLimitAcctItem {
+export interface IShowLimitAcctItem {
     laSingleLimit: number;
     laSingleLimitLow: number;
     laLimit: number;
@@ -45,17 +45,17 @@ export interface showLimitAcctItem {
     laCurrencyType: number;
     laType: number;
 }
-export type showLimitAcctRes = baseResT<showLimitAcctItem>
+export type IShowLimitAcctRes = IBaseResT<IShowLimitAcctItem>
 
 // 換算結果(dc - cny)
-export interface getExchangeRatioinDcToCnyModel {
+export interface IGetExchangeRatioinDcToCnyModel {
     laType: number;
     cnyMoney: number;
     laCurrencyType: number
 }
 
 
-export interface saleSusdFromSlbModel {
+export interface ISaleSusdFromSlbModel {
     payPlat: string;
     cnySum: number;
     susdSum: number;

@@ -1,11 +1,11 @@
-import { baseResPageList } from "./base";
+import { IBaseResPageList } from "./base";
 
 
 /**
  * @description 會員銀行卡（信用卡）列表
  * @param mccCardType 1銀行卡 2信用卡
  */
-export interface showCreditCardListModel {
+export interface IShowCreditCardListModel {
     mccCardType: number
 }
 /**
@@ -17,7 +17,7 @@ export interface showCreditCardListModel {
  * @param mccTipFlag 是否卡號異常 1異常，0正常
  * @param mccCardType 1銀行卡 2信用卡
  */
-export interface showCreditCardListItem {
+export interface IShowCreditCardListItem {
     mccBankName: string;
     mccBankId: string;
     mccCard: string;
@@ -25,13 +25,13 @@ export interface showCreditCardListItem {
     mccCode: number;
     mccTipFlag: number
 }
-export type showCreditCardListRes = baseResPageList<showCreditCardListItem>
+export type IShowCreditCardListRes = IBaseResPageList<IShowCreditCardListItem>
 
 
 /**
  *會員刪除銀行卡
  */
-export interface deleteCreditCardModel {
+export interface IDeleteCreditCardModel {
     mccCode: number;
 }
 
@@ -39,7 +39,7 @@ export interface deleteCreditCardModel {
 /**
  * 會員新增銀行卡
  */
-export type addCreditCardModel = {
+export type IAddCreditCardModel = {
     mccBankName: string,
     mccCard: string,
     mccCardName: string,
@@ -51,26 +51,26 @@ export type addCreditCardModel = {
 /**
  * 會員修改銀行卡
  */
-export type updateCardByMccCodeModel = addCreditCardModel & deleteCreditCardModel
+export type IUpdateCardByMccCodeModel = IAddCreditCardModel & IDeleteCreditCardModel
 
 /**
  * 銀行卡列表
  */
-export interface showBankListModel {
+export interface IShowBankListModel {
     biType: number;
 }
-export interface showBankListItem {
+export interface IShowBankListItem {
     bankId: string;
     biName: string;
     biCode: number
 }
-export type showBankListRes = baseResPageList<showBankListItem>
+export type IShowBankListRes = IBaseResPageList<IShowBankListItem>
 
 
 /**
  * pos機新增
  */
-export interface addCreditPosModel {
+export interface IAddCreditPosModel {
     mcpPosCode: string;
     mcpUmsName: string;
     mcpUmsId: number
@@ -79,11 +79,11 @@ export interface addCreditPosModel {
 /**
  * pos機信息
  */
-export type showCreditPosListItem = addCreditPosModel & {
+export type IShowCreditPosListItem = IAddCreditPosModel & {
     mcpCode: number;
 }
-export type showCreditPosListRes = baseResPageList<showCreditPosListItem>
+export type IShowCreditPosListRes = IBaseResPageList<IShowCreditPosListItem>
 
-export interface deleteCreditPosModel {
+export interface IDeleteCreditPosModel {
     mcpCode: number
 }

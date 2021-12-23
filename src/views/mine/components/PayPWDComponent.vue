@@ -27,13 +27,13 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { PasswordInput, NumberKeyboard, Button, Field, Toast } from 'vant'
-import { setMemberAllianceWalletPwdModel } from '../../../apis/model/memModel'
-import { setAllianceWalletPwdSendSms, setMemberAllianceWalletPwd } from '../../../apis/mem'
+import { ISetMemberAllianceWalletPwdModel } from '@/apis/model/memModel'
+import { setAllianceWalletPwdSendSms, setMemberAllianceWalletPwd } from '@/apis/mem'
 import { useRouter } from 'vue-router'
 import { useCountDown } from '@vant/use'
 
-import { useI18n } from '../../../hooks/setting/useI18n'
-import { useStore } from '../../../store'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { useStore } from '@/store'
 
 export default defineComponent({
 	components: {
@@ -63,7 +63,7 @@ export default defineComponent({
 			}
 		})
 		const counting = ref(true)
-		const params = reactive<setMemberAllianceWalletPwdModel>({
+		const params = reactive<ISetMemberAllianceWalletPwdModel>({
 			allianceWalletPassword: '',
 			allianceWalletPasswordConfirm: '',
 			vCode: ''
@@ -101,7 +101,7 @@ export default defineComponent({
 		}
 		// 发送短信
 		const sendSms = () => {
-			setAllianceWalletPwdSendSms().then(res => {
+			setAllianceWalletPwdSendSms().then(() => {
 				countDown.start()
 				counting.value = false
 			})
@@ -139,27 +139,30 @@ export default defineComponent({
 <style lang="less">
 @import '../../../assets/css/local.less';
 .setPayPWD {
-	padding-top: 20 * @fontSize;
 	box-sizing: border-box;
+	padding-top: 20 * @fontSize;
+
 	.container {
 		box-sizing: border-box;
+		padding-bottom: 60 * @fontSize;
 		background: #fff;
 		// padding: 40 * @fontSize 0;
-		padding-bottom: 60 * @fontSize;
 		p {
 			padding: 10px 16px;
 		}
+
 		.p1 {
 			padding-top: 50 * @fontSize;
 		}
+
 		.p2 {
 			margin-top: 40 * @fontSize;
 		}
 	}
 	.btn {
+		width: calc(100vw - 32px);
 		margin-top: 100 * @fontSize;
 		margin-left: 16px;
-		width: calc(100vw - 32px);
 	}
 	.van-password-input {
 		li {

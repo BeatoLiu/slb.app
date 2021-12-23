@@ -56,12 +56,12 @@
 import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
 import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader, Toast } from 'vant'
 
-import { pullRefreshListRes } from '../../apis/model/commonModel'
-import { selectTakenTokenListItem, selectTakenTokenListModel } from '../../apis/model/tAAModel'
-import { usePullRefreshPageList } from '../../hooks/web/usePullRefreshPageList'
-import { useOffSetTop } from '../../hooks/web/useOffSetTop'
-import { useFormatDayMonth } from '../../hooks/web/useFormatDayMonth'
-import { selectTakeTokenDetailListSum, singleOnlinePay, singleWithdrawal } from '../../apis/tAA'
+import { IPullRefreshListRes } from '../../apis/model/commonModel'
+import { ISelectTakenTokenListItem, ISelectTakenTokenListModel } from '../../apis/model/tAAModel'
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
+import { useOffSetTop } from "@/hooks/web/useOffSetTop"
+import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
+import { selectTakeTokenDetailListSum, singleOnlinePay, singleWithdrawal } from "@/apis/tAA"
 // import WithdrawPayComponent from './components/WithdrawPayComponent.vue'
 export default defineComponent({
 	name: 'selectTakenTokenList',
@@ -93,7 +93,7 @@ export default defineComponent({
 		const minDate = ref(new Date('2021/09/1'))
 		const maxDate = ref(new Date())
 		const chooseTtCode = ref(0)
-		const params = reactive<selectTakenTokenListModel>({
+		const params = reactive<ISelectTakenTokenListModel>({
 			pageSize: 10,
 			pageNum: 0,
 			startTime: '',
@@ -112,7 +112,7 @@ export default defineComponent({
 			getSum()
 		})
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			pullRefreshListRes<selectTakenTokenListItem>
+			IPullRefreshListRes<ISelectTakenTokenListItem>
 		>usePullRefreshPageList('taa/selectTakeTokenDetailList', params, { method: 'GET' })
 
 		// 選擇時間
@@ -190,9 +190,9 @@ export default defineComponent({
 .bank-order-list {
 	.top {
 		height: 200 * @fontSize;
-		background-color: #5cc8b8;
-		text-align: center;
 		color: #fff;
+		text-align: center;
+		background-color: #5cc8b8;
 		.balance {
 			margin-left: 50 * @fontSize;
 		}
@@ -200,16 +200,16 @@ export default defineComponent({
 			margin-right: 50 * @fontSize;
 		}
 		.time {
-			background-color: transparent;
-			color: #fff;
 			padding: 10px 0;
+			color: #fff;
+			background-color: transparent;
 			// margin-top: 40 * @fontSize;
 		}
 	}
 	.van-list {
 		& > div {
-			padding: 20 * @fontSize;
 			margin-top: 20 * @fontSize;
+			padding: 20 * @fontSize;
 			background: #fff;
 			p {
 				padding: 10 * @fontSize 0;
@@ -223,9 +223,9 @@ export default defineComponent({
 		}
 	}
 	.img-item {
+		padding-top: 20 * @fontSize;
 		border-top: 1px solid #ebedf0;
 		border-bottom: 1px solid #ebedf0;
-		padding-top: 20 * @fontSize;
 		p {
 			margin-right: 40 * @fontSize;
 		}

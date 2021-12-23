@@ -1,7 +1,7 @@
-import { transferModel } from "@/apis/model/tAAModel";
+import { ITransferModel } from "@/apis/model/tAAModel";
 import { changeWalletAcctOnChainForInZs } from "@/apis/tAA";
-import { Button, Field, Toast } from "vant";
-import { computed, defineComponent, onMounted, reactive, ref, StyleValue } from "vue-demi";
+import { Button, Field } from "vant";
+import { computed, defineComponent, reactive, StyleValue } from "vue-demi";
 import { useRouter } from "vue-router";
 
 import './Transfer.less'
@@ -20,7 +20,7 @@ export default defineComponent({
         // const rest = ref(0)
         const { replace } = useRouter()
         // 参数
-        const params = reactive<Omit<transferModel, "allianceWalletPassword">>({
+        const params = reactive<Omit<ITransferModel, "allianceWalletPassword">>({
             currencyType: walletBalance.value.mwCurrencyType,
             amount: '',
             toChainAddr: wallet.value
@@ -48,12 +48,12 @@ export default defineComponent({
             })
         }
         const tips = () => {
-            const DivStylle = { textAlign: 'right', lineHeight: '44px', paddingRight: '16px', height: '44px' } as StyleValue
+            const DivStyle = { textAlign: 'right', lineHeight: '44px', paddingRight: '16px', height: '44px' } as StyleValue
             const errorStyle = { color: '#ee0a24', }
             // const tipStyle = { color: '#1989fa' }
             if (!(params.amount.length && +params.amount >= 0)) {
                 return (
-                    <div style={DivStylle}>
+                    <div style={DivStyle}>
                         <span style={errorStyle}>请输入正确的金额</span>
                     </div>
                 )
@@ -65,7 +65,7 @@ export default defineComponent({
                 //         </div>
                 //     )
             } else {
-                return <div style={DivStylle}></div>
+                return <div style={ DivStyle }/>
             }
         }
         return () => (
@@ -76,17 +76,17 @@ export default defineComponent({
                 </div>
                 <div class="container">
                     <p class="title">提回到数联宝钱包</p>
-                    <Field placeholder="接收方地址" disabled v-model={params.toChainAddr}>
+                    <Field placeholder="接收方地址" disabled v-model={params.toChainAddr}/>
 
-                    </Field>
+
                     <Field
                         type="number"
                         v-model={params.amount}
                         placeholder='请输入付款金额'
                         label="付款金额"
                         input-align="right"
-                        clearable>
-                    </Field>
+                        clearable/>
+
                     {/* <Field readonly label="矿工费" model-value={"1 ZSDT"} input-align="right" ></Field> */}
                     {tips()}
                 </div>

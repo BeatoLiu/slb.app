@@ -1,5 +1,5 @@
-import { pwdLoginInfo } from "@/apis/model/loginModel";
-import { showSelfDeliveryAddressItem } from "@/apis/model/memModel";
+import { IPwdLoginInfo } from "@/apis/model/loginModel";
+import { IShowSelfDeliveryAddressItem } from "@/apis/model/memModel";
 
 export interface OrderDetailInfo {
     daCode?: number;
@@ -12,19 +12,19 @@ export interface OrderDetailInfo {
     dis: number,
     cPicName: number,
     poGroupType: number,
-    poMCode: number, //店主merCode
+    poMCode: number, // 店主merCode
     poPaySum: number,
     poPayFactSum: number;
     number: number,
     poCount: number,
     poType: number, // 0销售，1退货
-    gpoType: number, //1：团长  0：团员
-    gpoCode: number, //开团code
+    gpoType: number, // 1：团长  0：团员
+    gpoCode: number, // 开团code
     proCode: number,
     poAttach: {
         daCode: string,
-        gpoType: number, //1：团长  0：团员
-        gpoCode: number, //开团code
+        gpoType: number, // 1：团长  0：团员
+        gpoCode: number, // 开团code
         proCode: number
     },
     orderList: [
@@ -64,7 +64,7 @@ export interface IWalletBalance {
 }
 export interface UserStateTypes {
     buyOrderDetail: OrderDetailInfo,
-    deliveryAddress: showSelfDeliveryAddressItem;
-    userInfo: pwdLoginInfo;
+    deliveryAddress: IShowSelfDeliveryAddressItem;
+    userInfo: IPwdLoginInfo;
     walletBalance: IWalletBalance
 }

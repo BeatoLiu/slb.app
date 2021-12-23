@@ -1,10 +1,10 @@
 import { Ref } from "vue";
-import { baseResList } from "./base";
+import {  IBaseResList } from "./base";
 
 /**
  * 發送短信
  */
-export interface smsModel {
+export interface ISmsModel {
     phoneNum: string;
     type: number
 }
@@ -13,25 +13,25 @@ export interface smsModel {
 /**
  * 查詢字典
  */
-export interface showDictionaryModel {
+export interface IShowDictionaryModel {
     dType: number
 }
-export interface showDictionaryItem {
+export interface IShowDictionaryItem {
     dName: string;
     dSubName: string;
     dSubCode: number;
     dType: number
 }
-export type showDictionaryRes = baseResList<showDictionaryItem>
+export type IShowDictionaryRes = IBaseResList<IShowDictionaryItem>
 
 /**
  * 查詢地區列表
  */
-export interface showSubAreaModel {
+export interface IShowSubAreaModel {
     parentCode: string;
     type: number
 }
-interface showSubAreaItem {
+interface IShowSubAreaItem {
     currentCode: string;
     currentName: string;
     fullName: string;
@@ -39,7 +39,7 @@ interface showSubAreaItem {
     parentCode: string;
     pyName: string
 }
-export type showSubAreaRes = baseResList<showSubAreaItem>
+export type IShowSubAreaRes = IBaseResList<IShowSubAreaItem>
 
 /** ---------------------------------response-----------------------------------------*/
 /**
@@ -51,7 +51,7 @@ export type showSubAreaRes = baseResList<showSubAreaItem>
  * @param onRefresh 下拉組件事件
  * @param onLoad List組件加載事件
  */
-export type pullRefreshListRes<T> = {
+export type IPullRefreshListRes<T> = {
     refreshing: Ref<boolean>;
     loading: Ref<boolean>;
     finished: Ref<boolean>;

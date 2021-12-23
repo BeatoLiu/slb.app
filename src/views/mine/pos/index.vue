@@ -17,8 +17,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { Icon, Button, Toast, Dialog, SwipeCell, Cell } from 'vant'
-import { showCreditPosList, deleteCreditPos } from '../../../apis/bankCard'
-import { showCreditPosListItem } from '../../../apis/model/bankCardModel'
+import { showCreditPosList, deleteCreditPos } from '@/apis/bankCard'
+import { IShowCreditPosListItem } from "@/apis/model/bankCardModel"
 
 export default defineComponent({
 	name: 'posList',
@@ -29,9 +29,9 @@ export default defineComponent({
 		Cell
 	},
 	setup() {
-		const dataList = ref<showCreditPosListItem[]>([])
+		const dataList = ref<IShowCreditPosListItem[]>([])
 
-		const beforeClose = ({ position, name, instance }: any = {}) => {
+		const beforeClose = ({ position, name }: any = {}) => {
 			switch (position) {
 				// case 'left':
 				// case 'cell':
@@ -53,7 +53,6 @@ export default defineComponent({
 							})
 						})
 					})
-					break
 			}
 		}
 		onMounted(() => {
@@ -76,16 +75,16 @@ export default defineComponent({
 .pos-card {
 	padding: 0 20 * @fontSize 20 * @fontSize;
 	.card-item {
-		background: #fff;
-		border-radius: 5px;
 		margin-top: 20 * @fontSize;
 		padding: 20 * @fontSize 0 20 * @fontSize 30 * @fontSize;
+		background: #fff;
+		border-radius: 5px;
 		.card-name {
-			color: #505050;
-			border-bottom: 1px solid #f7f7f7;
-			padding-bottom: 10 * @fontSize;
 			padding-right: 10 * @fontSize;
+			padding-bottom: 10 * @fontSize;
+			color: #505050;
 			font-size: 26 * @fontSize;
+			border-bottom: 1px solid #f7f7f7;
 			.van-button {
 				height: inherit;
 			}
@@ -98,12 +97,12 @@ export default defineComponent({
 		}
 	}
 	.add-card {
+		margin-top: 20 * @fontSize;
+		font-size: 32 * @fontSize;
+		line-height: 120 * @fontSize;
 		background: #fff;
 		border-radius: 5px;
 		// text-align: center;
-		line-height: 120 * @fontSize;
-		margin-top: 20 * @fontSize;
-		font-size: 32 * @fontSize;
 	}
 }
 </style>

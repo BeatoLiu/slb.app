@@ -1,7 +1,7 @@
-import { transferModel } from "@/apis/model/tAAModel";
+import { ITransferModel } from "@/apis/model/tAAModel";
 import { transfer } from "@/apis/tAA";
-import { Button, Dialog, Field, Icon, Toast } from "vant";
-import { computed, defineComponent, onMounted, reactive, ref, StyleValue } from "vue";
+import { Button, Field, Icon, Toast } from "vant";
+import { computed, defineComponent, onMounted, reactive, StyleValue } from "vue";
 
 
 import InputPayPWD from "@/components/InputPayPWD";
@@ -13,7 +13,7 @@ import { useStore } from "@/store";
 import { gold } from "@/utils";
 
 export default defineComponent({
-    name: 'Transfer',
+    name: 'TAATransfer',
     setup() {
         onMounted(() => {
             // (window as any).scanRes = scanRes
@@ -22,7 +22,7 @@ export default defineComponent({
         const store = useStore()
         const walletBalance = computed(() => store.state.user.walletBalance)
         // 参数
-        const parmas = reactive<transferModel>({
+        const params = reactive<ITransferModel>({
             currencyType: walletBalance.value.mwCurrencyType,
             amount: '',
             toChainAddr: '',
@@ -34,7 +34,7 @@ export default defineComponent({
         })
         // const payPwd = ref('')
         const dis = computed(() => {
-            return !(parmas.amount.length && +parmas.amount <= walletBalance.value.mwAmount && (/^0xzs00/.test(parmas.toChainAddr) && parmas.toChainAddr.length === 40))
+            return !(params.amount.length && +params.amount <= walletBalance.value.mwAmount && (/^0xzs00/.test(params.toChainAddr) && params.toChainAddr.length === 40))
         })
         // 扫一扫
         const scan = () => {
@@ -43,7 +43,7 @@ export default defineComponent({
         // 扫一扫回调
         const scanRes = (res: string) => {
             if (/^0xzs00/.test(res) && res.length === 40) {
-                parmas.toChainAddr = res
+                params.toChainAddr = res
             }
             // 啥也不是
             else {
@@ -52,11 +52,11 @@ export default defineComponent({
         }
         const closePop = (pwd?: string) => {
             if (pwd?.length === 6) {
-                parmas.allianceWalletPassword = pwd || ''
+                params.allianceWalletPassword = pwd || ''
                 // 提交转账
-                transfer(parmas).then(async res => {
+                transfer(params).then(async res => {
                     if (res.resultCode === 1) {
-                        await store.dispatch('user/setWalletBalance', { ...walletBalance.value, mwAmount: walletBalance.value.mwAmount - (+parmas.amount) })
+                        await store.dispatch('user/setWalletBalance', { ...walletBalance.value, mwAmount: walletBalance.value.mwAmount - (+params.amount) })
                         Toast('转账成功')
 
                         data.showPop = false
@@ -76,22 +76,22 @@ export default defineComponent({
             data.showPop = true
         }
         const tips = () => {
-            const DivStylle = { textAlign: 'right', lineHeight: '44px', paddingRight: '16px', height: '44px' } as StyleValue
+            const DivStyle = { textAlign: 'right', lineHeight: '44px', paddingRight: '16px', height: '44px' } as StyleValue
             const errorStyle = { color: '#ee0a24', }
-            if (!(/^0xzs00/.test(parmas.toChainAddr) && parmas.toChainAddr.length === 40)) {
+            if (!(/^0xzs00/.test(params.toChainAddr) && params.toChainAddr.length === 40)) {
                 return (
-                    <div style={DivStylle}>
+                    <div style={DivStyle}>
                         <span style={errorStyle}>请输入正确的钱包地址</span>
                     </div>
                 )
-            } else if (!(parmas.amount.length && +parmas.amount <= walletBalance.value.mwAmount && +parmas.amount > 0)) {
+            } else if (!(params.amount.length && +params.amount <= walletBalance.value.mwAmount && +params.amount > 0)) {
                 return (
-                    <div style={DivStylle}>
+                    <div style={DivStyle}>
                         <span style={errorStyle}>请输入正确的金额</span>
                     </div>
                 )
             } else {
-                return <div style={DivStylle}></div>
+                return <div style={ DivStyle }/>
             }
         }
         return () => (
@@ -102,14 +102,14 @@ export default defineComponent({
                 </div>
                 <div class="container">
                     <p class="title">转账给</p>
-                    <Field placeholder="接收方地址" v-model={parmas.toChainAddr} clearable>
+                    <Field placeholder="接收方地址" v-model={params.toChainAddr} clearable>
                         {{
-                            'right-icon': () => (<Icon name="scan" color="#39b9b9" size="20" onClick={scan}></Icon>)
+                            'right-icon': () => (<Icon name="scan" color="#39b9b9" size="20" onClick={ scan }/>)
                         }}
                     </Field>
                     <Field
                         type="number"
-                        v-model={parmas.amount}
+                        v-model={params.amount}
                         placeholder={'请输入付款金额,最多' + gold(walletBalance.value.mwAmount)}
                         label="付款金额"
                         input-align="right"
@@ -123,7 +123,7 @@ export default defineComponent({
                     show={data.showPop}
                     onClose={closePop}
                     typeName={walletBalance.value.mwCurrencyTypeName}
-                    amount={parmas.amount}
+                    amount={params.amount}
                     pwdError={data.pwdError}
                 >
                 </InputPayPWD>

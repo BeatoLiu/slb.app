@@ -28,9 +28,9 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue'
 import { Toast, RadioGroup, Radio, Dialog, Button } from 'vant'
-import { getMemberByCode, changeIncomeType } from '../../../apis/mem'
-import { showDictionary } from '../../../apis/common'
-import { showDictionaryItem } from '../../../apis/model/commonModel'
+import { getMemberByCode, changeIncomeType } from '@/apis/mem'
+import { showDictionary } from '@/apis/common'
+import { IShowDictionaryItem } from "@/apis/model/commonModel"
 export default defineComponent({
 	name: 'incomeType',
 	components: {
@@ -46,7 +46,7 @@ export default defineComponent({
 			},
 			currentType: 0 // 现
 		})
-		const coinList = ref<showDictionaryItem[]>([])
+		const coinList = ref<IShowDictionaryItem[]>([])
 		const updateIncomeType = () => {
 			changeIncomeType(data.orderParams).then(res => {
 				if (res.resultCode === 1) {
@@ -87,7 +87,9 @@ export default defineComponent({
 			// 查看共有多少紅包類型
 			showDictionary({ dType: 24 }).then(res => {
 				if (res.resultCode === 1) {
-					coinList.value = res.data.filter(item => item.dSubCode === 1 || item.dSubCode === 11 || item.dSubCode === 15)
+					coinList.value = res.data.filter(
+						item => item.dSubCode === 1 || item.dSubCode === 11 || item.dSubCode === 15
+					)
 				}
 			})
 		})
@@ -104,12 +106,12 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .test {
 	// min-height: calc(100vh - 90px);
-	padding: 20 * @fontSize;
 	box-sizing: border-box;
+	padding: 20 * @fontSize;
 	.coin-lsit {
-		border-radius: 10 * @fontSize;
-		background: #fff;
 		padding: 16px;
+		background: #fff;
+		border-radius: 10 * @fontSize;
 		.title {
 			line-height: 4;
 		}
@@ -130,12 +132,12 @@ export default defineComponent({
 	.btn {
 		width: 100%;
 		margin: 90 * @fontSize 0;
-		line-height: 80 * @fontSize;
-		border-radius: 10px;
-		background: #e7283b;
-		text-align: center;
-		font-size: 28 * @fontSize;
 		color: #fff;
+		font-size: 28 * @fontSize;
+		line-height: 80 * @fontSize;
+		text-align: center;
+		background: #e7283b;
+		border-radius: 10px;
 	}
 }
 </style>

@@ -11,18 +11,18 @@ import { Dialog } from 'vant'
 
 import InputForm from './components/InputForm.vue'
 
-import { registerModel } from '../../apis/model/loginModel'
-import { modifyPassword } from '../../apis/login'
+import { IRegisterModel } from '@/apis/model/loginModel'
+import { modifyPassword } from '@/apis/login'
 
 export default defineComponent({
-	name: 'register',
+	name: 'SlbFindPWD',
 	components: {
 		InputForm
 	},
 	setup() {
 		const { replace } = useRouter()
-		const save = (params: registerModel) => {
-			let data = {
+		const save = (params: IRegisterModel) => {
+			const data = {
 				memMobile: params.memMobile,
 				vCode: params.vCode,
 				memPassword: params.memPassword,
@@ -46,4 +46,3 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" scoped></style>

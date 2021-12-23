@@ -20,7 +20,7 @@
 					placeholder="发卡银行"
 					right-icon="arrow"
 					readonly
-					@click="showBanLiskPicker = true"
+					@click="showBankListPop = true"
 				/>
 				<Field v-model="mccCardName" clearable label="姓名" placeholder="持卡人姓名" />
 			</CellGroup>
@@ -35,7 +35,7 @@
 			<Button class="btn" @click="toSign" :disabled="!dis">提 交</Button>
 		</div>
 		<!-- 银行卡 -->
-		<Popup v-model:show="showBanLiskPicker" position="top">
+		<Popup v-model:show="showBankListPop" position="top">
 			<div class="bank-list">
 				<p class="title">银行选择</p>
 				<Search v-model="keywords" shape="round" placeholder="请输入银行名称" clearable @input="filterBank"></Search>
@@ -44,7 +44,7 @@
 						v-for="item in bankList"
 						:key="item.biCode"
 						:title="item.biName"
-						@click=";(mccBankName = item.biName), (mccBankId = item.bankId), (showBanLiskPicker = false)"
+						@click=";(mccBankName = item.biName), (mccBankId = item.bankId), (showBankListPop = false)"
 					>
 					</Cell>
 				</CellGroup>
@@ -58,11 +58,11 @@ import { computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue
 import { useRouter } from 'vue-router'
 import { Popup, CellGroup, Cell, Search, Button, Field, Uploader, Toast } from 'vant'
 
-import { useUploadImg } from '../../../hooks/web/useUploadImg'
-import { useImgPath } from '../../../hooks/mx/useImgPath'
+import { useUploadImg } from "@/hooks/web/useUploadImg"
+import { useImgPath } from "@/hooks/mx/useImgPath"
 
-import { addCreditCardModel, showBankListItem } from '../../../apis/model/bankCardModel'
-import { addCreditCard, updateCreditCard, showBankList, getCreditCardByMccCode } from '../../../apis/bankCard'
+import { IAddCreditCardModel, IShowBankListItem } from "@/apis/model/bankCardModel"
+import { addCreditCard, updateCreditCard, showBankList, getCreditCardByMccCode } from "@/apis/bankCard"
 
 export default defineComponent({
 	name: 'addCard',
@@ -72,7 +72,7 @@ export default defineComponent({
 		const { uploadImg } = useUploadImg()
 		const { currentRoute, replace } = useRouter()
 		const id = currentRoute.value.query.id
-		const params = reactive<addCreditCardModel>({
+		const params = reactive<IAddCreditCardModel>({
 			mccCardName: '',
 			mccBankName: '',
 			mccCard: '',
@@ -136,10 +136,10 @@ export default defineComponent({
 		}
 		// 选择银行相关
 
-		const showBanLiskPicker = ref(false)
+		const showBankListPop = ref(false)
 		const keywords = ref('')
-		const bankList = ref<showBankListItem[]>([])
-		const dataList = ref<showBankListItem[]>([])
+		const bankList = ref<IShowBankListItem[]>([])
+		const dataList = ref<IShowBankListItem[]>([])
 		// 銀行卡列表
 		const getBankList = () => {
 			showBankList({ biType: 1 }).then(res => {
@@ -176,7 +176,7 @@ export default defineComponent({
 			imgIsLoading,
 			afterRead,
 			upload,
-			showBanLiskPicker,
+			showBankListPop,
 			keywords,
 			bankList,
 			filterBank
@@ -196,8 +196,8 @@ export default defineComponent({
 		text-align: center;
 		// background: #fff;
 		.input {
-			padding-top: 140 * @fontSize;
 			position: relative;
+			padding-top: 140 * @fontSize;
 			input {
 				width: 100%;
 				margin-top: 70 * @fontSize;
@@ -208,32 +208,32 @@ export default defineComponent({
 				position: absolute;
 				right: 0;
 				bottom: 10 * @fontSize;
-				border: 1px solid #ccc;
-				color: #ccc;
 				padding: 0 10 * @fontSize;
+				color: #ccc;
 				line-height: 40 * @fontSize;
+				border: 1px solid #ccc;
 				border-radius: 20 * @fontSize;
 			}
 		}
 		.btn {
-			font-size: 30 * @fontSize;
-			margin-top: 50 * @fontSize;
 			display: inline-block;
 			width: calc(100% - 32px);
-			line-height: 80 * @fontSize;
-			border-radius: 10 * @fontSize;
-			background: #e7283b;
+			margin-top: 50 * @fontSize;
 			color: #fff;
+			font-size: 30 * @fontSize;
+			line-height: 80 * @fontSize;
+			background: #e7283b;
+			border-radius: 10 * @fontSize;
 		}
 	}
 	.img-item {
 		margin-top: 20 * @fontSize;
 		padding: 10px 16px;
 		& > p {
-			text-align: left;
 			width: 150 * @fontSize;
-			color: #646566;
 			margin-bottom: 8px;
+			color: #646566;
+			text-align: left;
 		}
 
 		& > button {
@@ -242,9 +242,9 @@ export default defineComponent({
 	}
 	.bank-list {
 		.title {
-			text-align: center;
-			font-size: 36 * @fontSize;
 			margin-top: 90px;
+			font-size: 36 * @fontSize;
+			text-align: center;
 		}
 	}
 	.page-tips {

@@ -10,7 +10,13 @@
 					</Button>
 				</template>
 			</Field>
-			<Field v-model="params.memPassword" type="password" left-icon="shield-o" placeholder="请输入密码" clearable />
+			<Field
+				v-model="params.memPassword"
+				type="password"
+				left-icon="shield-o"
+				placeholder="请输入密码"
+				clearable
+			/>
 			<Field v-model="newPWD" type="password" left-icon="shield-o" placeholder="重复密码" clearable />
 		</CellGroup>
 		<div class="save">
@@ -20,15 +26,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, PropType, reactive, ref } from 'vue'
 import { CellGroup, Field, Button, Toast } from 'vant'
 import { useCountDown } from '@vant/use'
 
-import { useI18n } from '../../../hooks/setting/useI18n'
-import { useSendSms } from '../../../hooks/web/useSendSms'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { useSendSms } from '@/hooks/web/useSendSms'
 // import { sendSmsCode } from '../../../apis/common'
-import { registerModel } from '../../../apis/model/loginModel'
+import { IRegisterModel } from '@/apis/model/loginModel'
 import { checkPhone, checkPassWord, checkCode6 } from '../../../utils'
 // import { pwdLogin } from '../../../apis/login'
 
@@ -61,7 +66,7 @@ export default defineComponent({
 		})
 		const counting = ref(true)
 		const newPWD = ref('')
-		const params = reactive<registerModel>({
+		const params = reactive<IRegisterModel>({
 			memMobile: '',
 			memPassword: '',
 			vCode: '',

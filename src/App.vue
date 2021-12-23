@@ -55,7 +55,7 @@ export default defineComponent({
 		// 當前路由
 		const { currentRoute, push, go } = useRouter()
 
-		let route = currentRoute.value //unref(currentRoute)
+		let route = currentRoute.value // unref(currentRoute)
 		let routeName = route.name as string
 		// isWXorALI()
 		// console.log(obj, title, currentRoute, isReactive(currentRoute))

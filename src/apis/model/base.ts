@@ -1,7 +1,7 @@
 /**
  * 时间
  */
-export interface baseDateParams {
+export interface IBaseDateParams {
     startTime: string;
     endTime: string;
 }
@@ -9,26 +9,26 @@ export interface baseDateParams {
 /**
  * 请求分页参数
  */
-export interface basePageParams {
+export interface IBasePageParams {
     pageSize: number;
     pageNum: number
 }
 
-export type basePageDateParams = baseDateParams & basePageParams
+export type IBasePageDateParams = IBaseDateParams & IBasePageParams
 
 
 
 /**
  * 返回結果
  */
-export interface baseRes {
+export interface IBaseRes {
     resultCode: number;
     msg: string;
 }
 /**
  * 分頁信息
  */
-export type dataList<T extends any> = {
+export type DataList<T> = {
     total: number;
     pageNum: number;
     pageSize: number;
@@ -37,17 +37,17 @@ export type dataList<T extends any> = {
 }
 
 // 返回有分頁的結果
-export type baseResPageList<T extends any> = baseRes & {
-    data: dataList<T>
+export type IBaseResPageList<T> = IBaseRes & {
+    data: DataList<T>
 }
 // 無分頁,有些數據少，無須分頁，只要返回數組就行
 // t = any 相當於默認值，即在不需要的時候可以不傳
-export type baseResList<T extends any> = baseRes & {
+export type IBaseResList<T> = IBaseRes & {
     data: T[]
 }
 
 // 無分頁, 可能是個字符串，可能是個對象，可能是數字
 // t = any 相當於默認值，即在不需要的時候可以不傳
-export type baseResT<T = any> = baseRes & {
+export type IBaseResT<T = any> = IBaseRes & {
     data: T
 }

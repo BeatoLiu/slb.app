@@ -31,12 +31,12 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { Sticky, PullRefresh, List } from 'vant'
 
-import { pullRefreshListRes } from '../../apis/model/commonModel'
-import { showSelfTaoKeOrderModel, showSelfTaoKeOrderItem } from '../../apis/model/taoKeModel'
-import { usePullRefreshPageList } from '../../hooks/web/usePullRefreshPageList'
-import { useI18n } from '../../hooks/setting/useI18n'
-import { showSelfTaokeOrderSum } from '../../apis/taoKe'
-import { useOffSetTop } from '../../hooks/web/useOffSetTop'
+import { IPullRefreshListRes } from "@/apis/model/commonModel"
+import { IShowSelfTaoKeOrderModel, IShowSelfTaoKeOrderItem } from "@/apis/model/taoKeModel"
+import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
+import { useI18n } from "@/hooks/setting/useI18n"
+import { showSelfTaokeOrderSum } from "@/apis/taoKe"
+import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 
 export default defineComponent({
 	name: 'incomePower',
@@ -49,12 +49,12 @@ export default defineComponent({
 		const { t } = useI18n()
 		const { offSetTop } = useOffSetTop()
 
-		const params = reactive<showSelfTaoKeOrderModel>({
+		const params = reactive<IShowSelfTaoKeOrderModel>({
 			pageSize: 10,
 			pageNum: 0,
 			oScRetStatus: 1
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <pullRefreshListRes<showSelfTaoKeOrderItem>>(
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <IPullRefreshListRes<IShowSelfTaoKeOrderItem>>(
 			usePullRefreshPageList('mg/taoke/showSelfTaokeOrder', params)
 		)
 
@@ -85,9 +85,9 @@ export default defineComponent({
 @import '../../assets/css/local.less';
 .order-list {
 	.search {
-		background: #ffffff;
-		text-align: center;
 		line-height: 3;
+		text-align: center;
+		background: #fff;
 		border: 5px solid #f2f2f2;
 	}
 	.list {
@@ -100,17 +100,17 @@ export default defineComponent({
 					background-color: #fff;
 					.order {
 						display: flex;
-						justify-content: space-between;
 						align-items: flex-start;
+						justify-content: space-between;
 						.order-name {
-							text-align: right;
 							padding: 0 20 * @fontSize;
-							font-size: 28 * @fontSize;
 							color: #1eeb37;
+							font-size: 28 * @fontSize;
+							text-align: right;
 							.order-id {
 								// text-align: center;
-								color: #909090;
 								padding-top: 5px;
+								color: #909090;
 								font-size: 26 * @fontSize;
 							}
 						}

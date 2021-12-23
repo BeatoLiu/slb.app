@@ -25,14 +25,14 @@ export default defineComponent({
         )
         return () => (
             <div class="balance">
-                <div class="top"></div>
-                <div class="balance-container">
-                    <div>
-                        <p class="title">我的余额</p>
-                        <p class="type-name">{walletBalance.value.mwCurrencyTypeName}</p>
-                        <p class="money">{gold(walletBalance.value.mwAmount)}</p>
-                    </div>
-                </div>
+                <div class="top" />
+				<div class="balance-container">
+					<div>
+						<p class="title">我的余额</p>
+						<p class="type-name">{ walletBalance.value.mwCurrencyTypeName }</p>
+						<p class="money">{ gold(walletBalance.value.mwAmount) }</p>
+					</div>
+				</div>
                 <div class="fun-list">
                     <div class="list-container">
                         <div class="flex-space">

@@ -44,14 +44,14 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { Button, Icon, Dialog, Toast } from 'vant'
 
-import { showCreditCardListItem, showCreditCardListModel } from '../../../apis/model/bankCardModel'
-import { showCreditCardList, deleteCreditCard } from '../../../apis/bankCard'
+import { IShowCreditCardListItem, IShowCreditCardListModel } from '@/apis/model/bankCardModel'
+import { showCreditCardList, deleteCreditCard } from '@/apis/bankCard'
 export default defineComponent({
 	name: 'bankCardList',
 	components: { Button, Icon },
 	setup() {
-		const dataList = ref<showCreditCardListItem[]>([])
-		const params = reactive<showCreditCardListModel>({
+		const dataList = ref<IShowCreditCardListItem[]>([])
+		const params = reactive<IShowCreditCardListModel>({
 			mccCardType: 1
 		})
 		onMounted(() => {
@@ -87,17 +87,15 @@ export default defineComponent({
 .credit-card {
 	padding: 0 20 * @fontSize 20 * @fontSize;
 	.card-item {
+		margin-top: 20 * @fontSize;
 		background: #fff;
 		border-radius: 5px;
-		margin-top: 20 * @fontSize;
 		// padding: 20 * @fontSize 0 20 * @fontSize 30 * @fontSize;
 		.card-name {
-			padding: 20 * @fontSize 0 20 * @fontSize 30 * @fontSize;
+			padding: 0 10 * @fontSize 10 * @fontSize 0;
 			color: #505050;
-			border-bottom: 1px solid #f7f7f7;
-			padding-bottom: 10 * @fontSize;
-			padding-right: 10 * @fontSize;
 			font-size: 26 * @fontSize;
+			border-bottom: 1px solid #f7f7f7;
 			.van-button {
 				height: inherit;
 			}
@@ -115,12 +113,12 @@ export default defineComponent({
 		}
 	}
 	.add-card {
+		margin-top: 20 * @fontSize;
+		font-size: 32 * @fontSize;
+		line-height: 120 * @fontSize;
 		background: #fff;
 		border-radius: 5px;
 		// text-align: center;
-		line-height: 120 * @fontSize;
-		margin-top: 20 * @fontSize;
-		font-size: 32 * @fontSize;
 	}
 }
 </style>
