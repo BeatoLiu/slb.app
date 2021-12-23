@@ -6,14 +6,14 @@
 				<span class="name">￥</span>
 				<div class="money-content">
 					<div class="money-input">
-						<div class="value plholder" :class="{ 'no-value': !sum }" v-if="!sum">请输入兑换金额</div>
+						<div class="value placeholder" :class="{ 'no-value': !sum }" v-if="!sum">请输入兑换金额</div>
 						<div class="value" v-else>{{ sum }}</div>
 						<div class="like-input" :class="{ 'no-value-like': !sum }" v-if="show"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="biztype">
+		<div class="biz-type">
 			<p>兑换类型</p>
 			<RadioGroup v-model="laCurrencyType" @change="radioChange" direction="horizontal">
 				<Radio v-for="item in payTypeListFilter" :name="item.value" :disabled="item.dis" :key="item.value">
@@ -45,7 +45,9 @@
 				<!-- <p>5、数点兑换兑换usdt功能，即将开放公测</p> -->
 				<p>5、银行卡支付时间为9:00-20:00</p>
 				<p>6、BNB兑换仅用于初始手续费，且只限购一次</p>
-				<p style="color: red; text-decoration: underline" @click="showHelpImg = true">7、数点兑换银行卡转账帮助说明</p>
+				<p style="color: red; text-decoration: underline" @click="showHelpImg = true">
+					7、数点兑换银行卡转账帮助说明
+				</p>
 			</div>
 		</div>
 		<div class="bottom flex-end">
@@ -88,11 +90,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { NumberKeyboard, Button, RadioGroup, Radio, ImagePreview, Toast, Dialog } from 'vant'
+import { NumberKeyboard, Button, RadioGroup, Radio, ImagePreview, Toast } from 'vant'
 
-import { picDisplayPath } from '../../../utils/config'
-import { showDictionary } from '../../../apis/common'
-import { getExchangeRatioinDcToCny, showLimitAcct } from '../../../apis/slb'
+import { picDisplayPath } from "@/utils/config"
+import { showDictionary } from "@/apis/common"
+import { getExchangeRatioinDcToCny, showLimitAcct } from "@/apis/slb"
 
 import PayComponent from './PayComponent.vue'
 
@@ -108,7 +110,7 @@ export default defineComponent({
 	},
 	setup() {
 		const data = reactive({
-			show: false, //数字键盘
+			show: false, // 数字键盘
 			sum: '',
 			exInfo: 0, // 换算后的金额
 			loading: false,
@@ -276,7 +278,7 @@ export default defineComponent({
 			// 查詢該功能開放時間斷
 			showDictionary({ dType: 41 }).then(res => {
 				if (res.resultCode === 1 && res.data.length) {
-					let str = JSON.parse(res.data[0].dSubName)
+					const str = JSON.parse(res.data[0].dSubName)
 					if (str['结束时间']) {
 						data.limitDetail = str
 					}
@@ -303,31 +305,30 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .repayment {
 	box-sizing: border-box;
+	margin-bottom: 200 * @fontSize;
 	padding: 20 * @fontSize;
 	// height: calc(100vh - 100px);
-	margin-bottom: 200 * @fontSize;
 	// overflow: hidden;
 	.card-desc {
 		padding: 0 20 * @fontSize;
+		line-height: 100 * @fontSize;
 		background: #fff;
 		border-radius: 5px;
-		line-height: 100 * @fontSize;
 	}
 	.box {
 		margin-top: 20 * @fontSize;
+		padding: 30 * @fontSize;
 		background: #fff;
 		border-radius: 10 * @fontSize;
-		padding: 30 * @fontSize;
 		& > p:nth-child(1) {
 			color: #404040;
 		}
 		.item {
+			position: relative;
 			display: flex;
 			align-items: center;
-
 			font-size: 28 * @fontSize;
 			line-height: 105 * @fontSize;
-			position: relative;
 			.money-content {
 				flex: 1;
 				// border-bottom: 1px solid #BFBFBF;
@@ -345,90 +346,89 @@ export default defineComponent({
 				// text-align: right;
 				// margin-right: 2*@fontSize;
 				padding-left: 20 * @fontSize;
-				font-size: 54 * @fontSize;
 				font-weight: 600;
+				font-size: 54 * @fontSize;
 			}
-			.plholder {
+			.placeholder {
 				margin-top: 10 * @fontSize;
 				color: #ccc;
 			}
 			.like-input {
 				position: absolute;
-				right: 0;
 				top: 20 * @fontSize;
+				right: 0;
 				width: 2px;
 				height: 60 * @fontSize;
 				background: #1989fa;
 				animation: flick 1s infinite;
-				-moz-animation: flick 1s infinite; /* Firefox */
-				-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
-				-o-animation: flick 1s infinite; /* Opera */
+				//-moz-animation: flick 1s infinite; /* Firefox */
+				//-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
+				//-o-animation: flick 1s infinite; /* Opera */
 			}
 			.no-value {
 				font-size: 28 * @fontSize;
 			}
 			.no-value-like {
-				height: 44 * @fontSize;
 				top: 36 * @fontSize;
 				left: 20 * @fontSize;
+				height: 44 * @fontSize;
 			}
 		}
 		:last-child {
 			border-bottom: none;
 		}
 	}
-	.biztype {
-		background: #fff;
-		padding: 0 20 * @fontSize;
-		padding-bottom: 30 * @fontSize;
-		line-height: 120 * @fontSize;
-		border-radius: 5px;
+	.biz-type {
 		margin-top: 20 * @fontSize;
+		padding: 0 20 * @fontSize 30 * @fontSize 20 * @fontSize;
+		line-height: 120 * @fontSize;
+		background: #fff;
+		border-radius: 5px;
 	}
 	.return-fee {
-		background: #fff;
-		padding: 0 20 * @fontSize;
-		line-height: 120 * @fontSize;
-		border-radius: 5px;
 		margin-top: 20 * @fontSize;
+		padding: 0 20 * @fontSize;
 		font-size: 30 * @fontSize;
+		line-height: 120 * @fontSize;
+		background: #fff;
+		border-radius: 5px;
 		p:nth-child(2) {
 			font-weight: 600;
 		}
 		span {
 			color: #505050;
-			font-size: 24 * @fontSize;
 			font-weight: 100;
+			font-size: 24 * @fontSize;
 		}
 	}
 	.bottom {
 		position: fixed;
-		bottom: 0;
 		right: 0;
+		bottom: 0;
 		width: 100%;
-		background: #fff;
-		padding: 30 * @fontSize 20 * @fontSize;
 		margin-top: 20 * @fontSize;
+		padding: 30 * @fontSize 20 * @fontSize;
 		font-size: 26 * @fontSize;
+		background: #fff;
 		& > div:nth-child(1) {
-			text-align: right;
 			margin-right: 20 * @fontSize;
+			text-align: right;
 			span {
-				font-size: 32 * @fontSize;
 				font-weight: 600;
+				font-size: 32 * @fontSize;
 			}
 		}
 	}
 	.btn {
-		font-size: 30 * @fontSize;
 		// margin-top: 200*@fontSize;
 		display: inline-block;
 		width: 200 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
 		text-align: center;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	@keyframes flick {
 		0% {
@@ -488,8 +488,8 @@ export default defineComponent({
 	}
 
 	.help-tips {
-		text-align: center;
 		width: 100vw;
+		text-align: center;
 	}
 }
 </style>

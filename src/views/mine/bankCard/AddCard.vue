@@ -65,7 +65,7 @@ import { IAddCreditCardModel, IShowBankListItem } from "@/apis/model/bankCardMod
 import { addCreditCard, updateCreditCard, showBankList, getCreditCardByMccCode } from "@/apis/bankCard"
 
 export default defineComponent({
-	name: 'addCard',
+	name: 'AddCard',
 	components: { Popup, CellGroup, Cell, Search, Button, Field, Uploader },
 	setup() {
 		const { imgPath } = useImgPath()
@@ -114,6 +114,7 @@ export default defineComponent({
 		const imgList = <any>ref([])
 		// 上傳狀態
 		const imgIsLoading = ref(false)
+
 		const afterRead = () => {
 			imgMsg.value = '上传'
 			imgIsLoading.value = false

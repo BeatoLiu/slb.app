@@ -61,11 +61,11 @@
 		</section>
 		<!-- k线图 -->
 		<section>
-			<div class="echart-container">
+			<div class="chart-container">
 				<p class="cat-title flex-start main-title">
 					<img src="../../assets/img/title-left.png" alt="" />TAA/ZSDT走势
 				</p>
-				<div class="echart-top flex-space">
+				<div class="chart-top flex-space">
 					<div class="left">
 						<p>{{ gold(tAACurrentInfo.tokenPrice) }}</p>
 						<p :class="chg.key === '-' ? 'chg fall' : 'chg rise'">{{ chg.key + chg.value }}</p>
@@ -82,7 +82,7 @@
 						</p>
 					</div>
 				</div>
-				<div id="echart" ref="chartDom"></div>
+				<div id="chart" ref="chartDom"></div>
 			</div>
 		</section>
 		<!-- 币种汇率 -->
@@ -328,21 +328,20 @@ export default defineComponent({
 			getTransferInfoKLineGraph().then(res => {
 				if (res.resultCode === 1) {
 					const myChart = echarts.init(chartDom.value, 'dark')
-					let option: EChartsOption
 					const upColor = '#ec0000'
 					const upBorderColor = '#8A0000'
 					const downColor = '#00da3c'
 					const downBorderColor = '#008F28'
 
-					let xAxisData = []
-					let seriesData = []
-					for (let key in res.data) {
+					const xAxisData = []
+					const seriesData = []
+					for (const key in res.data) {
 						xAxisData.push(key)
 						const { openPrice, closePrice, minPrice, maxPrice } = res.data[key]
 						seriesData.push([openPrice, closePrice, minPrice, maxPrice])
 					}
 					// Each item: open，close，lowest，highest
-					option = {
+					const option: EChartsOption = {
 						title: {
 							text: 'TAA交易',
 							left: 0
@@ -535,7 +534,9 @@ export default defineComponent({
 			// 获取各种币汇率
 			getDigitalTokeExchangeFromSc().then(res => {
 				if (res.resultCode === 1) {
-					let baseArr = JSON.parse(JSON.stringify(res.data.filter((item: any) => item.market === 'susdcny')))
+					const baseArr = JSON.parse(
+						JSON.stringify(res.data.filter((item: any) => item.market === 'susdcny'))
+					)
 
 					res.data.forEach((item: any) => {
 						item.market = item.market.replace('susd', '')
@@ -602,24 +603,24 @@ export default defineComponent({
 		text-align: center;
 	}
 	.top {
+		box-sizing: border-box;
 		height: 300 * @fontSize;
-		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
-		background-size: cover;
-		background-position-y: -60 * @fontSize;
-		background-repeat: no-repeat;
+		padding-top: 40 * @fontSize;
 		color: #fff;
 		text-align: center;
-		box-sizing: border-box;
-		padding-top: 40 * @fontSize;
+		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
+		background-repeat: no-repeat;
+		background-position-y: -60 * @fontSize;
+		background-size: cover;
 		.top-top {
-			font-size: 36 * @fontSize;
 			font-weight: 400;
+			font-size: 36 * @fontSize;
 		}
 		.top-bottom {
+			box-sizing: border-box;
 			margin-top: 30 * @fontSize;
 			font-size: 28 * @fontSize;
 			text-align: center;
-			box-sizing: border-box;
 			> div {
 				width: 50%;
 			}
@@ -635,11 +636,11 @@ export default defineComponent({
 		margin: 20 * @fontSize;
 	}
 	.menu-container {
-		background: #fff;
-		border-radius: 10px;
-		text-align: center;
 		padding: 30 * @fontSize 0;
 		color: #4b4b4b;
+		text-align: center;
+		background: #fff;
+		border-radius: 10px;
 		.item {
 			// width: 25%;
 			flex: 1;
@@ -648,9 +649,9 @@ export default defineComponent({
 			}
 		}
 		.first-child {
-			font-size: 24 * @fontSize;
-			padding: 0 20 * @fontSize;
 			box-sizing: border-box;
+			padding: 0 20 * @fontSize;
+			font-size: 24 * @fontSize;
 			img {
 				width: 72 * @fontSize;
 			}
@@ -661,32 +662,32 @@ export default defineComponent({
 			}
 		}
 		.second-child {
-			padding: 0 40 * @fontSize;
 			margin-top: 30 * @fontSize;
+			padding: 0 40 * @fontSize;
 			font-size: 20 * @fontSize;
 			img {
 				width: 56 * @fontSize;
 			}
 		}
 	}
-	.echart-container {
+	.chart-container {
 		// background: #fff;
 		margin-top: 20 * @fontSize;
 		// > p {
 		// margin-left: 20 * @fontSize;
 		// }
 		// padding-top: 20 * @fontSize;
-		.echart-top {
+		.chart-top {
 			// background: #100c2a;
-			background: #3b4365;
 			margin-top: 20 * @fontSize;
 			padding-bottom: 20 * @fontSize;
 			color: #fff;
+			background: #3b4365;
 			.left {
-				color: @primaryColor;
+				width: 60%;
 				// text-align: center;
 				padding-left: 40 * @fontSize;
-				width: 60%;
+				color: @primaryColor;
 				font-size: 24px;
 				.chg {
 					font-size: 16px;
@@ -714,7 +715,7 @@ export default defineComponent({
 				}
 			}
 		}
-		#echart {
+		#chart {
 			width: 100%;
 			height: 308px;
 			// margin-top: 20 * @fontSize;
@@ -724,31 +725,31 @@ export default defineComponent({
 		margin: 20 * @fontSize 0;
 		.cat-title {
 			color: #060606;
-			font-size: 28 * @fontSize;
 			font-weight: bold;
+			font-size: 28 * @fontSize;
 		}
 		.cat-container {
+			margin-top: 18 * @fontSize;
+			padding: 20 * @fontSize 0;
 			background: #fff;
 			border-radius: 5 * @fontSize;
-			padding: 20 * @fontSize 0;
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
-			margin-top: 18 * @fontSize;
 			.th {
 				padding: 0 20 * @fontSize;
+				color: #555;
 				font-weight: 400;
 				font-size: 30 * @fontSize;
-				color: #555;
-				border-bottom: 1px solid #979797;
 				line-height: 48 * @fontSize;
+				border-bottom: 1px solid #979797;
 				& > p {
 					width: 33%;
 				}
 			}
 			.cat-top {
 				padding: 0 20 * @fontSize;
-				line-height: 66 * @fontSize;
 				color: #999;
 				font-size: 26 * @fontSize;
+				line-height: 66 * @fontSize;
 				& > p {
 					width: 33%;
 				}
@@ -762,8 +763,8 @@ export default defineComponent({
 	.main-title {
 		img {
 			width: 10 * @fontSize;
-			margin-right: 10 * @fontSize;
 			height: 40 * @fontSize;
+			margin-right: 10 * @fontSize;
 			margin-left: 20 * @fontSize;
 		}
 	}

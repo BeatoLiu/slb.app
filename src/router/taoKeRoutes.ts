@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { t } from '../hooks/setting/useI18n'
+import { t } from "@/hooks/setting/useI18n"
 
 export const taoKeRoutes: Array<RouteRecordRaw> = [
     // 淘客訂單錄入

@@ -10,7 +10,11 @@
 				TAA代币合约：{{ proto }}
 				<p>(点击复制)</p>
 			</div>
-			<div id="zsdtProto" :data-clipboard-text="zsdtProto" @click="clipboard('#zsdtProto', { des: 'ZSDT代币合约' })">
+			<div
+				id="zsdtProto"
+				:data-clipboard-text="zsdtProto"
+				@click="clipboard('#zsdtProto', { des: 'ZSDT代币合约' })"
+			>
 				ZSDT代币合约：{{ zsdtProto }}
 				<p>(点击复制)</p>
 			</div>
@@ -23,12 +27,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import { picDisplayPath } from './../../utils/config'
+import { picDisplayPath } from '@/utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-	name: 'Help',
+	name: 'DownloadHelp',
 	setup() {
 		const { currentRoute } = useRouter()
 		const type = currentRoute.value.query.type as string
@@ -58,10 +62,10 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '../../assets/css/local.less';
 .footer {
-	background: #78b6ff;
-	color: #fff;
 	padding: 20 * @fontSize;
 	padding-bottom: 40px;
+	color: #fff;
+	background: #78b6ff;
 	& > div {
 		margin-top: 20px;
 		// p {

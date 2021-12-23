@@ -2,7 +2,7 @@
 	<div class="wrapper">
 		<router-view v-slot="{ Component, route }">
 			<transition :name="route.meta.transition || 'fade'" mode="out-in">
-				<keep-alive :include="cachList">
+				<keep-alive :include="cacheList">
 					<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
 				</keep-alive>
 				<!-- <component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" /> -->
@@ -30,9 +30,10 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import { Tabbar, TabbarItem, Icon } from 'vant'
-import { useI18n } from '../../hooks/setting/useI18n'
+import { useI18n } from '@/hooks/setting/useI18n'
 // import { useRouter } from 'vue-router'
 export default defineComponent({
+	name: 'FooterNav',
 	components: {
 		Tabbar,
 		TabbarItem,
@@ -85,7 +86,7 @@ export default defineComponent({
 
 		return {
 			...data,
-			cachList: /^\w.*-alive$/ // ['home-alive'] ///^\w.-alive*$/
+			cacheList: /^\w.*-alive$/ // ['home-alive'] ///^\w.-alive*$/
 			// t
 		}
 	}
@@ -95,8 +96,8 @@ export default defineComponent({
 <style scoped lang="less">
 @import '../../assets/css/local.less';
 .wrapper {
-	padding-bottom: 120 * @fontSize;
 	box-sizing: border-box;
+	padding-bottom: 120 * @fontSize;
 	.van-tabbar-item--active {
 		// background-color: @primaryColor;
 

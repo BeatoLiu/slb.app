@@ -36,6 +36,7 @@ import { useI18n } from '@/hooks/setting/useI18n'
 import { useStore } from '@/store'
 
 export default defineComponent({
+	name: 'PayPWDComponent',
 	components: {
 		PasswordInput,
 		NumberKeyboard,

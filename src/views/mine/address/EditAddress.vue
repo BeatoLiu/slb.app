@@ -18,25 +18,25 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onMounted, toRefs } from 'vue'
-import { Toast, AddressEdit, Area, Dialog } from 'vant'
+import { Toast, AddressEdit } from 'vant'
 
 import { useRouter } from 'vue-router'
-import { areaModel } from './types'
-import { showSubArea } from '../../../apis/common'
-import { deletedDeliveryAddress, modifyAcquiesceDeliveryAddress, modifyDeliveryAddress } from '../../../apis/mem'
+import { IAreaModel } from './types'
+import { showSubArea } from '@/apis/common'
+import { deletedDeliveryAddress, modifyAcquiesceDeliveryAddress, modifyDeliveryAddress } from '@/apis/mem'
 export default defineComponent({
-	name: 'editAddress',
-	components: { AddressEdit, Area },
+	name: 'EditAddress',
+	components: { AddressEdit },
 	setup() {
-		const { push, currentRoute, replace } = useRouter()
-		const data = reactive<areaModel>({
+		const { currentRoute, replace } = useRouter()
+		const data = reactive<IAreaModel>({
 			areaList: {
 				province_list: {},
 				city_list: {},
 				county_list: {}
 			}
 		})
-		let addressInfo = reactive({
+		const addressInfo = reactive({
 			areaCode: '',
 			aCode: '',
 			addressDetail: '',
@@ -47,14 +47,14 @@ export default defineComponent({
 		})
 		const getArea = (val: number) => {
 			return new Promise((resolve, reject) => {
-				let params = {
+				const params = {
 					parentCode: '',
 					type: val
 				}
 				// console.log(val)
 				showSubArea(params).then(res => {
 					if (res.resultCode === 1) {
-						let arr = res.data
+						const arr = res.data
 						if (val === 2) {
 							arr.forEach((ele: any) => {
 								data.areaList.province_list[ele.currentCode] = ele.currentName
@@ -74,7 +74,7 @@ export default defineComponent({
 			})
 		}
 		const onSave = (obj: any) => {
-			let data = {
+			const data = {
 				daCode: obj.daCode,
 				aCode: obj.areaCode,
 				aName: obj.province + obj.city + obj.county,
@@ -134,7 +134,7 @@ export default defineComponent({
 		})
 		return {
 			...toRefs(data),
-			addressInfo, //: { ...toRefs(addressInfo) },
+			addressInfo, // : { ...toRefs(addressInfo) },
 			onSave,
 			changeDefault,
 			onDelete
@@ -142,5 +142,3 @@ export default defineComponent({
 	}
 })
 </script>
-
-<style lang="less" scoped></style>

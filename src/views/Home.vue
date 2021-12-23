@@ -95,23 +95,23 @@
 		</section>
 		<!-- 特惠热销 -->
 		<section>
-			<div class="benifit">
-				<div class="benifit-container">
+			<div class="benefit">
+				<div class="benefit-container">
 					<div class="flex-space" style="align-items: stretch; height: 100%">
-						<div class="tehui" @click="$router.push({ name: 'TBPreferential' })">
-							<div class="benifit-left">
+						<div class="te-hui" @click="$router.push({ name: 'TBPreferential' })">
+							<div class="benefit-left">
 								<!-- <p>9.9购</p> -->
 								<p>特惠</p>
 								<p>全场促销 5折起步</p>
 								<p>立即抢购</p>
 							</div>
-							<!-- <div class="benifit-left">
+							<!-- <div class="benefit-left">
 								<van-image :src="teHuiImg" />
 							</div> -->
 						</div>
-						<div class="benifit-top flex-space" style="margin-left: 5px; align-items: stretch">
+						<div class="benefit-top flex-space" style="margin-left: 5px; align-items: stretch">
 							<div class="flex-space" @click="goTaoBao('yiTao', '淘宝')">
-								<div class="benifit-left">
+								<div class="benefit-left">
 									<p>快抢</p>
 									<p>每天领取大红包</p>
 								</div>
@@ -120,7 +120,7 @@
 								</div>
 							</div>
 							<div class="flex-space" @click="goTaoBao('baoPin', '淘宝')">
-								<div class="benifit-left">
+								<div class="benefit-left">
 									<p>每日精选</p>
 									<p>舒适贴身 价格亲民</p>
 								</div>
@@ -156,7 +156,7 @@
 		</section>
 		<!-- 熱門推薦 -->
 		<section>
-			<div class="hot-recom">
+			<div class="hot-recommend">
 				<div class="hot-title">
 					<p>{{ t('taoKe.others.hotText') }}</p>
 				</div>
@@ -197,7 +197,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, computed, onActivated } from 'vue'
-import { Button, Search, Tabs, Tab, Swipe, SwipeItem, List, Image, NoticeBar, Icon, Dialog, Toast, Sticky } from 'vant'
+import { Search, List, Image, Icon, Dialog, Toast, Sticky } from 'vant'
 
 import { picDisplayPath } from '@/utils/config'
 import slb from './../utils/jslb-1.0.0'
@@ -216,7 +216,7 @@ interface ITaoBaoUrl {
 }
 
 export default defineComponent({
-	name: 'home-alive',
+	name: 'Home-alive',
 	components: {
 		// Button,
 		Search,
@@ -244,7 +244,9 @@ export default defineComponent({
 		const { taaPrice } = useGetTAAPrice()
 		// 產品返利taa數量
 		const calcSie = (item: any) => {
+			// eslint-disable-next-line camelcase
 			const { commission_rate, zk_final_price } = item
+			// eslint-disable-next-line camelcase
 			const gCommission = (zk_final_price * commission_rate) / 10000
 			const calcPower = useCalcPower(gCommission)
 			return calcPower / taaPrice.value
@@ -375,7 +377,7 @@ export default defineComponent({
 					subtitle: '更多算力',
 					icon: 'http://mg.2qzs.com/img/taoke/cat-7.png',
 					to: 'TBGridList',
-					type: 'benifit',
+					type: 'benefit',
 					materialId: 13366
 				},
 				// {title: '拼好货', subtitle: '品质好货', icon: cat8, to: 'pddHomeList', type: 'life', materialId: 2},
@@ -438,7 +440,7 @@ export default defineComponent({
 			return [500012, 500004, 500111].includes(memCode.value)
 		})
 		// 產品列表
-		let { list, loading, finished, getData } = useHomeGoodsList()
+		const { list, loading, finished, getData } = useHomeGoodsList()
 		const onload = () => {
 			// 异步更新数据
 			setTimeout(() => {
@@ -476,7 +478,7 @@ export default defineComponent({
 				})
 
 				const loadDateTime = new Date().getTime()
-				let timer = window.setTimeout(function () {
+				const timer = window.setTimeout(function () {
 					const timeOutDateTime = new Date().getTime()
 					if (timeOutDateTime - loadDateTime < 5000) {
 						Toast(`请先下载美团App`)
@@ -525,7 +527,7 @@ export default defineComponent({
 				})
 			}
 			const loadDateTime = new Date().getTime()
-			let timer = window.setTimeout(function () {
+			const timer = window.setTimeout(function () {
 				const timeOutDateTime = new Date().getTime()
 				if (timeOutDateTime - loadDateTime < 5000) {
 					Toast(`请先下载${platformName}App`)
@@ -549,7 +551,7 @@ export default defineComponent({
 			const url = 'taobao:' + (item.coupon_share_url ? item.coupon_share_url : item.url)
 			// if (this.$evnIsBrowser) {
 			const loadDateTime = new Date().getTime()
-			let timer = window.setTimeout(function () {
+			const timer = window.setTimeout(function () {
 				const timeOutDateTime = new Date().getTime()
 				if (timeOutDateTime - loadDateTime < 5000) {
 					Toast(`请先下载淘宝App`)
@@ -582,8 +584,8 @@ export default defineComponent({
 
 			// 如果是支付码
 			if (strArr[0] === 'http://slpay.2qzs.com/slpay/index.html#/payDetail') {
-				let subArr = strArr[1].split('&mqcCode=')
-				let params = {
+				const subArr = strArr[1].split('&mqcCode=')
+				const params = {
 					id: subArr[0],
 					mqcCode: subArr[1]
 				}
@@ -645,28 +647,28 @@ export default defineComponent({
 		.tabs {
 			color: #fff;
 			.tabs-tab {
-				font-size: 28 * @fontSize;
 				color: #fff;
+				font-size: 28 * @fontSize;
 			}
 		}
 		// 解決垂直邊界重合問題
 		&::before {
-			content: '';
 			display: table;
+			content: '';
 		}
 	}
 	.search-bottom {
+		box-sizing: border-box;
+		height: 166 * @fontSize;
 		padding: 20 * @fontSize 82 * @fontSize;
 		color: #fff;
 		text-align: center;
-		box-sizing: border-box;
 		// line-height: 32 * @fontSize;
 		// width: 100%;
-		height: 166 * @fontSize;
 		// background: linear-gradient(180deg, @primaryColor 0%, @primaryColor 100%);
 		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
-		background-size: cover;
 		background-repeat: no-repeat;
+		background-size: cover;
 		i {
 			// width: 96 * @fontSize;
 			// height: 96 * @fontSize;
@@ -679,10 +681,10 @@ export default defineComponent({
 	}
 	// 轮播
 	.my-swipe {
+		height: 262 * @fontSize;
 		margin-top: -160 * @fontSize;
 		padding: 0 20 * @fontSize;
 		text-align: center;
-		height: 262 * @fontSize;
 		img {
 			width: 100%;
 		}
@@ -692,20 +694,20 @@ export default defineComponent({
 		padding: 20 * @fontSize;
 		color: #060606;
 		.nav-container {
-			border-radius: 5px;
-			background: #fff;
 			font-size: 24 * @fontSize;
+			background: #fff;
+			border-radius: 5px;
 			.title {
 				padding-top: 16px;
 				padding-left: 16px;
-				font-size: 14px;
 				font-weight: bold;
+				font-size: 14px;
 			}
 		}
 		.gaintaa-list {
+			padding: 20 * @fontSize 40 * @fontSize;
 			font-weight: 400;
 			// border-radius: 5px;
-			padding: 20 * @fontSize 40 * @fontSize;
 			& > div {
 				width: 25%;
 				text-align: center;
@@ -716,13 +718,13 @@ export default defineComponent({
 		}
 		.platform-list {
 			// background: #fff;
-			font-size: 24 * @fontSize;
 			// border-radius: 5px;
-			padding-bottom: 20 * @fontSize;
 			flex-wrap: wrap;
+			padding-bottom: 20 * @fontSize;
+			font-size: 24 * @fontSize;
 			& > div {
-				margin-top: 20 * @fontSize;
 				width: 20%;
+				margin-top: 20 * @fontSize;
 				text-align: center;
 				.van-image {
 					width: 80 * @fontSize;
@@ -735,8 +737,8 @@ export default defineComponent({
 		padding: 0 20 * @fontSize;
 		.notice-swipe {
 			height: 40px;
-			line-height: 40px;
 			color: #000;
+			line-height: 40px;
 		}
 	}
 	// 理財入口
@@ -749,61 +751,61 @@ export default defineComponent({
 		}
 	}
 	// 优惠热销
-	.benifit {
+	.benefit {
 		padding: 0 20 * @fontSize;
-		.benifit-container {
+		.benefit-container {
+			height: 352 * @fontSize;
+			padding: 10 * @fontSize;
 			background: #fff;
 			border-radius: 5 * @fontSize;
-			padding: 10 * @fontSize;
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
-			height: 352 * @fontSize;
-			.tehui {
-				background: linear-gradient(180deg, #fff1eb 100%, #ffd4be 100%);
-				color: #000;
-				border-radius: 5 * @fontSize;
-				font-size: 12 * @fontSize;
+			.te-hui {
+				box-sizing: border-box;
 				width: 50%;
 				height: 100%;
-				box-sizing: border-box;
+				color: #000;
+				font-size: 12 * @fontSize;
+				background: linear-gradient(180deg, #fff1eb 100%, #ffd4be 100%);
+				border-radius: 5 * @fontSize;
 				// padding-left: 5 * @fontSize;
 				& > div {
-					height: 315 * @fontSize;
 					width: 100%;
-					background-image: url('http://mg.2qzs.com/img/slbApp/home/9.9.png');
-					background-size: contain;
-					background-position: center;
-					background-repeat: no-repeat;
-					padding-left: 25 * @fontSize;
+					height: 315 * @fontSize;
 					padding-top: 15 * @fontSize;
+					padding-left: 25 * @fontSize;
+					background-image: url('http://mg.2qzs.com/img/slbApp/home/9.9.png');
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: contain;
 					& > p:nth-child(1) {
-						font-size: 32 * @fontSize;
-						font-weight: bold;
-						line-height: 48 * @fontSize;
 						color: #f66343;
+						font-weight: bold;
+						font-size: 32 * @fontSize;
+						line-height: 48 * @fontSize;
 					}
 					& > p:nth-child(2) {
-						font-size: 24 * @fontSize;
-						font-weight: bold;
-						line-height: 48 * @fontSize;
 						color: #a58171;
+						font-weight: bold;
+						font-size: 24 * @fontSize;
+						line-height: 48 * @fontSize;
 					}
 					& > p:nth-child(3) {
-						font-size: 20 * @fontSize;
-						font-weight: bold;
-						line-height: 48 * @fontSize;
-						background: #fff;
 						width: 50%;
-						text-align: center;
-						border-radius: 20px;
 						color: #f00;
+						font-weight: bold;
+						font-size: 20 * @fontSize;
+						line-height: 48 * @fontSize;
+						text-align: center;
+						background: #fff;
+						border-radius: 20px;
 					}
 				}
 			}
-			.benifit-top {
+			.benefit-top {
 				// margin-left: 5*@fontSize;
+				flex-direction: column;
 				width: 50%;
 				height: 100%;
-				flex-direction: column;
 				& > div {
 					// width: 100%;
 					height: 50%;
@@ -813,35 +815,35 @@ export default defineComponent({
 				& > div:nth-child(1) {
 					background: linear-gradient(360deg, #ffc0dc 0%, #ffeced 100%);
 					.van-image {
-						height: 115 * @fontSize;
 						width: 115 * @fontSize;
+						height: 115 * @fontSize;
 					}
 					p:nth-child(1) {
-						font-size: 32 * @fontSize;
-						font-weight: bold;
 						color: #e32722;
+						font-weight: bold;
+						font-size: 32 * @fontSize;
 					}
 					p:nth-child(2) {
-						font-size: 24 * @fontSize;
-						font-weight: bold;
 						color: #000;
+						font-weight: bold;
+						font-size: 24 * @fontSize;
 					}
 				}
 				& > div:nth-child(2) {
 					margin-top: 5 * @fontSize;
 					.van-image {
-						height: 98 * @fontSize;
 						width: 98 * @fontSize;
+						height: 98 * @fontSize;
 					}
 					p:nth-child(1) {
-						font-size: 32 * @fontSize;
-						font-weight: bold;
 						color: #226fc4;
+						font-weight: bold;
+						font-size: 32 * @fontSize;
 					}
 					p:nth-child(2) {
-						font-size: 24 * @fontSize;
-						font-weight: bold;
 						color: #8fafd2;
+						font-weight: bold;
+						font-size: 24 * @fontSize;
 					}
 					background: linear-gradient(360deg, #ecf8ff 0%, #bfddff 100%);
 				}
@@ -852,13 +854,13 @@ export default defineComponent({
 		// margin-top: 5 * @fontSize;
 		padding: 20 * @fontSize;
 		.cat-container {
+			padding: 20 * @fontSize;
 			background: #fff;
 			border-radius: 10 * @fontSize;
-			padding: 20 * @fontSize;
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
 			.cat-title {
-				font-size: 32 * @fontSize;
 				font-weight: bold;
+				font-size: 32 * @fontSize;
 				span {
 					padding-left: 20 * @fontSize;
 					color: rgba(0, 0, 0, 0.3);
@@ -867,23 +869,23 @@ export default defineComponent({
 			}
 			.cat-top {
 				display: flex;
-				align-content: flex-start;
 				flex-wrap: wrap;
+				align-content: flex-start;
 				margin-top: 10 * @fontSize;
 				text-align: center;
 				& > div {
 					width: 210 * @fontSize;
 					height: 210 * @fontSize;
-					background-repeat: no-repeat;
-					background-size: 50%;
-					background-position: 50% 100%;
 					padding-top: 10 * @fontSize;
+					background-repeat: no-repeat;
+					background-position: 50% 100%;
+					background-size: 50%;
 					p:nth-child(1) {
 						font-size: 28 * @fontSize;
 					}
 					p:nth-child(2) {
-						font-size: 20 * @fontSize;
 						color: rgba(0, 0, 0, 0.3);
+						font-size: 20 * @fontSize;
 					}
 					div {
 						height: 96 * @fontSize;
@@ -898,37 +900,37 @@ export default defineComponent({
 	}
 	// 熱門推薦
 	// .hot-section {
-	.hot-recom {
+	.hot-recommend {
 		margin-top: 20 * @fontSize;
 		padding: 0 20 * @fontSize;
 		.hot-title {
+			color: #06121e;
+			font-weight: bold;
 			font-size: 34 * @fontSize;
 			font-family: PingFang SC, sans-serif;
-			font-weight: bold;
 			line-height: 51 * @fontSize;
-			color: #06121e;
 			opacity: 1;
 		}
 		.hot-content {
 			height: 84 * @fontSize;
-			background-image: url('http://mg.2qzs.com/img/slbApp/home/tj-title.png');
-			background-size: 100%;
-			background-repeat: no-repeat;
-			color: #fff;
 			padding: 0 20 * @fontSize;
+			color: #fff;
+			background-image: url('http://mg.2qzs.com/img/slbApp/home/tj-title.png');
+			background-repeat: no-repeat;
+			background-size: 100%;
 			& > div {
 				p:nth-child(1) {
 					font-size: 30 * @fontSize;
 				}
 				p:nth-child(2) {
-					font-size: 20 * @fontSize;
 					margin-left: 30 * @fontSize;
+					font-size: 20 * @fontSize;
 				}
 			}
 			& > p:nth-child(2) {
-				background: #fab848;
 				width: 113 * @fontSize;
 				text-align: center;
+				background: #fab848;
 				border-radius: 24px;
 			}
 		}
@@ -938,13 +940,13 @@ export default defineComponent({
 	.list {
 		padding: 20 * @fontSize;
 		.item {
-			font-size: 24 * @fontSize;
-			background: #fff;
+			align-items: flex-start;
+			margin-top: 20 * @fontSize;
+			padding: 20 * @fontSize;
 			// height: 300 * @fontSize;
 			// width: 100%;
-			padding: 20 * @fontSize;
-			margin-top: 20 * @fontSize;
-			align-items: flex-start;
+			font-size: 24 * @fontSize;
+			background: #fff;
 			border-radius: 5px;
 			&-left {
 				width: 36%;
@@ -958,8 +960,8 @@ export default defineComponent({
 			&-right {
 				width: 64%;
 				margin-left: 10 * @fontSize;
-				font-size: 24 * @fontSize;
 				font-weight: 400;
+				font-size: 24 * @fontSize;
 				line-height: 40 * @fontSize;
 				.goods-title {
 					width: 100%;
@@ -976,23 +978,23 @@ export default defineComponent({
 					align-items: flex-end;
 					margin-top: 30 * @fontSize;
 					.price {
-						font-size: 32 * @fontSize;
-						font-weight: bold;
 						color: #ef0401;
+						font-weight: bold;
+						font-size: 32 * @fontSize;
 						&::before {
-							content: '￥';
 							display: inline-block;
 							font-size: 24 * @fontSize;
+							content: '￥';
 						}
 					}
 					.go-buy {
 						width: 150 * @fontSize;
-						line-height: 60 * @fontSize;
 						height: 60 * @fontSize;
 						color: #fff;
+						line-height: 60 * @fontSize;
 						text-align: center;
-						border-radius: 5px;
 						background: linear-gradient(90deg, #fc346e 0%, #fb0201 100%);
+						border-radius: 5px;
 					}
 				}
 			}

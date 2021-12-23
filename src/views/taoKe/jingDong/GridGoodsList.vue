@@ -18,11 +18,11 @@ import { defineComponent, reactive, toRefs } from 'vue'
 import { List, PullRefresh, Sticky } from 'vant'
 import JDListItem from '../components/JDListItem.vue'
 import { useRouter } from 'vue-router'
-import { useJDEliteGoods } from '../../../hooks/taoKe/useJDEliteGoods'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { useJDEliteGoods } from '@/hooks/taoKe/useJDEliteGoods'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'jDGridsList',
+	name: 'JDGridsList',
 	components: {
 		List,
 		PullRefresh,
@@ -63,10 +63,10 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .jd-prom {
 	.title {
-		font-size: 34 * @fontSize;
-		font-weight: bold;
-		line-height: 1;
 		padding: 30 * @fontSize 0 26 * @fontSize 20 * @fontSize;
+		font-weight: bold;
+		font-size: 34 * @fontSize;
+		line-height: 1;
 		background-color: #f7f7f7;
 	}
 }

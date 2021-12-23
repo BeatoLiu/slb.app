@@ -19,7 +19,11 @@
 							<span>{{ item.coupon_discount / 100 }}元券</span>
 						</div>
 						<div class="shop-name">
-							<p><Icon name="pinduoduo" class-prefix="icon" class="icon" color="#ef4842" />{{ item.mall_name }}</p>
+							<p>
+								<Icon name="pinduoduo" class-prefix="icon" class="icon" color="#ef4842" />{{
+									item.mall_name
+								}}
+							</p>
 							<div>
 								<p class="button" @click="goShopping(item)">购买</p>
 								<!-- <van-icon name="arrow-right" /> -->
@@ -35,9 +39,9 @@
 <script lang="ts">
 import { Toast, Icon } from 'vant'
 import { defineComponent, PropType, toRefs } from 'vue'
-import { getPddLink } from '../../../apis/taoKe'
-import { useCalcPower } from '../../../hooks/web/useCalcPower'
-import { useGetTAAPrice } from '../../../hooks/web/useGetTAAPrice'
+import { getPddLink } from '@/apis/taoKe'
+import { useCalcPower } from '@/hooks/web/useCalcPower'
+import { useGetTAAPrice } from '@/hooks/web/useGetTAAPrice'
 
 export default defineComponent({
 	name: 'pddListItem',
@@ -67,9 +71,9 @@ export default defineComponent({
 					const url = JSON.parse(res.data)[0].schema_url
 					console.log(JSON.parse(res.data))
 					// if (this.$evnIsBrowser) {
-					var loadDateTime: any = new Date()
+					const loadDateTime: any = new Date()
 					window.setTimeout(function () {
-						var timeOutDateTime: any = new Date()
+						const timeOutDateTime: any = new Date()
 						if (timeOutDateTime - loadDateTime < 5000) {
 							Toast('请先下载拼多多App')
 							// console.log(1)
@@ -130,9 +134,9 @@ export default defineComponent({
 				display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 				display: -webkit-flex; /* NEW - Chrome */
 				align-items: flex-start;
-				-webkit-align-items: flex-start;
+				//-webkit-align-items: flex-start;
 				justify-content: flex-start;
-				-webkit-justify-content: flex-start;
+				//-webkit-justify-content: flex-start;
 				// flex: 1;
 				.order-img {
 					width: 34%;
@@ -144,8 +148,8 @@ export default defineComponent({
 					}
 				}
 				.right {
-					padding: 0 20 * @fontSize;
 					width: 66%;
+					padding: 0 20 * @fontSize;
 					// position: relative;
 				}
 				.order-name {
@@ -159,14 +163,13 @@ export default defineComponent({
 					// text-align: right;
 					display: flex;
 					justify-content: space-between;
-					font-size: 24 * @fontSize;
 					padding-top: 5px;
+					font-size: 24 * @fontSize;
 					.money {
 						color: #ff5000;
 						&::before {
-							content: '拼团价\00A5';
-
 							font-size: 18 * @fontSize;
+							content: '拼团价\00A5';
 						}
 					}
 					.sale-count {
@@ -181,50 +184,50 @@ export default defineComponent({
 					align-content: center;
 					font-size: 24 * @fontSize;
 					span {
-						border-radius: 0;
-						background-color: #ff0036;
 						color: #fff;
 						line-height: 1.5;
+						background-color: #ff0036;
+						border-radius: 0;
 						// display: inline;
 						// padding: 5*@fontSize 10*@fontSize;
 						&::after {
-							content: '';
+							position: relative;
+							top: calc(50% - 16 * @fontSize);
+							right: -10 * @fontSize;
 							display: inline-block;
-							height: 20 * @fontSize;
 							width: 20 * @fontSize;
+							height: 20 * @fontSize;
 							background: #fff;
 							border-top-left-radius: 50%;
 							border-bottom-left-radius: 50%;
-							position: relative;
-							right: -10 * @fontSize;
+							content: '';
 							// top: -10*@fontSize;
-							top: calc(50% - 16 * @fontSize);
 						}
 						&::before {
-							content: '';
+							position: relative;
+							top: calc(50% - 16 * @fontSize);
+							left: -10 * @fontSize;
 							display: inline-block;
-							height: 20 * @fontSize;
 							width: 20 * @fontSize;
+							height: 20 * @fontSize;
 							background: #fff;
 							border-top-right-radius: 50%;
 							border-bottom-right-radius: 50%;
-							position: relative;
-							left: -10 * @fontSize;
-							top: calc(50% - 16 * @fontSize);
+							content: '';
 							// top: -50%;
 						}
 					}
 				}
 				.shop-name {
-					color: #909090;
-					padding-top: 5px;
-					font-size: 24 * @fontSize;
 					display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
-					display: -webkit-flex; /* NEW - Chrome */
 					align-items: center;
-					-webkit-align-items: center;
 					justify-content: space-between;
-					-webkit-justify-content: space-between;
+					padding-top: 5px;
+					color: #909090;
+					font-size: 24 * @fontSize;
+					//display: -webkit-flex; /* NEW - Chrome */
+					//-webkit-align-items: center;
+					//-webkit-justify-content: space-between;
 				}
 				.button {
 					// height: 60*@fontSize;
@@ -235,16 +238,16 @@ export default defineComponent({
 					// border-radius: 5px;
 					// float: right;
 					&::after {
-						content: '›';
 						display: inline-block;
+						content: '›';
 					}
 				}
 			}
 			.order-pay {
 				padding: 10px 0;
-				text-align: right;
-				letter-spacing: 1px;
 				color: #505050;
+				letter-spacing: 1px;
+				text-align: right;
 			}
 			.order-pre {
 				height: 100 * @fontSize;

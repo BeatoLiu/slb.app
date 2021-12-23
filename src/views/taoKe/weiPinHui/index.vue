@@ -1,7 +1,13 @@
 <template>
 	<div class="jd-prom">
 		<Grid :column-num="3" :center="false">
-			<GridItem v-for="item in gridList" :key="item.id" :text="item.title" :icon="item.icon" @click="getGridId(item)">
+			<GridItem
+				v-for="item in gridList"
+				:key="item.id"
+				:text="item.title"
+				:icon="item.icon"
+				@click="getGridId(item)"
+			>
 			</GridItem>
 		</Grid>
 		<Sticky :offset-top="offSetTop">
@@ -25,11 +31,11 @@ import { defineComponent, reactive, toRefs } from 'vue'
 import { Grid, GridItem, Sticky, Tabs, Tab, PullRefresh, List } from 'vant'
 import WPHListItem from '../components/WPHListItem.vue'
 import { useRouter } from 'vue-router'
-import { useVopJXGoods } from '../../../hooks/taoKe/useVopJXGoods'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { useVopJXGoods } from '@/hooks/taoKe/useVopJXGoods'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'wPHIndex',
+	name: 'WPHIndex',
 	components: {
 		Grid,
 		GridItem,
@@ -118,8 +124,8 @@ export default defineComponent({
 					// font-size: 12px;
 					margin-top: 8px;
 					overflow: hidden;
-					text-overflow: ellipsis;
 					white-space: nowrap;
+					text-overflow: ellipsis;
 				}
 			}
 		}
@@ -129,23 +135,23 @@ export default defineComponent({
 		// padding: 5px 0;
 		border: 15 * @fontSize solid #f7f7f7;
 		input {
-			padding: 18 * @fontSize 85 * @fontSize 18 * @fontSize 30 * @fontSize;
-			line-height: 1;
-			margin: 10 * @fontSize 17 * @fontSize 10 * @fontSize 19 * @fontSize;
-			font-size: 30 * @fontSize;
-			width: 714 * @fontSize;
 			box-sizing: border-box;
-			border-radius: 10 * @fontSize;
+			width: 714 * @fontSize;
+			margin: 10 * @fontSize 17 * @fontSize 10 * @fontSize 19 * @fontSize;
+			padding: 18 * @fontSize 85 * @fontSize 18 * @fontSize 30 * @fontSize;
+			font-size: 30 * @fontSize;
+			line-height: 1;
 			border-top: 1px solid #f2f2f2;
 			border-bottom: 1px solid #f2f2f2;
+			border-radius: 10 * @fontSize;
 		}
 	}
 	.list {
 		.title {
-			font-size: 34 * @fontSize;
-			font-weight: bold;
-			line-height: 1;
 			margin: 30 * @fontSize 0 26 * @fontSize 20 * @fontSize;
+			font-weight: bold;
+			font-size: 34 * @fontSize;
+			line-height: 1;
 		}
 	}
 }

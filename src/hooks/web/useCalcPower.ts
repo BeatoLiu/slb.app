@@ -1,5 +1,6 @@
 /**
  * @description 計算商品算力
+ * @param gCommission
  */
 export const useCalcPower = (gCommission: number) => {
     let calcPower

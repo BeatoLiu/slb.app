@@ -94,8 +94,8 @@ export default defineComponent({
 		// border: 10*@fontSize solid #f7f7f7;
 		.van-cell {
 			padding: 5px 20px;
-			border-radius: 40 * @fontSize;
 			background: #f7f7f7;
+			border-radius: 40 * @fontSize;
 		}
 	}
 }

@@ -1,29 +1,29 @@
 @import '../../../assets/css/local.less';
 .property{
-    .top {
+	.top {
+		box-sizing: border-box;
 		height: 200 * @fontSize;
-		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
-		background-size: cover;
-		background-position-y: -60 * @fontSize;
-		background-repeat: no-repeat;
+		padding-top: 40 * @fontSize;
 		color: #fff;
 		text-align: center;
-		box-sizing: border-box;
-		padding-top: 40 * @fontSize;
+		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
+		background-repeat: no-repeat;
+		background-position-y: -60 * @fontSize;
+		background-size: cover;
 		.top-top {
-			font-size: 36 * @fontSize;
 			font-weight: 400;
+			font-size: 36 * @fontSize;
 		}
 	}
-    .list-container{
-        margin-top: 20*@fontSize;
-        .amount{
-            color: #323233;
-            font-size: 14px;
-        }
-        .exchange-amount{
-            color: #969799;
-            font-size: 12px;
-        }
-    }
+	.list-container{
+		margin-top: 20*@fontSize;
+		.amount{
+			color: #323233;
+			font-size: 14px;
+		}
+		.exchange-amount{
+			color: #969799;
+			font-size: 12px;
+		}
+	}
 }

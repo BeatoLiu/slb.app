@@ -128,7 +128,7 @@ export default defineComponent({
 		const showUploadDialog = ref(false)
 		const imgMsg = ref('上传')
 		// 圖片
-		const imgList = <any>ref([{ url: '' }])
+		const imgList = ref<any>([{ url: '' }])
 		// 上傳狀態
 		const imgIsLoading = ref(false)
 		const idx = ref(0)

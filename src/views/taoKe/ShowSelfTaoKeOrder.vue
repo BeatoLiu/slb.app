@@ -2,7 +2,6 @@
 	<header class="header-nav-wrap">
 		<nav class="flex-space header-nav load-wrap flex-center">
 			<router-link
-				tag="div"
 				active-class="load-active"
 				class="load-link"
 				v-for="(item, idx) in links"
@@ -14,7 +13,7 @@
 		</nav>
 		<!-- <router-view></router-view> -->
 		<router-view v-slot="{ Component, route }">
-			<keep-alive :include="cachList">
+			<keep-alive :include="cacheList">
 				<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
 			</keep-alive>
 		</router-view>
@@ -29,7 +28,7 @@ import { defineComponent } from 'vue'
  * @params
  */
 export default defineComponent({
-	name: 'showSelfTaoKeOrder',
+	name: 'ShowSelfTaoKeOrder',
 	data() {
 		return {
 			links: {
@@ -50,7 +49,7 @@ export default defineComponent({
 					name: '返利失败'
 				}
 			},
-			cachList: /^\w.*-alive$/
+			cacheList: /^\w.*-alive$/
 		}
 	}
 })
@@ -61,17 +60,16 @@ nav {
 	display: flex;
 }
 .load-wrap {
-	background: #fff;
 	text-align: center;
+	background: #fff;
 }
 .load-link {
 	flex-grow: 1;
-	font: 28 * @fontSize 'Microsoft Yahei';
+	font-size: 28 * @fontSize;
+	line-height: 76 * @fontSize;
 	border-bottom: 3px solid #afafaf;
 }
-.load-link {
-	line-height: 76 * @fontSize;
-}
+
 .load-link span {
 	color: #505050;
 }

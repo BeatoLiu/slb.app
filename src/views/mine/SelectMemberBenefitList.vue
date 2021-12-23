@@ -64,7 +64,7 @@ import { IPullRefreshListRes } from "@/apis/model/commonModel"
 import { ISelectMemberBenefitListItem } from "@/apis/model/memModel"
 import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
 export default defineComponent({
-	name: 'selectMemberBenefitList-alive',
+	name: 'SelectMemberBenefitList-alive',
 	components: { PullRefresh, List },
 	setup() {
 		const params = reactive<IBasePageParams>({

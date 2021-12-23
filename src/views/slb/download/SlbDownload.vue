@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue-demi'
+import { defineComponent, ref } from 'vue'
 import useClipboard from '../../../hooks/web/useClipboard'
 export default defineComponent({
 	name: 'SlbDownload-alive',
@@ -91,14 +91,14 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .download {
 	// margin-top: 46px;
-	background: linear-gradient(180deg, #5cc8b8 0%, #5cc8b8 100%);
+	height: calc(100vh - 46px);
 	font-size: 30 * @fontSize;
 	text-align: center;
+	background: linear-gradient(180deg, #5cc8b8 0%, #5cc8b8 100%);
 	// padding-top: 80*@fontSize;
-	height: calc(100vh - 46px);
 	nav {
-		height: 60px;
 		box-sizing: border-box;
+		height: 60px;
 		padding: 5px;
 		.container,
 		img {
@@ -111,8 +111,8 @@ export default defineComponent({
 			font-size: 50 * @fontSize;
 		}
 		.paragraph {
-			font-size: 30 * @fontSize;
 			padding: 30 * @fontSize 0;
+			font-size: 30 * @fontSize;
 		}
 		.btn.shadow-xl {
 			box-shadow: 0 7px 15px rgba(0, 9, 128, 0.05), 0 12px 28px rgba(0, 9, 128, 0.075),
@@ -127,32 +127,32 @@ export default defineComponent({
 			background: linear-gradient(180deg, #5cc8b8 0%, #5cc8b8 100%);
 		}
 		.btn {
-			color: #fff;
-			font-family: 'Source Sans Pro', sans-serif;
 			display: inline-block;
-			letter-spacing: 5.03 * @fontSize;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			vertical-align: middle;
-			user-select: none;
-			border: 0 solid transparent;
+			margin-right: 15 * @fontSize;
+			margin-bottom: 30 * @fontSize;
+			margin-left: 15 * @fontSize;
 			padding: 13.75 * @fontSize 47.5 * @fontSize;
+			color: #fff;
+			font-weight: 600;
 			font-size: 28 * @fontSize;
+			font-family: 'Source Sans Pro', sans-serif;
 			line-height: 1.4;
+			letter-spacing: 5.03 * @fontSize;
+			white-space: nowrap;
+			text-align: center;
+			vertical-align: middle;
+			background: linear-gradient(45deg, #8089ff 0%, #54ceff 100%);
+			border: 0 solid transparent;
 			border-radius: 50 * @fontSize;
 			transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
 				box-shadow 0.15s ease-in-out;
-			margin-bottom: 30 * @fontSize;
-			margin-right: 15 * @fontSize;
-			margin-left: 15 * @fontSize;
-			background: -moz-linear-gradient(45deg, #8089ff 0%, #54ceff 100%);
-			background: linear-gradient(45deg, #8089ff 0%, #54ceff 100%);
+			user-select: none;
+			//background: -moz-linear-gradient(45deg, #8089ff 0%, #54ceff 100%);
 		}
 
 		.col-sm-12 {
-			text-align: center;
 			padding: 0 10 * @fontSize 0 20 * @fontSize;
+			text-align: center;
 			img {
 				width: 100%;
 			}

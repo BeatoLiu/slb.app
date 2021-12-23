@@ -3,7 +3,12 @@
 		<!-- <img src="../../assets/img/mixuan/banner.png" alt="" > -->
 		<div class="search flex-center">
 			<form action="javascript:return true">
-				<Search v-model="params.cName" shape="round" placeholder="输入您要搜索的产品或口令" @search="searchProList">
+				<Search
+					v-model="params.cName"
+					shape="round"
+					placeholder="输入您要搜索的产品或口令"
+					@search="searchProList"
+				>
 				</Search>
 			</form>
 			<div class="btn">
@@ -43,8 +48,8 @@
 import { PullRefresh, List, Search } from 'vant'
 import { defineComponent, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { useGoodsList } from '../../hooks/mx/useGoodsList'
-import { useImgPath } from '../../hooks/mx/useImgPath'
+import { useGoodsList } from '@/hooks/mx/useGoodsList'
+import { useImgPath } from '@/hooks/mx/useImgPath'
 
 import TAAPrice from './components/TAAPrice.vue'
 
@@ -77,7 +82,7 @@ export default defineComponent({
 
 		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = useGoodsList(data.params)
 
-		//搜索商品
+		// 搜索商品
 		const searchProList = () => {
 			//  ￥cF8xNzI5NTAy￥
 			// console.log(data.proName)
@@ -91,7 +96,7 @@ export default defineComponent({
 				// codeStr = Base64.decode(codeStr) // 苹果手机里该方法有问题
 				codeStr = window.atob(codeStr)
 				// alert(codeStr + '---3')
-				let codeArr = codeStr.split('_')
+				const codeArr = codeStr.split('_')
 				// alert(codeArr.toString() + '---4')
 				// Dialog.confirm({message: codeArr.toString() + '---4'})
 				if (codeArr[0] === 'p') {
@@ -125,12 +130,12 @@ export default defineComponent({
 			toFood
 		}
 	},
-	//在页面离开时记录滚动位置
+	// 在页面离开时记录滚动位置
 	beforeRouteLeave(to, from, next) {
 		this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 		next()
 	},
-	//进入该页面时，用之前保存的滚动位置赋值
+	// 进入该页面时，用之前保存的滚动位置赋值
 	beforeRouteEnter(to, from, next) {
 		// console.log(to)
 		next((vm: any) => {
@@ -149,28 +154,28 @@ export default defineComponent({
 @import '../../assets/css/local.less';
 .group {
 	.search {
-		padding: 10 * @fontSize 20 * @fontSize;
 		position: relative;
+		padding: 10 * @fontSize 20 * @fontSize;
 		background: #fff;
 		form {
 			width: 600 * @fontSize;
 		}
 		input {
 			// width: 580*@fontSize;
-			border: 1px solid #dcdcdc;
-			padding: 13 * @fontSize 0 13 * @fontSize 85 * @fontSize;
-			border-radius: 10 * @fontSize;
 			box-sizing: border-box;
+			padding: 13 * @fontSize 0 13 * @fontSize 85 * @fontSize;
+			border: 1px solid #dcdcdc;
+			border-radius: 10 * @fontSize;
 		}
 		.btn {
 			display: inline-block;
-			margin-left: 10 * @fontSize;
 			width: 120 * @fontSize;
-			line-height: 70 * @fontSize;
-			background: #ed0c17;
-			text-align: center;
-			border-radius: 10 * @fontSize;
+			margin-left: 10 * @fontSize;
 			color: #fff;
+			line-height: 70 * @fontSize;
+			text-align: center;
+			background: #ed0c17;
+			border-radius: 10 * @fontSize;
 			img {
 				width: 25 * @fontSize;
 				margin-top: 22 * @fontSize;
@@ -204,68 +209,68 @@ export default defineComponent({
 	// 	}
 	// }
 	.hots {
-		background: #fff;
 		margin-top: 20 * @fontSize;
 		padding: 0;
+		background: #fff;
 		.title {
-			padding: 0 20 * @fontSize;
-			padding-top: 20 * @fontSize;
+			padding: 20 * @fontSize 20 * @fontSize 0 20 * @fontSize;
+
 			.name {
-				font-size: 32 * @fontSize;
-				font-weight: 800;
 				margin-left: 0;
+				font-weight: 800;
+				font-size: 32 * @fontSize;
 				span {
 					color: #ff9914;
-					font-size: 32 * @fontSize;
 					font-weight: 800;
+					font-size: 32 * @fontSize;
 				}
 			}
 		}
 		.child-content {
 			display: flex;
 			flex-wrap: wrap;
+			justify-content: flex-start;
 			box-sizing: border-box;
 			// flex: 1;
 			// padding-left: 1%;
-			justify-content: flex-start;
 			// align-items: center;
 		}
 		.child {
 			// width: 345*@fontSize;
+			box-sizing: border-box;
 			width: 48%;
-			margin-left: 1%;
+			margin-top: 20 * @fontSize;
 			margin-right: 1%;
-			border: 1px solid #f4f4f4;
+			margin-left: 1%;
 			// display: inline-block;
 			// flex: 1;
 			padding: 20 * @fontSize 20 * @fontSize 10 * @fontSize;
-			box-sizing: border-box;
 			text-align: center;
 			// margin-left: 20*@fontSize;
-			margin-top: 20 * @fontSize;
+			border: 1px solid #f4f4f4;
 			.child-title {
 				// font-size: 30*@fontSize;
-				font-weight: bold;
-				line-height: 1.3;
-				color: #333;
-				text-align: left;
 				margin-top: 10 * @fontSize;
 				margin-left: 5 * @fontSize;
-				white-space: nowrap; /*强制在一行显示*/
-				text-overflow: ellipsis; /*设置超出内容显示...*/
-				overflow: hidden; /*一定不能少 超出的内容进行隐藏*/
+				overflow: hidden; /* 一定不能少 超出的内容进行隐藏 */
+				color: #333;
+				font-weight: bold;
+				line-height: 1.3;
+				white-space: nowrap; /* 强制在一行显示 */
+				text-align: left;
+				text-overflow: ellipsis; /* 设置超出内容显示... */
 			}
 			.price {
 				text-align: left;
 				.orige {
-					text-decoration: line-through;
 					margin-right: 10 * @fontSize;
 					color: #808080;
+					text-decoration: line-through;
 				}
 				.group-price {
+					margin-right: 10 * @fontSize;
 					color: #ed0c17;
 					font-size: 32 * @fontSize;
-					margin-right: 10 * @fontSize;
 				}
 			}
 			img {
@@ -274,18 +279,14 @@ export default defineComponent({
 			}
 			.foot {
 				// margin-top: -6*@fontSize;
-				font-size: 20 * @fontSize;
-				color: #808080;
 				display: flex;
-				// align-items:center;
 				justify-content: space-between;
+				color: #808080;
+				font-size: 20 * @fontSize;
+				// align-items:center;
 				// span{
 				//     display: block;
 				// }
-				.tuan {
-					height: 50 * @fontSize;
-					// margin-left: 10*@fontSize;
-				}
 			}
 		}
 	}

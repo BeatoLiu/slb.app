@@ -64,7 +64,9 @@
 		</div>
 		<div class="flex-start">
 			<p>3.</p>
-			<p>红包锁定：顾客不改变支付习惯，通过数联宝支付可获得TAA红包，商户永久锁定第一次领红包的顾客，增加店铺盈利点。</p>
+			<p>
+				红包锁定：顾客不改变支付习惯，通过数联宝支付可获得TAA红包，商户永久锁定第一次领红包的顾客，增加店铺盈利点。
+			</p>
 		</div>
 		<div class="flex-start">
 			<p>4.</p>
@@ -195,8 +197,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue-demi'
-import { picDisplayPath } from "@/utils/config"
+import { picDisplayPath } from '@/utils/config'
 export default defineComponent({
+	name: 'WhitePaper',
 	data() {
 		return {
 			picDisplayPath

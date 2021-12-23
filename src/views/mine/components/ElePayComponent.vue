@@ -8,7 +8,7 @@
 				<CellGroup>
 					<Cell v-for="item in payTypeList" :key="item.value" :title="item.label" center clickable>
 						<template #icon>
-							<img class="img-icon" :src="item.imgSrc" />
+							<img class="img-icon" :src="item.imgSrc" alt="" />
 						</template>
 						<template #right-icon>
 							<Radio :name="item.value" :disabled="item.dis">
@@ -21,7 +21,7 @@
 				</CellGroup>
 			</RadioGroup>
 			<div style="text-align: center">
-				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoding" @click="toPay">立即付款</Button>
+				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoading" @click="toPay">立即付款</Button>
 			</div>
 		</Popup>
 		<!-- 銀行卡轉賬時，銀行卡信息 -->
@@ -47,9 +47,10 @@ import alipayImg from '../../../assets/img/payLogo/zhifubao.png'
 import wxImg from '../../../assets/img/payLogo/weixin.png'
 import bankImg from '../../../assets/img/payLogo/rmb.png'
 
-import { nodePayProxy } from '../../../apis/mem'
+import { nodePayProxy } from '@/apis/mem'
+
 export default defineComponent({
-	name: 'elePayComponent',
+	name: 'ElePayComponent',
 	components: {
 		Popup,
 		Button,
@@ -80,13 +81,13 @@ export default defineComponent({
 			default: true
 		},
 		cRecPayType: {
-			type: Number,
+			type: String,
 			default: ''
 		}
 	},
 	setup(props, { emit }) {
 		const { show, mCode } = toRefs(props)
-		const payLoding = ref(false)
+		const payLoading = ref(false)
 		const payType = ref([
 			{
 				value: 'susd',
@@ -94,7 +95,7 @@ export default defineComponent({
 				imgSrc: scImg,
 				dSubCode: '7',
 				mRoleStr: '12,13',
-				ishow: false,
+				isShow: false,
 				dis: false
 			},
 			{
@@ -103,18 +104,26 @@ export default defineComponent({
 				imgSrc: scImg,
 				dSubCode: '10',
 				mRoleStr: '12,13',
-				ishow: false,
+				isShow: false,
 				dis: false
 			},
-			{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, mRoleStr: '13', ishow: true, dis: false },
-			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, mRoleStr: '13', ishow: true, dis: false },
+			{
+				value: 'alipay',
+				label: '支付宝',
+				dSubCode: '1',
+				imgSrc: alipayImg,
+				mRoleStr: '13',
+				isShow: true,
+				dis: false
+			},
+			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, mRoleStr: '13', isShow: true, dis: false },
 			{
 				value: 'bank',
 				label: '银行卡转账',
 				dSubCode: '2',
 				imgSrc: bankImg,
 				mRoleStr: '12,13',
-				ishow: true,
+				isShow: true,
 				dis: false
 			}
 		])
@@ -127,8 +136,8 @@ export default defineComponent({
 		const showCard = ref(false)
 
 		const payTypeList = computed(() => {
-			let str = props.cRecPayType || '12'
-			return payType.value.filter(item => item.ishow && item.mRoleStr.indexOf(str) > -1)
+			const str = props.cRecPayType || '12'
+			return payType.value.filter(item => item.isShow && item.mRoleStr.indexOf(str) > -1)
 		})
 
 		const close = () => {
@@ -146,27 +155,13 @@ export default defineComponent({
 		const payResult = res => {
 			if (res.resultCode >= 1) {
 				if (res.msg === '成功' && (radio.value === 'sc' || radio.value === 'susd' || radio.value === 'usdt')) {
-					let params = res.data
-					const payParams = {
-						coin: params.coin,
-						amount: params.amount,
-						app_id: params.app_id,
-						trade_no: params.trade_no,
-						merchant_uuid: '1ac2f3cd-1e05-4794-90a4-589c89162d17',
-						merchant_id: 'zhanshi',
-						remark: '节点申请'
-					}
-					sc.payment(payParams, res1 => {
-						if (res1.code === 200) {
-							$router.replace({ name: 'payResult', query: { id: poCode, type: 'new' } })
-						}
-					})
+					return false
 				} else {
 					qrText.value = res.data
 					// 不知道怎么处理 ImagePreview 和 VueQr 的异步问题，只好延迟执行了
 					setTimeout(() => {
-						let div = document.getElementById('qr')
-						let imgUrl = div.getElementsByTagName('img')[0] // 获取二维码
+						const div = document.getElementById('qr')
+						const imgUrl = div.getElementsByTagName('img')[0] // 获取二维码
 						images.value = [imgUrl.src]
 						showQr.value = true
 					}, 500)
@@ -181,7 +176,7 @@ export default defineComponent({
 			if (radio.value === 'bank') {
 				showCard.value = true
 			} else {
-				let params1 = {
+				const params1 = {
 					payPlat: radio.value === 'susd' || radio.value === 'usdt' ? 'sc' : radio.value, // 支付平台
 					// 支付方式
 					payType: payTypeList.value.filter(item => item.value === radio.value)[0].dSubCode,
@@ -191,14 +186,14 @@ export default defineComponent({
 					// memSecretOpenid: localStorage.openId
 					remark: '节点申请'
 				}
-				payLoding.value = true
+				payLoading.value = true
 				nodePayProxy(params1)
 					.then(res => {
 						payResult(res)
-						payLoding.value = false
+						payLoading.value = false
 					})
-					.catch(err => {
-						payLoding.value = false
+					.catch(() => {
+						payLoading.value = false
 					})
 			}
 		}
@@ -216,7 +211,7 @@ export default defineComponent({
 			images,
 			showQr,
 			showCard,
-			payLoding,
+			payLoading,
 			close,
 			radioChange,
 			toPay,
@@ -225,7 +220,7 @@ export default defineComponent({
 	}
 	// data() {
 	// 	return {
-	// 		payLoding: false,
+	// 		payLoading: false,
 	// 		payType: [
 	// 			{
 	// 				value: 'susd',
@@ -233,7 +228,7 @@ export default defineComponent({
 	// 				imgSrc: scImg,
 	// 				dSubCode: '7',
 	// 				mRoleStr: '12,13',
-	// 				ishow: true,
+	// 				isShow: true,
 	// 				dis: false
 	// 			},
 	// 			{
@@ -242,18 +237,18 @@ export default defineComponent({
 	// 				imgSrc: scImg,
 	// 				dSubCode: '10',
 	// 				mRoleStr: '12,13',
-	// 				ishow: true,
+	// 				isShow: true,
 	// 				dis: false
 	// 			},
-	// 			{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, mRoleStr: '13', ishow: true, dis: false },
-	// 			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, mRoleStr: '13', ishow: true, dis: false },
+	// 			{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, mRoleStr: '13', isShow: true, dis: false },
+	// 			{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, mRoleStr: '13', isShow: true, dis: false },
 	// 			{
 	// 				value: 'bank',
 	// 				label: '银行卡转账',
 	// 				dSubCode: '2',
 	// 				imgSrc: bankImg,
 	// 				mRoleStr: '12,13',
-	// 				ishow: true,
+	// 				isShow: true,
 	// 				dis: false
 	// 			}
 	// 		],
@@ -270,7 +265,7 @@ export default defineComponent({
 	// computed: {
 	// 	payTypeList() {
 	// 		let str = $props.cRecPayType || '12'
-	// 		return this.payType.filter(item => item.ishow && item.mRoleStr.indexOf(str) > -1)
+	// 		return this.payType.filter(item => item.isShow && item.mRoleStr.indexOf(str) > -1)
 	// 	}
 	// },
 	// methods: {
@@ -301,23 +296,23 @@ export default defineComponent({
 	// 				// memSecretOpenid: localStorage.openId
 	// 				remark: ''
 	// 			}
-	// 			this.payLoding = true
+	// 			this.payLoading = true
 	// 			// if(!this.podCode) {
 	// 			this.$api.pay
 	// 				.nodePayProxy(params1)
 	// 				.then(res => {
 	// 					this.payResult(res, this.poCode)
-	// 					this.payLoding = false
+	// 					this.payLoading = false
 	// 				})
 	// 				.catch(err => {
-	// 					this.payLoding = false
+	// 					this.payLoading = false
 	// 				})
 	// 			// } else {
 	// 			//     this.$api.order.mallPayOnlineDetail(params1).then(res => {
 	// 			//         this.payResult(res, this.poCode)
-	// 			//         this.payLoding = false
+	// 			//         this.payLoading = false
 	// 			//     }).catch(err => {
-	// 			//         this.payLoding = false
+	// 			//         this.payLoading = false
 	// 			//     })
 	// 			// }
 	// 		}
@@ -371,23 +366,23 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .pay-result {
 	.img-icon {
-		margin-right: 20 * @fontSize;
 		height: 100%;
+		margin-right: 20 * @fontSize;
 	}
 	.btn {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.pop-close {
-		text-align: right;
-		margin-right: 40 * @fontSize;
 		margin-top: 40 * @fontSize;
+		margin-right: 40 * @fontSize;
+		text-align: right;
 		i {
 			color: #000;
 		}
@@ -396,9 +391,9 @@ export default defineComponent({
 		text-align: center;
 	}
 	.copy {
-		text-align: center;
 		color: #07c160;
 		font-size: 16px;
+		text-align: center;
 	}
 }
 </style>

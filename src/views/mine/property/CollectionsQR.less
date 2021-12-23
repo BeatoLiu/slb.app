@@ -1,51 +1,51 @@
 @import '../../../assets/css/local.less';
 .collections{
-	background: @deepGreen;
+	box-sizing: border-box;
 	min-height: calc(100vh - 90px);
 	padding: 70*@fontSize 50*@fontSize;
-	box-sizing: border-box;
+	background: @deepGreen;
 	.container{
-		background: #fff;
-		padding:0 36*@fontSize;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
-		border-radius: 10px;
 		position: relative;
+		padding:0 36*@fontSize;
+		background: #fff;
+		border-radius: 10px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
 		&::before{
-			content: '';
-			height: 20px;
-			width: 20px;
 			position: absolute;
 			top: 180*@fontSize;
 			left: -18*@fontSize;
-			background: @deepGreen;
 			display: inline-block;
+			width: 20px;
+			height: 20px;
+			background: @deepGreen;
 			border-radius: 50%;
+			content: '';
 			// background: transparent;
 		}
 		&::after{
-			content: '';
-			height: 20px;
-			width: 20px;
 			position: absolute;
 			top: 180*@fontSize;
 			right: -18*@fontSize;
-			background: @deepGreen;
 			display: inline-block;
+			width: 20px;
+			height: 20px;
+			background: @deepGreen;
 			border-radius: 50%;
+			content: '';
 			// background: transparent;
 		}
 		.top{
 			height: 162*@fontSize;
-			border-bottom: 1px dashed #eee;
 			padding-top: 36*@fontSize;
+			border-bottom: 1px dashed #eee;
 			// border-bottom-style: dashed;
 			.title{
+				padding-left: 20*@fontSize;
 				color: #333;
 				font-size: 14px;
 				border-left: 2px solid #39b9b9;
-				padding-left: 20*@fontSize;
 			}
-			.addr{
+			.address{
 				margin-top: 20*@fontSize;
 				color: #39B9B9;
 				font-size: 10px;

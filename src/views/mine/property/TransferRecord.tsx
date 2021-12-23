@@ -1,6 +1,5 @@
 import { ISelectTakenTokenListItem, ISelectTakenTokenListModel } from "@/apis/model/tAAModel"
 import { selectTakeTokenDetailListSum } from "@/apis/tAA"
-import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
 import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
 import { useStore } from "@/store"
@@ -9,6 +8,7 @@ import { Calendar, List, PullRefresh, Sticky } from "vant"
 import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue"
 
 import './TransferRecord.less'
+import { useTimeParam } from "@/hooks/web/useTimeParam";
 
 interface IExtend {
     ttBizType: number;
@@ -17,10 +17,10 @@ interface IExtend {
 
 export default defineComponent({
     name: 'TransferRecord',
-
     setup() {
         const { offSetTop } = useOffSetTop()
-        const { formatDayMonth } = useFormatDayMonth()
+        // const { formatDayMonth } = useFormatDayMonth()
+		const {getTimeParams,getFormatTime} = useTimeParam()
         const store = useStore()
         const currencyType = computed(() => store.state.user.walletBalance.mwCurrencyType)
         const currencyTypeName = computed(() => store.state.user.walletBalance.mwCurrencyTypeName)
@@ -49,12 +49,10 @@ export default defineComponent({
         })
 
         onMounted(() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-            dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-            params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-            params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const {startTime, endTime, timeStr} = getTimeParams(6)
+            dateDisplay.value = timeStr
+            params.startTime = startTime
+            params.endTime = endTime
 
             getSum()
         })
@@ -62,12 +60,13 @@ export default defineComponent({
             usePullRefreshPageList<ISelectTakenTokenListItem, ISelectTakenTokenListModel>('taa/selectTakeTokenDetailList', params, { method: 'GET' })
 
         // 選擇時間
-        const onConfirm = (date: any) => {
+        const onConfirm = (date: Date[]) => {
             const [start, end] = date
             showTime.value = false
-            dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-            params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-            params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const {startTime, endTime, timeStr} = getFormatTime(start, end)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
             params.pageNum = 0
             loading.value = true
             finished.value = false

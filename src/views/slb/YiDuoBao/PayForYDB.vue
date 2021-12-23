@@ -16,16 +16,21 @@
 					<div><Stepper integer v-model="buyNum" @change="changeBuyNum" min="1" /></div>
 				</div>
 			</div>
-			<div class="biztype">
-				<div class="flex-space biztype-func">
+			<div class="biz-type">
+				<div class="flex-space biz-type-func">
 					<p>购入类型</p>
 					<RadioGroup v-model="buyType" direction="horizontal">
-						<Radio v-for="item in buyTypeListFilter" :name="item.value" :disabled="item.dis" :key="item.value">
+						<Radio
+							v-for="item in buyTypeListFilter"
+							:name="item.value"
+							:disabled="item.dis"
+							:key="item.value"
+						>
 							{{ item.label }}
 						</Radio>
 					</RadioGroup>
 				</div>
-				<div class="biztype-tips">{{ buyType === 1 ? '天天领分红，月化6%' : '天天领分红，月化7%' }}</div>
+				<div class="biz-type-tips">{{ buyType === 1 ? '天天领分红，月化6%' : '天天领分红，月化7%' }}</div>
 			</div>
 			<div class="bank-id">
 				<Cell
@@ -47,7 +52,13 @@
 			<Button class="btn" size="large" @click="submit" disabled :loading="loading">确定</Button>
 		</div>
 		<!-- 银行卡 -->
-		<Popup v-model:show="showBankModal" position="bottom" safe-area-inset-bottom round :close-on-click-overlay="false">
+		<Popup
+			v-model:show="showBankModal"
+			position="bottom"
+			safe-area-inset-bottom
+			round
+			:close-on-click-overlay="false"
+		>
 			<p class="pop-close"><Icon name="cross" @click="close" /></p>
 			<p style="text-align: center">请选择收款银行</p>
 			<div class="bank-item">
@@ -83,17 +94,19 @@
 </template>
 
 <script lang="ts">
-import { Popup, RadioGroup, CellGroup, Cell, Radio, Icon, Button, Checkbox, Stepper, Dialog, Toast } from 'vant'
+import { Button, Cell, CellGroup, Checkbox, Dialog, Icon, Popup, Radio, RadioGroup, Stepper, Toast } from 'vant'
 import { computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { httpGet } from '../../../apis/axios'
-import { showCreditCardList } from '../../../apis/bankCard'
-import { showDictionary } from '../../../apis/common'
-import { submitWJSInvestOrder } from '../../../apis/slb'
+import { httpGet } from '@/apis/axios'
+import { showCreditCardList } from '@/apis/bankCard'
+import { showDictionary } from '@/apis/common'
+import { submitWJSInvestOrder } from '@/apis/slb'
 import PayType from '../../../components/PayType'
 import PayQr from '../../../components/PayQr'
 import BankCard from '../../../components/BankCard'
-import { wjsProto } from '../../../utils/proto'
+import { wjsProto } from '@/utils/proto'
+import { IShowCreditCardListItem } from '@/apis/model/bankCardModel'
+
 export default defineComponent({
 	name: ' payForYDB',
 	components: {
@@ -126,8 +139,8 @@ export default defineComponent({
 			// 购买类型
 			buyType: 1,
 			buyTypeList: [
-				{ value: 1, label: '30天', ishow: true, dis: false },
-				{ value: 2, label: '90天', ishow: true, dis: false }
+				{ value: 1, label: '30天', isShow: true, dis: false },
+				{ value: 2, label: '90天', isShow: true, dis: false }
 			],
 			// 是否自动下期
 			checked: true,
@@ -139,7 +152,7 @@ export default defineComponent({
 			bankName: '未绑定银行卡',
 			bankCard: '',
 			// bankList: [],
-			//购买数量
+			// 购买数量
 			buyNum: 1,
 			// 支付
 			showPayType: false,
@@ -154,7 +167,7 @@ export default defineComponent({
 			showCard: false,
 			valueCode: ''
 		})
-		const bankList = ref<any[]>([])
+		const bankList = ref<IShowCreditCardListItem[]>([])
 		// const images = ref<any[]>([])
 		// 是否可以提交
 		const dis = computed(() => {
@@ -162,10 +175,10 @@ export default defineComponent({
 		})
 		// 購買類型
 		const buyTypeListFilter = computed(() => {
-			return data.buyTypeList.filter(item => item.ishow)
+			return data.buyTypeList.filter(item => item.isShow)
 		})
-		//修改購買數量
-		const changeBuyNum = (buyNum: number) => {
+		// 修改購買數量
+		const changeBuyNum = () => {
 			data.sum = data.buyNum * data.price
 		}
 
@@ -184,13 +197,12 @@ export default defineComponent({
 
 		// 查看协议
 		const seeProto = () => {
-			let agreementStr = wjsProto
 			// console.log('proto')
 			Dialog.alert({
 				// title: '',
 				className: 'proto',
 				messageAlign: 'left',
-				message: agreementStr
+				message: wjsProto
 			}).then(() => {
 				// on close
 			})
@@ -202,7 +214,7 @@ export default defineComponent({
 					cnySum: data.sum,
 					mccCode: data.bankRadio,
 					investFlag: data.buyType,
-					autoFlag: 1, //Number(data.checked) ? 0 : 1,
+					autoFlag: 1, // Number(data.checked) ? 0 : 1,
 					buyNum: data.buyNum
 				}
 				data.showPayType = true
@@ -241,7 +253,7 @@ export default defineComponent({
 				if (res.resultCode === 1) {
 					bankList.value = res.data.dataIn
 					if (bankList.value.length) {
-						data.bankRadio = bankList.value[0].mccCode
+						data.bankRadio = bankList.value[0].mccCode+''
 						data.bankName = bankList.value[0].mccBankName
 						data.bankCard = bankList.value[0].mccCard
 						// }
@@ -315,21 +327,20 @@ export default defineComponent({
 
 		.login-cont {
 			margin: 20 * @fontSize 0;
+			line-height: 40px;
 			text-align: center;
 			background: #fff;
-			line-height: 40px;
 		}
 		.box {
-			border-radius: 10 * @fontSize;
 			padding: 30 * @fontSize;
 			background: #fff;
+			border-radius: 10 * @fontSize;
 			.item {
+				position: relative;
 				display: flex;
 				align-items: center;
-
 				font-size: 28 * @fontSize;
 				line-height: 105 * @fontSize;
-				position: relative;
 				.money-content {
 					flex: 1;
 					.money-input {
@@ -342,23 +353,23 @@ export default defineComponent({
 				}
 				.value {
 					padding-left: 20 * @fontSize;
-					font-size: 54 * @fontSize;
 					font-weight: 600;
+					font-size: 54 * @fontSize;
 				}
 			}
 			:last-child {
 				border-bottom: none;
 			}
 		}
-		.biztype {
-			background: #fff;
-			padding: 20 * @fontSize 16px;
-			border-radius: 5px;
+		.biz-type {
 			margin-top: 20 * @fontSize;
-			.biztype-func {
+			padding: 20 * @fontSize 16px;
+			background: #fff;
+			border-radius: 5px;
+			.biz-type-func {
 				font-size: 32 * @fontSize;
 			}
-			.biztype-tips {
+			.biz-type-tips {
 				margin-top: 10 * @fontSize;
 				font-size: 24 * @fontSize;
 			}
@@ -368,11 +379,11 @@ export default defineComponent({
 		}
 	}
 	.footer {
-		padding: 20 * @fontSize 16px 22px;
 		position: fixed;
 		bottom: 0;
 		left: 0;
 		z-index: 10;
+		padding: 20 * @fontSize 16px 22px;
 		background: #f7f7f7;
 		.van-checkbox {
 			align-items: flex-start;
@@ -384,17 +395,17 @@ export default defineComponent({
 	.btn {
 		display: block;
 		margin-top: 10 * @fontSize;
+		color: #fff;
+		font-size: 30 * @fontSize;
 		line-height: 88 * @fontSize;
+		text-align: center;
 		background: #ed0c17;
 		border-radius: 12 * @fontSize;
-		text-align: center;
-		font-size: 30 * @fontSize;
-		color: #fff;
 	}
 	.pop-close {
-		text-align: right;
-		margin-right: 40 * @fontSize;
 		margin-top: 40 * @fontSize;
+		margin-right: 40 * @fontSize;
+		text-align: right;
 	}
 	.bank-item {
 		margin-top: 22px;

@@ -7,9 +7,21 @@
 		:show-confirm-button="false"
 	>
 		<CellGroup>
-			<Field label="摘要(必填)" label-width="70" required error readonly clickable error-message="不填，或影响到账时间">
+			<Field
+				label="摘要(必填)"
+				label-width="70"
+				required
+				error
+				readonly
+				clickable
+				error-message="不填，或影响到账时间"
+			>
 				<template #input>
-					<div id="valueCode" :data-clipboard-text="valueCode + biz" @click="clipboard('#valueCode', { des: '摘要' })">
+					<div
+						id="valueCode"
+						:data-clipboard-text="valueCode + biz"
+						@click="clipboard('#valueCode', { des: '摘要' })"
+					>
 						{{ valueCode }}{{ biz }}
 					</div>
 				</template>
@@ -27,14 +39,22 @@
 			</Field>
 			<Field label="开户机构" label-width="60" readonly clickable>
 				<template #input>
-					<div id="bankName" :data-clipboard-text="bankName" @click="clipboard('#bankName', { des: '开户机构' })">
+					<div
+						id="bankName"
+						:data-clipboard-text="bankName"
+						@click="clipboard('#bankName', { des: '开户机构' })"
+					>
 						{{ bankName }}
 					</div>
 				</template>
 			</Field>
 			<Field label="银行账号" label-width="60" readonly clickable>
 				<template #input>
-					<div id="bankAccount" :data-clipboard-text="bankCard" @click="clipboard('#bankAccount', { des: '银行账号' })">
+					<div
+						id="bankAccount"
+						:data-clipboard-text="bankCard"
+						@click="clipboard('#bankAccount', { des: '银行账号' })"
+					>
 						{{ bankCard }}
 					</div>
 				</template>
@@ -60,7 +80,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, toRefs } from 'vue'
-import { CellGroup, Cell, Field, Dialog, Toast } from 'vant'
+import { CellGroup, Cell, Field, Dialog } from 'vant'
 // import Clipboard from 'clipboard'
 import useClipboard from '../../hooks/web/useClipboard'
 export default defineComponent({

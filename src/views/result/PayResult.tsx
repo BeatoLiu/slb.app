@@ -37,7 +37,7 @@ export default defineComponent({
                                 window.clearInterval(data.timer)
                             }
                         })
-                        .catch(err => {
+                        .catch(() => {
                             data.state = -1
                             window.clearInterval(data.timer)
                         })
@@ -73,7 +73,7 @@ export default defineComponent({
                     <div class="pay-result" >
                         <div class={className}>
                             <p>
-                                <Icon name={iconName} class="success-icon"></Icon>
+                                <Icon name={ iconName } class="success-icon"/>
                             </p>
                             <p class="desc">{descText}</p>
                         </div>

@@ -8,7 +8,7 @@
 				<CellGroup>
 					<Cell v-for="item in payTypeList" :key="item.value" :title="item.label" center clickable>
 						<template #icon>
-							<img class="img-icon" :src="item.imgSrc" />
+							<img class="img-icon" :src="item.imgSrc" alt="" />
 						</template>
 						<template #right-icon>
 							<Radio :name="item.value" :disabled="item.dis"> </Radio>
@@ -17,7 +17,7 @@
 				</CellGroup>
 			</RadioGroup>
 			<div style="text-align: center; margin-bottom: 22px">
-				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoding" @click="toPay">立即付款</Button>
+				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoading" @click="toPay">立即付款</Button>
 			</div>
 		</Popup>
 		<!-- 銀行卡轉賬時，銀行卡信息 -->
@@ -41,13 +41,13 @@ import { Popup, Button, RadioGroup, Radio, Cell, CellGroup, Icon, ImagePreview, 
 import VueQr from 'vue-qr/src/packages/vue-qr.vue'
 // import BankCard from '../../../components/BankCard'
 
-import { usePayType } from '../../../hooks/web/usePayType'
+import { usePayType } from '@/hooks/web/usePayType'
 import { stringify } from 'qs'
 // import { bankCardRechargeSUSD, saleSusdFromSlb } from '../../../apis/slb'
-import { withdrawalTaa, singleOnlinePay } from '../../../apis/tAA'
+import { withdrawalTaa, singleOnlinePay } from '@/apis/tAA'
 
 export default defineComponent({
-	name: 'payComponent',
+	name: 'PayComponent',
 	components: {
 		Popup,
 		Button,
@@ -72,7 +72,7 @@ export default defineComponent({
 	},
 	setup(props, { emit }) {
 		const { show, ttCode } = toRefs(props)
-		const payLoding = ref(false)
+		const payLoading = ref(false)
 		const radio = ref('')
 		const payTypeName = ref('') // 支付名称
 		const qrText = ref('')
@@ -104,7 +104,7 @@ export default defineComponent({
 			if (!radio.value) {
 				return Toast('未选择支付方式！')
 			}
-			payLoding.value = true
+			payLoading.value = true
 			if (radio.value === 'alipay') {
 				// qrText.value = 'http://192.168.0.10:9009/slPay/saleSusdFromSlb?' + stringify(params)
 				// 支付宝是前端直接用这个地址生成二维码
@@ -135,11 +135,11 @@ export default defineComponent({
 					})
 				}
 			}
-			payLoding.value = false
+			payLoading.value = false
 			if (flag) {
 				setTimeout(() => {
-					let div = document.getElementById('qr')
-					let imgUrl = div!.getElementsByTagName('img')[0] // 获取二维码
+					const div = document.getElementById('qr')
+					const imgUrl = div!.getElementsByTagName('img')[0] // 获取二维码
 					images.value = [imgUrl.src]
 					showQr.value = true
 				}, 500)
@@ -160,7 +160,7 @@ export default defineComponent({
 			showQr,
 			// valueCode,
 			// showCard,
-			payLoding,
+			payLoading,
 			close,
 			radioChange,
 			toPay
@@ -174,23 +174,23 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 .pay-result {
 	.img-icon {
-		margin-right: 20 * @fontSize;
 		height: 100%;
+		margin-right: 20 * @fontSize;
 	}
 	.btn {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.pop-close {
-		text-align: right;
-		margin-right: 40 * @fontSize;
 		margin-top: 40 * @fontSize;
+		margin-right: 40 * @fontSize;
+		text-align: right;
 		i {
 			color: #000;
 		}
@@ -199,9 +199,9 @@ export default defineComponent({
 		text-align: center;
 	}
 	.copy {
-		text-align: center;
 		color: #07c160;
 		font-size: 16px;
+		text-align: center;
 	}
 }
 </style>

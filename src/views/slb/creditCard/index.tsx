@@ -16,7 +16,6 @@ export default defineComponent({
         // 去添加/修改页面
         const add = (id: number) => {
             if (id) {
-
                 push({ name: 'AddCreditCard', query: { id } })
             } else {
                 push({ name: 'AddCreditCard' })
@@ -96,11 +95,8 @@ export default defineComponent({
                     <div class="add-card flex-center" onClick={() => add(0)}>
                         <Icon name="plus" /><span>添加银行卡</span>
                     </div>
-
                 </div>
             )
         }
     }
 })
-
-

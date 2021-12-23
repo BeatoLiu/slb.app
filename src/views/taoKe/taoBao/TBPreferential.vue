@@ -14,10 +14,10 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import { PullRefresh, List, Toast } from 'vant'
 import TBListItem from '../components/TBListItem.vue'
-import { useTBMaterialGoods } from '../../../hooks/taoKe/useTBMaterialGoods'
+import { useTBMaterialGoods } from '@/hooks/taoKe/useTBMaterialGoods'
 
 export default defineComponent({
-	name: 'tBPreferential',
+	name: 'TBPreferential',
 	components: {
 		PullRefresh,
 		List,
@@ -57,23 +57,23 @@ export default defineComponent({
 		// padding: 5px 0;
 		border: 15 * @fontSize solid #f7f7f7;
 		input {
-			padding: 18 * @fontSize 85 * @fontSize 18 * @fontSize 30 * @fontSize;
-			line-height: 1;
-			margin: 10 * @fontSize 17 * @fontSize 10 * @fontSize 19 * @fontSize;
-			font-size: 30 * @fontSize;
-			width: 714 * @fontSize;
 			box-sizing: border-box;
-			border-radius: 10 * @fontSize;
+			width: 714 * @fontSize;
+			margin: 10 * @fontSize 17 * @fontSize 10 * @fontSize 19 * @fontSize;
+			padding: 18 * @fontSize 85 * @fontSize 18 * @fontSize 30 * @fontSize;
+			font-size: 30 * @fontSize;
+			line-height: 1;
 			border-top: 1px solid #f2f2f2;
 			border-bottom: 1px solid #f2f2f2;
+			border-radius: 10 * @fontSize;
 		}
 	}
 	.list {
 		.title {
-			font-size: 34 * @fontSize;
-			font-weight: bold;
-			line-height: 1;
 			margin: 30 * @fontSize 0 26 * @fontSize 20 * @fontSize;
+			font-weight: bold;
+			font-size: 34 * @fontSize;
+			line-height: 1;
 		}
 	}
 }

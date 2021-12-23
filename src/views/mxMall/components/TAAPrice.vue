@@ -3,8 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue-demi'
-import { useEcGasCalc } from '../../../hooks/mx/useEcGasCalc'
+import { ref } from 'vue'
+import { useEcGasCalc } from '@/hooks/mx/useEcGasCalc'
+// eslint-disable-next-line no-undef
 const props = defineProps({
 	mCode: Number,
 	price: Number

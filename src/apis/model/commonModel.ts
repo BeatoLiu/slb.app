@@ -41,7 +41,7 @@ interface IShowSubAreaItem {
 }
 export type IShowSubAreaRes = IBaseResList<IShowSubAreaItem>
 
-/** ---------------------------------response-----------------------------------------*/
+/** ---------------------------------response----------------------------------------- */
 /**
  * @description 統一下拉刷新的hooks的返回數據
  * @param refreshing 下拉組件PullRefresh的狀態

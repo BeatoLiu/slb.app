@@ -47,7 +47,7 @@ import { Button, Icon, Dialog, Toast } from 'vant'
 import { IShowCreditCardListItem, IShowCreditCardListModel } from '@/apis/model/bankCardModel'
 import { showCreditCardList, deleteCreditCard } from '@/apis/bankCard'
 export default defineComponent({
-	name: 'bankCardList',
+	name: 'BankCardList',
 	components: { Button, Icon },
 	setup() {
 		const dataList = ref<IShowCreditCardListItem[]>([])

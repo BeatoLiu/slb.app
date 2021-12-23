@@ -121,7 +121,7 @@ interface baseMode {
 	[key: string]: any
 }
 export default defineComponent({
-	name: 'goodsDetail',
+	name: 'GoodsDetail',
 	components: {
 		Popup,
 		Icon,

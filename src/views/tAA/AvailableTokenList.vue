@@ -67,26 +67,21 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
-import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader, Tabs, Tab } from 'vant'
-
-import { IPullRefreshListRes } from "@/apis/model/commonModel"
+import { Sticky, PullRefresh, List, Calendar, Tabs, Tab } from 'vant'
 // import {
 // 	selectAvailableTokenListItem,
 // 	selectAvailableTokenListModel,
 // 	selectBenefitOrderListModel
 // } from '../../apis/model/tAAModel'
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useOffSetTop } from "@/hooks/web/useOffSetTop"
-import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
-import { selectSignTokenTempTotalListSum } from "@/apis/tAA"
-import { ISelectSignTokenTempTotalListItem } from "@/apis/model/tAAModel"
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { useTimeParam } from '@/hooks/web/useTimeParam'
+import { selectSignTokenTempTotalListSum } from '@/apis/tAA'
+import { ISelectSignTokenTempTotalListItem, ISelectSignTokenTempTotalListModel } from '@/apis/model/tAAModel'
 export default defineComponent({
 	name: 'AvailableTokenList',
 	components: {
-		Button,
 		Calendar,
-		Uploader,
-		Cell,
 		List,
 		PullRefresh,
 		Sticky,
@@ -95,7 +90,7 @@ export default defineComponent({
 	},
 	setup() {
 		const { offSetTop } = useOffSetTop()
-		const { formatDayMonth } = useFormatDayMonth()
+		const { getTimeParams, getFormatTime } = useTimeParam()
 
 		const active = ref(0)
 		const daysInfo = reactive({
@@ -119,26 +114,26 @@ export default defineComponent({
 			// atdStatusList: null
 		})
 		onMounted(() => {
-			const end = new Date()
-			const start = new Date()
-			start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const { startTime, endTime, timeStr } = getTimeParams(6)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 
 			getSum()
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<ISelectSignTokenTempTotalListItem>
-		>usePullRefreshPageList('taa/selectSignTokenTempTotalList', params, { method: 'POST' })
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			ISelectSignTokenTempTotalListItem,
+			ISelectSignTokenTempTotalListModel
+		>('taa/selectSignTokenTempTotalList', params, { method: 'POST' })
 
 		// 選擇時間
-		const onConfirm = (date: any) => {
-			const [start, end] = date
+		const onConfirm = (date: Date[]) => {
 			showTime.value = false
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const [start, end] = date
+			const { startTime, endTime, timeStr } = getFormatTime(start, end)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 			params.pageNum = 0
 			loading.value = true
 			finished.value = false

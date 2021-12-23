@@ -61,11 +61,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue'
 import { Toast, Field, CellGroup, Button, Icon, ImagePreview } from 'vant'
-import { getMemberWalletUrl, updateWalletUrl } from '../../apis/tAA'
+import { getMemberWalletUrl, updateWalletUrl } from '@/apis/tAA'
 import { useRouter } from 'vue-router'
-import { picDisplayPath } from '../../utils/config'
+import { picDisplayPath } from '@/utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
 import { useStore } from '@/store'
 
@@ -129,7 +129,7 @@ export default defineComponent({
 		}
 		// 提交
 		const toSign = () => {
-			let params = {
+			const params = {
 				// alipayAcct: data.alipayAcct,
 				// certCode: data.certCode,
 				walletUrl: data.walletUrl
@@ -175,29 +175,29 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '../../assets/css/local.less';
 .take-cash-account {
-	font-size: 28 * @fontSize;
 	// height: calc(100vh - 90px);
 	box-sizing: border-box;
 	padding: 20 * @fontSize;
+	font-size: 28 * @fontSize;
 	.login-cont {
-		background: #fff;
 		// height: calc(100vh);
 		padding-bottom: 20 * @fontSize;
 		text-align: center;
+		background: #fff;
 	}
 	.btn {
 		width: 100%;
 		margin: 90 * @fontSize 0;
-		line-height: 80 * @fontSize;
-		border-radius: 10px;
-		background: #e7283b;
-		text-align: center;
-		font-size: 28 * @fontSize;
 		color: #fff;
+		font-size: 28 * @fontSize;
+		line-height: 80 * @fontSize;
+		text-align: center;
+		background: #e7283b;
+		border-radius: 10px;
 	}
 	.help-tips {
-		text-align: center;
 		width: 100vw;
+		text-align: center;
 		background: rgba(0, 0, 0, 0.7);
 	}
 }

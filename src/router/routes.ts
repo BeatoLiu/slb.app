@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 import Home from "../views/Home.vue"
 import { Footer } from '@/components/Footer'
-import { t } from '../hooks/setting/useI18n'
+import { t } from "@/hooks/setting/useI18n"
 import { slbRoutes } from './slbRoutes'
 import { taoKeRoutes } from './taoKeRoutes'
 import { mxRoutes } from './mxRoutes'

@@ -2,13 +2,20 @@
 	<div>
 		<Sticky :offset-top="offSetTop">
 			<Tabs v-model:active="activeName">
-				<Tab v-for="item in navList" :title="item.title" :name="item.to.name" :key="item.title" :to="item.to" replace>
+				<Tab
+					v-for="item in navList"
+					:title="item.title"
+					:name="item.to.name"
+					:key="item.title"
+					:to="item.to"
+					replace
+				>
 				</Tab>
 			</Tabs>
 		</Sticky>
 		<!-- <router-view></router-view> -->
 		<router-view v-slot="{ Component, route }">
-			<keep-alive :include="cachList">
+			<keep-alive :include="cacheList">
 				<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
 			</keep-alive>
 		</router-view>
@@ -18,7 +25,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { Tab, Tabs, Sticky } from 'vant'
-import { useOffSetTop } from '../../hooks/web/useOffSetTop'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 export default defineComponent({
 	name: 'BankTranNav',
 	components: {
@@ -38,10 +45,8 @@ export default defineComponent({
 			activeName,
 			navList,
 			offSetTop,
-			cachList: /^\w.*-alive$/
+			cacheList: /^\w.*-alive$/
 		}
 	}
 })
 </script>
-
-<style lang="less" scoped></style>

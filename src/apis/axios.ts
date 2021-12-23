@@ -152,4 +152,3 @@ export const httpRequest = <T = any>(method: Method, url: string, params: any, {
     return ajaxMain(method, url, params, config)
 }
 // }
-

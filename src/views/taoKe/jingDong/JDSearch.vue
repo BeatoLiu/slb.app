@@ -28,14 +28,14 @@
 <script lang="ts">
 import { defineComponent, toRefs, reactive, onMounted } from 'vue'
 import { Sticky, Icon, PullRefresh, List, Toast } from 'vant'
-import { showJdGoodsByFromApi } from '../../../apis/taoKe'
+import { showJdGoodsByFromApi } from '@/apis/taoKe'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
 import JDListItem from '../components/JDListItem.vue'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'tbSearch',
+	name: 'JdSearch',
 	components: {
 		Sticky,
 		Icon,
@@ -157,8 +157,8 @@ export default defineComponent({
 .search-goods-list {
 	// margin-top: 98px;
 	.sort {
-		background: #ffffff;
 		padding: 20 * @fontSize 80 * @fontSize;
+		background: #fff;
 		border-top: 1px solid #f7f7f7;
 		border-bottom: 1px solid #f7f7f7;
 	}

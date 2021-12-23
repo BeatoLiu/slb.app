@@ -1,19 +1,19 @@
 <template>
-	<div class="addr">
+	<div class="address">
 		<AddressList v-model="chosenAddressId" :list="list" @add="onAdd" @edit="onEdit" @click-item="clickItem" />
-		<div class="tip" v-if="list.length == 0">暂无收获地址</div>
+		<div class="tip" v-if="list.length === 0">暂无收获地址</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue'
 import { AddressList } from 'vant'
-import { showSelfDeliveryAddress } from '../../../apis/mem'
+import { showSelfDeliveryAddress } from '@/apis/mem'
 import { useRouter } from 'vue-router'
-import { useStore } from '../../../store'
+import { useStore } from '@/store'
 
 export default defineComponent({
-	name: 'addressList',
+	name: 'AddressList',
 	components: { AddressList },
 	setup() {
 		const { push, replace, options } = useRouter()
@@ -76,10 +76,10 @@ export default defineComponent({
 
 <style lang="less" scoped>
 @import '../../../assets/css/local.less';
-.addr {
+.address {
 	.tip {
-		line-height: 88 * @fontSize;
 		color: #999;
+		line-height: 88 * @fontSize;
 		text-align: center;
 	}
 }

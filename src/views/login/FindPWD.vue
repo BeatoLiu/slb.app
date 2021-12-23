@@ -15,7 +15,7 @@ import { IRegisterModel } from '@/apis/model/loginModel'
 import { modifyPassword } from '@/apis/login'
 
 export default defineComponent({
-	name: 'SlbFindPWD',
+	name: 'FindPWD',
 	components: {
 		InputForm
 	},
@@ -45,4 +45,3 @@ export default defineComponent({
 	}
 })
 </script>
-

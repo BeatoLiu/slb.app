@@ -50,7 +50,7 @@ import { Search, Cell, Icon, Tabs, Tab, Tag, Toast } from 'vant'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-	name: 'taokeSearch',
+	name: 'TaokeSearch',
 	components: {
 		Search,
 		Cell,
@@ -81,7 +81,7 @@ export default defineComponent({
 			if (val) {
 				k = val
 			} else {
-				if (!keywords) {
+				if (!keywords.value) {
 					return Toast('请输入正确商品名称')
 				}
 				if (!historyList.value.includes(keywords.value)) {
@@ -115,8 +115,8 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '../../assets/css/local.less';
 .search-kw {
-	background: #ffffff;
 	min-height: calc(100vh - 90px);
+	background: #fff;
 	.search-input {
 		// padding: 10*@fontSize;
 		// margin-top: 46px;
@@ -126,8 +126,8 @@ export default defineComponent({
 		// }
 		.van-search {
 			&__content {
-				border: solid 1px red;
 				background: #fff;
+				border: solid 1px red;
 			}
 
 			// border-radius: 20px;
@@ -139,10 +139,10 @@ export default defineComponent({
 			border: none;
 		}
 		.list-content {
-			padding: 0px 6px;
+			padding: 0 6px;
 			span {
-				margin-left: 10 * @fontSize;
 				margin-top: 10 * @fontSize;
+				margin-left: 10 * @fontSize;
 			}
 		}
 	}

@@ -28,14 +28,14 @@
 <script lang="ts">
 import { defineComponent, toRefs, reactive, onMounted } from 'vue'
 import { Sticky, Icon, PullRefresh, List, Toast } from 'vant'
-import { vopSelectItemsByKeyword } from '../../../apis/taoKe'
+import { vopSelectItemsByKeyword } from '@/apis/taoKe'
 import { useRouter } from 'vue-router'
 
 import WPHListItem from '../components/WPHListItem.vue'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'pddSearch',
+	name: 'WPHSearch',
 	components: {
 		Sticky,
 		Icon,
@@ -153,8 +153,8 @@ export default defineComponent({
 .search-goods-list {
 	// margin-top: 98px;
 	.sort {
-		background: #ffffff;
 		padding: 20 * @fontSize 80 * @fontSize;
+		background: #fff;
 		border-top: 1px solid #f7f7f7;
 		border-bottom: 1px solid #f7f7f7;
 	}

@@ -15,7 +15,7 @@
 import slbImg from '../../../assets/img/pay-logo.png'
 import tpImg from '../../../assets/img/slb/tp.png'
 import naImg from '../../../assets/img/slb/nabox.png'
-import { defineComponent } from 'vue-demi'
+import { defineComponent } from 'vue'
 export default defineComponent({
 	name: 'DownloadIndex',
 	// components: { CellGroup, Cell, Icon },
@@ -76,16 +76,16 @@ export default defineComponent({
 @import '../../../assets/css/local.less';
 // @fontSize: 0.01333rem;
 .pay-list {
-	padding-top: 20 * @fontSize;
 	flex-wrap: wrap;
 	box-sizing: border-box;
+	padding-top: 20 * @fontSize;
 	.item {
 		box-sizing: border-box;
-		padding: 20 * @fontSize 0;
 		width: 50%;
 		height: 200 * @fontSize;
-		background: #fff;
+		padding: 20 * @fontSize 0;
 		text-align: center;
+		background: #fff;
 		img {
 			width: 100 * @fontSize;
 		}
@@ -100,8 +100,8 @@ export default defineComponent({
 
 	a {
 		display: inline-block;
-		color: #323233;
 		width: 100%;
+		color: #323233;
 	}
 }
 </style>

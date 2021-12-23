@@ -1,5 +1,5 @@
 interface Window {
-    scanRes: (res: string) => void;
+	scanRes: (res: string) => void;
 }
 // declare var window: MyWindow;
 

@@ -50,7 +50,7 @@ import { useRouter } from 'vue-router'
 import { mallPayOnline, mallPayOnlineDetail, selectPayOrderByBizOrderCode } from '@/apis/mx'
 
 export default defineComponent({
-	name: 'mxPayComponent',
+	name: 'MxPayComponent',
 	components: {
 		Popup,
 		RadioGroup,

@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { t } from '../hooks/setting/useI18n'
+import { t } from "@/hooks/setting/useI18n"
 
 export const settingsRoutes: Array<RouteRecordRaw> = [
     // 设置

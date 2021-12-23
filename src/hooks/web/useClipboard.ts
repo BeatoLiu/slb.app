@@ -11,11 +11,11 @@ export default () => {
      */
     return function clipboard(selector: string | Element | NodeListOf<Element>, options?: Clipboard.Options & { des: string } | undefined) {
         const clipboard = new Clipboard(selector)
-        clipboard.on('success', function (e) {
+        clipboard.on('success', function () {
             Toast((options?.des || '') + '复制成功')
             clipboard.destroy()
         })
-        clipboard.on('error', function (e) {
+        clipboard.on('error', function () {
             Toast('您的浏览器不支持点击复制')
             clipboard.destroy()
         })

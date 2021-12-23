@@ -1,6 +1,6 @@
 import { IBaseResList, IBaseResT } from "./base";
 
-/**餘額信息 */
+/** 餘額信息 */
 interface IGetMemberCashAcctInfo {
     acctCash: number;
     acctSie: number;
@@ -126,5 +126,3 @@ export interface ISetMemberAllianceWalletPwdModel {
     allianceWalletPasswordConfirm: string;
     vCode: string
 }
-
-

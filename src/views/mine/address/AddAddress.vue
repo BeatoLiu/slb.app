@@ -6,20 +6,20 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { Toast, AddressEdit } from 'vant'
-import { showSubArea } from '../../../apis/common'
+import { AddressEdit } from 'vant'
+import { showSubArea } from '@/apis/common'
 import { useRouter } from 'vue-router'
-import { addDeliveryAddress } from '../../../apis/mem'
-import { areaModel } from './types'
+import { addDeliveryAddress } from '@/apis/mem'
+import { IAreaModel } from './types'
 
 export default defineComponent({
-	name: 'addAddress',
+	name: 'AddAddress',
 	components: {
 		AddressEdit
 	},
 	setup() {
 		const { push } = useRouter()
-		const data = reactive<areaModel>({
+		const data = reactive<IAreaModel>({
 			areaList: {
 				province_list: {},
 				city_list: {},
@@ -28,13 +28,13 @@ export default defineComponent({
 		})
 
 		const getArea = (val: number) => {
-			let params = {
+			const params = {
 				parentCode: '',
 				type: val
 			}
 			showSubArea(params).then(res => {
 				if (res.resultCode === 1) {
-					let arr = res.data
+					const arr = res.data
 					if (val === 2) {
 						arr.forEach((ele: any) => {
 							data.areaList.province_list[ele.currentCode] = ele.currentName
@@ -52,7 +52,7 @@ export default defineComponent({
 			})
 		}
 		const onSave = (obj: any) => {
-			let data = {
+			const data = {
 				aCode: obj.areaCode,
 				aName: obj.province + obj.city + obj.county,
 				daMobile: obj.tel,
@@ -84,5 +84,3 @@ export default defineComponent({
 	}
 })
 </script>
-
-<style lang="less" scoped></style>

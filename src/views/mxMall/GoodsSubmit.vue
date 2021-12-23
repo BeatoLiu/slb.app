@@ -25,7 +25,7 @@
 			</div>
 			<div class="right" @click="chooseAddr"><Icon name="arrow" /></div>
 		</div>
-		<div class="add-addr" @click="chooseAddr" v-if="!addrInfo.daMobile">
+		<div class="add-address" @click="chooseAddr" v-if="!addrInfo.daMobile">
 			<Icon name="add-o" size="0.5rem" />
 			<span>增加收货地址</span>
 		</div>
@@ -97,9 +97,9 @@
 import { Icon, SubmitBar, Toast } from 'vant'
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { showAcquiesceDeliveryAddress } from '../../apis/mem'
-import { mallPayOnline, selectPayOrderByBizOrderCode, submitEcBill } from '../../apis/mx'
-import { useStore } from '../../store'
+import { showAcquiesceDeliveryAddress } from '@/apis/mem'
+import { mallPayOnline, selectPayOrderByBizOrderCode, submitEcBill } from '@/apis/mx'
+import { useStore } from '@/store'
 
 import PayType from '../../components/PayType'
 import PayQr from '../../components/PayQr'
@@ -119,7 +119,7 @@ export default defineComponent({
 		const orderInfo = computed(() => store.state.user.buyOrderDetail)
 
 		const data = reactive({
-			podRemark: '', //卖家留言
+			podRemark: '', // 卖家留言
 			// merCode: localStorage.merCode,
 			proInfo: {
 				prdPrice: 0,
@@ -145,7 +145,7 @@ export default defineComponent({
 		// 支付方式
 		const payType = reactive({ alipayShow: false, bankShow: false })
 		// 地址信息
-		let addrInfo = reactive({
+		const addrInfo = reactive({
 			aCode: 0,
 			daCode: 0,
 			daName: '',
@@ -192,7 +192,7 @@ export default defineComponent({
 			// data.qrText = options.payTypeName
 			data.imageUrl = options.imageUrl
 			// const params = {}
-			let params1 = {
+			const params1 = {
 				payPlat: options.payPlat, // 支付平台
 				poCode: data.poCode // 订单编号, 第一次生成订单
 				// podCode: orderInfo.value.value // 订单编号，订单列表和订单详情中
@@ -210,12 +210,12 @@ export default defineComponent({
 							data.showQr = true
 						}, 500)
 
-						let newParams = {
+						const newParams = {
 							orderBizCode: data.poCode,
 							orderBizType: 1
 						}
 						let count = 0
-						let timer = window.setInterval(() => {
+						const timer = window.setInterval(() => {
 							if (count < 4) {
 								selectPayOrderByBizOrderCode(newParams).then(res => {
 									if (res.resultCode === 1 && res.data.orderPayStatus) {
@@ -282,9 +282,9 @@ export default defineComponent({
 		padding-top: 25 * @fontSize;
 		color: #333;
 		.item {
+			flex: 1;
 			font-size: 20 * @fontSize;
 			text-align: center;
-			flex: 1;
 			img {
 				width: 50 * @fontSize;
 			}
@@ -297,40 +297,40 @@ export default defineComponent({
 		}
 	}
 	.contact {
-		margin-top: 50 * @fontSize;
-		padding: 0 36 * @fontSize 0 30 * @fontSize;
 		display: flex;
 		align-items: flex-start;
+		margin-top: 50 * @fontSize;
+		padding: 0 36 * @fontSize 0 30 * @fontSize;
 		img {
 			width: 20 * @fontSize;
 			margin-top: 8 * @fontSize;
 		}
 		.info {
-			margin-left: 16 * @fontSize;
-			color: #333;
-			overflow: hidden;
 			width: 610 * @fontSize;
+			margin-left: 16 * @fontSize;
+			overflow: hidden;
+			color: #333;
 
 			.name,
 			.phone {
-				font-size: 30 * @fontSize;
 				font-weight: bold;
+				font-size: 30 * @fontSize;
 			}
 			.phone {
 				float: right;
 			}
 			p {
-				font-size: 24 * @fontSize;
 				color: #808080;
+				font-size: 24 * @fontSize;
 			}
 		}
 		.right {
-			margin-left: 20 * @fontSize;
 			margin-top: 30 * @fontSize;
+			margin-left: 20 * @fontSize;
 			color: #808080;
 		}
 	}
-	.add-addr {
+	.add-address {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -340,19 +340,19 @@ export default defineComponent({
 		}
 	}
 	.line {
-		padding: 0 9 * @fontSize;
-		margin-top: 33 * @fontSize;
 		height: 2px;
+		margin-top: 33 * @fontSize;
+		padding: 0 9 * @fontSize;
 	}
 	.title {
-		line-height: 90 * @fontSize;
-		background: #fff;
 		margin-top: 15 * @fontSize;
 		color: #333;
+		line-height: 90 * @fontSize;
+		background: #fff;
 		i {
-			font-size: 32 * @fontSize;
 			width: 32 * @fontSize;
 			margin: 30 * @fontSize 10 * @fontSize 0 30 * @fontSize;
+			font-size: 32 * @fontSize;
 		}
 	}
 	.cont {
@@ -372,8 +372,8 @@ export default defineComponent({
 				color: #ff0101;
 			}
 			p {
-				color: #999;
 				margin-top: 20 * @fontSize;
+				color: #999;
 			}
 		}
 		.num {
@@ -382,25 +382,25 @@ export default defineComponent({
 	}
 	.type,
 	.sum {
+		margin-top: 15 * @fontSize;
 		padding: 0 30 * @fontSize;
 		font-size: 24 * @fontSize;
 		background: #fff;
-		margin-top: 15 * @fontSize;
 		.item {
 			display: flex;
 			align-items: center;
-			border-bottom: 1px solid #f7f7f7;
 			height: 80 * @fontSize;
+			border-bottom: 1px solid #f7f7f7;
 			.name {
 				flex: 1;
 			}
 			input {
-				width: 490 * @fontSize;
 				flex-shrink: 0;
+				width: 490 * @fontSize;
 			}
 			span {
-				font-weight: bold;
 				color: #ff0101;
+				font-weight: bold;
 			}
 			.right {
 				margin-left: 15 * @fontSize;

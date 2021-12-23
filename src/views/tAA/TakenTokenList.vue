@@ -31,7 +31,11 @@
 						<div class="flex-space">
 							<p>提T状态：{{ item.ttSetStatusName }}</p>
 							<!-- <p>{{ item.ttSetStatus }}</p> -->
-							<Button type="primary" size="small" @click="singleWithdraw(item.ttCode)" v-if="!item.ttSetStatus"
+							<Button
+								type="primary"
+								size="small"
+								@click="singleWithdraw(item.ttCode)"
+								v-if="!item.ttSetStatus"
 								>提T</Button
 							>
 						</div>
@@ -54,22 +58,18 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
-import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader, Toast } from 'vant'
+import { Sticky, PullRefresh, List, Button, Calendar, Toast } from 'vant'
+import { ISelectTakenTokenListItem, ISelectTakenTokenListModel } from '@/apis/model/tAAModel'
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { useTimeParam } from '@/hooks/web/useTimeParam'
+import { selectTakeTokenDetailListSum, singleOnlinePay, singleWithdrawal } from '@/apis/tAA'
 
-import { IPullRefreshListRes } from '../../apis/model/commonModel'
-import { ISelectTakenTokenListItem, ISelectTakenTokenListModel } from '../../apis/model/tAAModel'
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useOffSetTop } from "@/hooks/web/useOffSetTop"
-import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
-import { selectTakeTokenDetailListSum, singleOnlinePay, singleWithdrawal } from "@/apis/tAA"
-// import WithdrawPayComponent from './components/WithdrawPayComponent.vue'
 export default defineComponent({
-	name: 'selectTakenTokenList',
+	name: 'SelectTakenTokenList',
 	components: {
 		Button,
 		Calendar,
-		Uploader,
-		Cell,
 		List,
 		PullRefresh,
 		Sticky
@@ -77,7 +77,7 @@ export default defineComponent({
 	},
 	setup() {
 		const { offSetTop } = useOffSetTop()
-		const { formatDayMonth } = useFormatDayMonth()
+		const { getFormatTime, getTimeParams } = useTimeParam()
 
 		// 显示支付
 		const showComponent = ref(false)
@@ -102,26 +102,26 @@ export default defineComponent({
 			ttSetStatus: -1
 		})
 		onMounted(() => {
-			const end = new Date()
-			const start = new Date()
-			start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const { startTime, endTime, timeStr } = getTimeParams(6)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 
 			getSum()
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<ISelectTakenTokenListItem>
-		>usePullRefreshPageList('taa/selectTakeTokenDetailList', params, { method: 'GET' })
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			ISelectTakenTokenListItem,
+			ISelectTakenTokenListModel
+		>('taa/selectTakeTokenDetailList', params, { method: 'GET' })
 
 		// 選擇時間
-		const onConfirm = (date: any) => {
-			const [start, end] = date
+		const onConfirm = (date: Date[]) => {
 			showTime.value = false
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const [start, end] = date
+			const { startTime, endTime, timeStr } = getFormatTime(start, end)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 			params.pageNum = 0
 			loading.value = true
 			finished.value = false

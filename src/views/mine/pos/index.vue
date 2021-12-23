@@ -21,7 +21,7 @@ import { showCreditPosList, deleteCreditPos } from '@/apis/bankCard'
 import { IShowCreditPosListItem } from "@/apis/model/bankCardModel"
 
 export default defineComponent({
-	name: 'posList',
+	name: 'PosList',
 	components: {
 		Icon,
 		Button,

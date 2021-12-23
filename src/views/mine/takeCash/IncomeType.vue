@@ -30,9 +30,9 @@ import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue'
 import { Toast, RadioGroup, Radio, Dialog, Button } from 'vant'
 import { getMemberByCode, changeIncomeType } from '@/apis/mem'
 import { showDictionary } from '@/apis/common'
-import { IShowDictionaryItem } from "@/apis/model/commonModel"
+import { IShowDictionaryItem } from '@/apis/model/commonModel'
 export default defineComponent({
-	name: 'incomeType',
+	name: 'IncomeType',
 	components: {
 		RadioGroup,
 		Radio,

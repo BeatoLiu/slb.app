@@ -8,13 +8,13 @@ import { Toast } from "vant";
  * @returns
  */
 export const useSendSms = async (p: ISmsModel) => {
-    let status = 0
-    if (checkPhone(p.phoneNum)) {
-        const res = await sendSmsCode(p)
-        if (res.resultCode === 1) {
-            status = 1
-            Toast('短信发送成功')
-        }
-    }
-    return { status }
+	let status = 0
+	if (checkPhone(p.phoneNum)) {
+		const res = await sendSmsCode(p)
+		if (res.resultCode === 1) {
+			status = 1
+			Toast('短信发送成功')
+		}
+	}
+	return { status }
 }

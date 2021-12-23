@@ -18,11 +18,11 @@ import { defineComponent, reactive, toRefs } from 'vue'
 import { List, PullRefresh, Sticky } from 'vant'
 import WPHListItem from '../components/WPHListItem.vue'
 import { useRouter } from 'vue-router'
-import { useVopJXGoods } from '../../../hooks/taoKe/useVopJXGoods'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { useVopJXGoods } from '@/hooks/taoKe/useVopJXGoods'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'wphGridProm',
+	name: 'WphGridProm',
 	components: {
 		List,
 		PullRefresh,
@@ -70,10 +70,10 @@ export default defineComponent({
 	// margin-top: 46px;
 	.list {
 		.title {
-			font-size: 34 * @fontSize;
-			font-weight: bold;
-			line-height: 1;
 			padding: 10 * @fontSize 0 26 * @fontSize 10 * @fontSize;
+			font-weight: bold;
+			font-size: 34 * @fontSize;
+			line-height: 1;
 			background-color: #f7f7f7;
 		}
 	}

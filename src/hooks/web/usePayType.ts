@@ -7,47 +7,47 @@ import wxImg from '../../assets/img/payLogo/weixin.png'
 import bankImg from '../../assets/img/payLogo/rmb.png'
 
 interface payTypeModel {
-    susdShow?: boolean;
-    usdtShow?: boolean;
-    alipayShow?: boolean;
-    wxShow?: boolean;
-    bankShow?: boolean
+	susdShow?: boolean;
+	usdtShow?: boolean;
+	alipayShow?: boolean;
+	wxShow?: boolean;
+	bankShow?: boolean
 
 }
 export const usePayType = ({ susdShow = false, usdtShow = false, alipayShow = true, wxShow = true, bankShow = true }: payTypeModel = {}) => {
-    // console.log(options)
-    const payType = ref([
-        {
-            value: 'susd',
-            label: 'SUSD',
-            imgSrc: scImg,
-            dSubCode: '7',
-            ishow: susdShow,
-            dis: false
-        },
-        {
-            value: 'usdt',
-            label: 'USDT',
-            imgSrc: scImg,
-            dSubCode: '10',
-            ishow: usdtShow,
-            dis: false
-        },
-        { value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, ishow: alipayShow, dis: false },
-        { value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, ishow: wxShow, dis: false },
-        {
-            value: 'bank',
-            label: '银行卡转账',
-            dSubCode: '2',
-            imgSrc: bankImg,
-            ishow: bankShow,
-            dis: false
-        }
-    ])
-    const payTypeList = computed(() => {
-        // let str = props.cRecPayType || '12'
-        return payType.value.filter(item => item.ishow)
-    })
+	// console.log(options)
+	const payType = ref([
+		{
+			value: 'susd',
+			label: 'SUSD',
+			imgSrc: scImg,
+			dSubCode: '7',
+			isShow: susdShow,
+			dis: false
+		},
+		{
+			value: 'usdt',
+			label: 'USDT',
+			imgSrc: scImg,
+			dSubCode: '10',
+			isShow: usdtShow,
+			dis: false
+		},
+		{ value: 'alipay', label: '支付宝', dSubCode: '1', imgSrc: alipayImg, isShow: alipayShow, dis: false },
+		{ value: 'wx', label: '微信', dSubCode: '1', imgSrc: wxImg, isShow: wxShow, dis: false },
+		{
+			value: 'bank',
+			label: '银行卡转账',
+			dSubCode: '2',
+			imgSrc: bankImg,
+			isShow: bankShow,
+			dis: false
+		}
+	])
+	const payTypeList = computed(() => {
+		// let str = props.cRecPayType || '12'
+		return payType.value.filter(item => item.isShow)
+	})
 
-    return { payTypeList }
+	return { payTypeList }
 }

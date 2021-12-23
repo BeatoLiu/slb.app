@@ -20,7 +20,7 @@ export default defineComponent({
                 <div class="container">
                     <div class="top">
                         <p class="title">收款地址</p>
-                        <p class="addr">{walletUrl.value && walletUrl.value.substring(0, 8) + '*****' + walletUrl.value.substring(30)}</p>
+                        <p class="address">{walletUrl.value && walletUrl.value.substring(0, 8) + '*****' + walletUrl.value.substring(30)}</p>
                     </div>
                     <div id="qr" class="qr-img" >
                         <VueQr logoSrc={ logoImg } text={ walletUrl.value } size={ 260 } margin={ 5 } dotScale={ 1 } logoScale={ 10 }/>

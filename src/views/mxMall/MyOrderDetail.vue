@@ -29,7 +29,9 @@
 				<!-- <p>{{ skuName(msg.prdCsSkuCollection) }}</p> -->
 				<p>{{ msg.className }}</p>
 				<!-- {{msg.prdSum/msg.prdCount}} -->
-				<div class="price">{{ msg.pointMCode ? 'VBM' + msg.pointNumber : '￥' + msg.prdSum / msg.prdCount }}</div>
+				<div class="price">
+					{{ msg.pointMCode ? 'VBM' + msg.pointNumber : '￥' + msg.prdSum / msg.prdCount }}
+				</div>
 			</div>
 			<div class="num">
 				X{{ msg.prdCount }}
@@ -70,7 +72,9 @@
 			<div class="item">
 				<div class="name"></div>
 				<div class="value">
-					合计：<span>{{ msg.pointMCode ? (msg.pointNumber * msg.prdCount).toFixed(2) : '￥' + msg.prdFactSum }}</span>
+					合计：<span>{{
+						msg.pointMCode ? (msg.pointNumber * msg.prdCount).toFixed(2) : '￥' + msg.prdFactSum
+					}}</span>
 				</div>
 			</div>
 		</div>
@@ -105,7 +109,7 @@
 			</div>
 			<p>{{ msg.podStatus === 3 ? msg.prdSentTime : msg.prdReceivedTime }}</p>
 		</div>
-		<PayComponent ref="paychild" :poCode="msg.poCode" :podCode="msg.podCode" :show="show" @close="close" />
+		<PayComponent :poCode="msg.poCode" :podCode="msg.podCode" :show="show" @close="close" />
 	</div>
 </template>
 
@@ -113,13 +117,13 @@
 import { defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { Icon } from 'vant'
 import PayComponent from './components/PayComponent.vue'
-import { getMallPrdOrderDetail } from '../../apis/mx'
+import { getMallPrdOrderDetail } from '@/apis/mx'
 import { useRouter } from 'vue-router'
-import { useImgPath } from '../../hooks/mx/useImgPath'
-import { useSkuName } from '../../hooks/mx/useSkuName'
+import { useImgPath } from '@/hooks/mx/useImgPath'
+import { useSkuName } from '@/hooks/mx/useSkuName'
 import useClipboard from '../../hooks/web/useClipboard'
 export default defineComponent({
-	name: 'myOrderDetail',
+	name: 'MyOrderDetail',
 	components: {
 		Icon,
 		PayComponent
@@ -130,7 +134,7 @@ export default defineComponent({
 		const { skuName } = useSkuName()
 		const clipboard = useClipboard()
 		const data = reactive({
-			podRemark: '', //卖家留言
+			podRemark: '', // 卖家留言
 			// active: 0,              //oStatus: 0待发货 1 待收货 2 待评价  3退款和售后
 			canRefund: true,
 			// poAttach: {},          //地址信息
@@ -178,7 +182,7 @@ export default defineComponent({
 		})
 		return {
 			...toRefs(data),
-			msg, //: { ...toRefs(msg) },
+			msg, // : { ...toRefs(msg) },
 			// imgPath,
 			// skuName,
 			toRefund,
@@ -202,53 +206,53 @@ export default defineComponent({
 		// font-weight: 600;
 		background: linear-gradient(90deg, #ff7962 0%, #f9023e 100%);
 		i {
-			font-size: 60 * @fontSize;
 			margin-right: 30 * @fontSize;
+			font-size: 60 * @fontSize;
 		}
 	}
 	.contact {
-		padding: 30 * @fontSize 36 * @fontSize 0 30 * @fontSize;
 		display: flex;
 		align-items: flex-start;
+		padding: 30 * @fontSize 36 * @fontSize 0 30 * @fontSize;
 		img {
 			width: 20 * @fontSize;
 			margin-top: 8 * @fontSize;
 		}
 		.info {
-			margin-left: 16 * @fontSize;
-			color: #333;
-			overflow: hidden;
 			width: 610 * @fontSize;
+			margin-left: 16 * @fontSize;
+			overflow: hidden;
+			color: #333;
 
 			.name,
 			.phone {
-				font-size: 30 * @fontSize;
 				font-weight: bold;
+				font-size: 30 * @fontSize;
 			}
 			.phone {
 				float: right;
 			}
 			p {
-				font-size: 24 * @fontSize;
 				color: #808080;
+				font-size: 24 * @fontSize;
 			}
 		}
 		.right {
-			margin-left: 20 * @fontSize;
 			margin-top: 30 * @fontSize;
+			margin-left: 20 * @fontSize;
 			color: #808080;
 		}
 	}
 	.line {
-		padding: 0 9 * @fontSize;
-		margin-top: 33 * @fontSize;
 		height: 2px;
+		margin-top: 33 * @fontSize;
+		padding: 0 9 * @fontSize;
 	}
 	.title {
-		line-height: 90 * @fontSize;
-		background: #fff;
 		margin-top: 15 * @fontSize;
 		color: #333;
+		line-height: 90 * @fontSize;
+		background: #fff;
 		img {
 			width: 32 * @fontSize;
 			margin: 30 * @fontSize 10 * @fontSize 0 30 * @fontSize;
@@ -271,8 +275,8 @@ export default defineComponent({
 				color: #ff0101;
 			}
 			p {
-				color: #999;
 				margin-top: 20 * @fontSize;
+				color: #999;
 			}
 		}
 		.num {
@@ -280,27 +284,27 @@ export default defineComponent({
 			text-align: right;
 			.btn {
 				width: 120 * @fontSize;
-				line-height: 40 * @fontSize;
-				border: 1px solid #ff0101;
-				color: #ff0101;
-				border-radius: 20 * @fontSize;
-				text-align: center;
-				font-size: 24 * @fontSize;
 				margin-top: 30 * @fontSize;
+				color: #ff0101;
+				font-size: 24 * @fontSize;
+				line-height: 40 * @fontSize;
+				text-align: center;
+				border: 1px solid #ff0101;
+				border-radius: 20 * @fontSize;
 			}
 		}
 	}
 	.sum,
 	.type {
+		margin-top: 15 * @fontSize;
 		padding: 0 30 * @fontSize;
 		font-size: 24 * @fontSize;
 		background: #fff;
-		margin-top: 15 * @fontSize;
 		.item {
 			display: flex;
 			align-items: center;
-			border-bottom: 1px solid #f7f7f7;
 			height: 80 * @fontSize;
+			border-bottom: 1px solid #f7f7f7;
 			.name {
 				flex: 1;
 			}
@@ -308,12 +312,12 @@ export default defineComponent({
 				color: #808080;
 			}
 			input {
-				width: 490 * @fontSize;
 				flex-shrink: 0;
+				width: 490 * @fontSize;
 			}
 			span {
-				font-weight: bold;
 				color: #ff0101;
+				font-weight: bold;
 			}
 			.right {
 				margin-left: 15 * @fontSize;
@@ -332,28 +336,28 @@ export default defineComponent({
 		}
 	}
 	.order {
-		background: #fff;
 		margin-top: 20 * @fontSize;
 		padding: 10 * @fontSize 30 * @fontSize 30 * @fontSize;
 		color: #808080;
 		font-size: 24 * @fontSize;
+		background: #fff;
 		p {
-			line-height: 1;
 			margin-top: 20 * @fontSize;
+			line-height: 1;
 		}
 	}
 	.img-icon {
 		margin-right: 20 * @fontSize;
 	}
 	.btn1 {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.delivery {
 		// padding: 10*@fontSize 0 0 30*@fontSize;

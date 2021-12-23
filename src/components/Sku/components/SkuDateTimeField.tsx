@@ -1,11 +1,11 @@
 import { defineComponent, PropType } from "vue";
 import { createNamespace } from "vant/lib/utils";
-const [name, bem] = createNamespace("sku-datetime-field");
 
 import { stringToDate, dateToString } from "../utils/time-helper";
 
 // Components
 import { Popup, DatetimePicker, Field } from "vant";
+const [name, bem] = createNamespace("sku-datetime-field");
 // import DateTimePicker from "vant/lib/datetime-picker";
 // import Field from "vant/lib/field";
 
@@ -91,35 +91,35 @@ export default defineComponent({
     render() {
         return (
             <Field
-                readonly
-                is-link
-                center
-                value={this.value}
-                label={this.label}
-                required={this.required}
-                placeholder={this.placeholder}
-                onClick={this.onClick}
-                v-slots={{
-                    extra: () => (
-                        <Popup
-                            v-model={[this.showDatePicker, "show"]}
-                            round
-                            position="bottom"
-                            teleport="body"
-                        >
-                            <DatetimePicker
-                                type={this.type}
-                                title={this.title}
-                                value={this.currentDate}
-                                minDate={this.minDate}
-                                formatter={this.formatter}
-                                onCancel={this.onCancel}
-                                onConfirm={this.onConfirm}
-                            />
-                        </Popup>
-                    ),
-                }}
-            ></Field>
+				readonly
+				is-link
+				center
+				value={ this.value }
+				label={ this.label }
+				required={ this.required }
+				placeholder={ this.placeholder }
+				onClick={ this.onClick }
+				v-slots={ {
+					extra: () => (
+						<Popup
+							v-model={ [this.showDatePicker, "show"] }
+							round
+							position="bottom"
+							teleport="body"
+						>
+							<DatetimePicker
+								type={ this.type }
+								title={ this.title }
+								value={ this.currentDate }
+								minDate={ this.minDate }
+								formatter={ this.formatter }
+								onCancel={ this.onCancel }
+								onConfirm={ this.onConfirm }
+							/>
+						</Popup>
+					)
+				} }
+			/>
         );
     },
 });

@@ -10,7 +10,7 @@ import { gold } from "@/utils";
  * @description 钱包余额
  */
 export default defineComponent({
-    name: 'Balance',
+    name: 'MineBalance',
     setup() {
         const { t } = useI18n()
         const store = useStore()

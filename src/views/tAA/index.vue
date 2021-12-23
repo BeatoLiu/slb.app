@@ -16,13 +16,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
-import { CellGroup, Cell, Icon, Button } from 'vant'
-import { getWalletBalance } from '../../apis/tAA'
+import { computed, defineComponent, ref } from 'vue'
+import { CellGroup, Cell, Icon } from 'vant'
+// import { getWalletBalance } from '../../apis/tAA'
 
 export default defineComponent({
-	name: 'tAAIndex',
-	components: { CellGroup, Cell, Icon, Button },
+	name: 'TAAIndex',
+	components: { CellGroup, Cell, Icon },
 	setup() {
 		const list = ref([
 			{

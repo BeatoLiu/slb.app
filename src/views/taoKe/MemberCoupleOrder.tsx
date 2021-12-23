@@ -1,9 +1,9 @@
 import { computed, defineComponent, ref } from "vue";
 import { Button, CellGroup, Field, Toast } from "vant";
-import { useI18n } from '../../hooks/setting/useI18n'
+import { useI18n } from "@/hooks/setting/useI18n"
 import { memberCoupleOrder } from "@/apis/taoKe";
 export default defineComponent({
-    name: 'memberCoupleOrder',
+    name: 'MemberCoupleOrder',
     setup() {
         const { t } = useI18n()
         const orderId = ref('')
@@ -26,7 +26,7 @@ export default defineComponent({
             return (
                 <div style={{ marginTop: '20px', padding: '0 20px' }}>
                     <CellGroup>
-                        <Field v-model={orderId.value} placeholder="订单号" required clearable></Field>
+                        <Field v-model={ orderId.value } placeholder="订单号" required clearable/>
                     </CellGroup>
                     <div style={{ marginTop: '40px' }}>
 

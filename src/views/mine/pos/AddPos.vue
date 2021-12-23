@@ -31,13 +31,13 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { Toast, CellGroup, Field, Button, Icon, ImagePreview, Picker, Popup } from 'vant'
-import { addCreditPos } from '../../../apis/bankCard'
+import { addCreditPos } from '@/apis/bankCard'
 import { useRouter } from 'vue-router'
 
-import { picDisplayPath } from '../../../utils/config'
+import { picDisplayPath } from '@/utils/config'
 
 export default defineComponent({
-	name: 'bindPos',
+	name: 'BindPos',
 	components: {
 		CellGroup,
 		Field: Field,
@@ -74,7 +74,7 @@ export default defineComponent({
 		}
 		const toSign = () => {
 			const params = {
-				mcpPosCode: data.orderId, //.replace(/ /g, ''),
+				mcpPosCode: data.orderId, // .replace(/ /g, ''),
 				memSecretOpenid: localStorage.getItem('openId'),
 				mcpUmsId: data.mcpUmsId,
 				mcpUmsName: data.mcpUmsName
@@ -107,42 +107,42 @@ export default defineComponent({
 		// height: calc(100vh);
 		text-align: center;
 		.input {
-			padding-top: 140 * @fontSize;
 			position: relative;
+			padding-top: 140 * @fontSize;
 			input {
 				width: 100%;
 				margin-top: 70 * @fontSize;
 				padding: 12 * @fontSize;
-				border-bottom: 1px solid #ccc;
 				font-size: 32 * @fontSize;
+				border-bottom: 1px solid #ccc;
 			}
 			span {
 				position: absolute;
 				right: 0;
 				bottom: 155 * @fontSize;
-				border: 1px solid #ccc;
-				color: #ccc;
 				width: 200 * @fontSize;
+				color: #ccc;
 				line-height: 40 * @fontSize;
+				border: 1px solid #ccc;
 				border-radius: 20 * @fontSize;
 			}
 		}
 	}
 	.btn {
-		font-size: 30 * @fontSize;
-		margin-top: 200 * @fontSize;
 		display: inline-block;
 		width: 100%;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin-top: 200 * @fontSize;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.tips {
 		align-items: flex-start;
-		text-align: left;
-		padding-left: 12 * @fontSize;
 		margin-top: 20 * @fontSize;
+		padding-left: 12 * @fontSize;
+		text-align: left;
 		i {
 			color: green;
 		}

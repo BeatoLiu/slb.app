@@ -22,7 +22,7 @@
 			<div class="list">
 				<!-- <div class="title">为你推荐</div> -->
 				<List v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="(item, idx) in dataList" :key="item.boCode">
+					<div v-for="item in dataList" :key="item.boCode">
 						<p>【TAA：{{ item.orderBonus }}】</p>
 						<div class="flex-space">
 							<p>订单编号：{{ item.boCode }}</p>
@@ -51,28 +51,24 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
-import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader } from 'vant'
+import { Sticky, PullRefresh, List,  Calendar } from 'vant'
 
-import { IPullRefreshListRes } from "@/apis/model/commonModel"
-import { ISelectBenefitOrderListItem, ISelectBenefitOrderListModel } from "@/apis/model/tAAModel"
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useOffSetTop } from "@/hooks/web/useOffSetTop"
-import { useFormatDayMonth } from "@/hooks/web/useFormatDayMonth"
-import { selectBenefitOrderListSum } from "@/apis/tAA"
+import { ISelectBenefitOrderListItem, ISelectBenefitOrderListModel } from '@/apis/model/tAAModel'
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { useTimeParam } from '@/hooks/web/useTimeParam'
+import { selectBenefitOrderListSum } from '@/apis/tAA'
 export default defineComponent({
-	name: 'bankTransOrderSUSD',
+	name: 'BankTransOrderSUSD',
 	components: {
-		Button,
 		Calendar,
-		Uploader,
-		Cell,
 		List,
 		PullRefresh,
 		Sticky
 	},
 	setup() {
 		const { offSetTop } = useOffSetTop()
-		const { formatDayMonth } = useFormatDayMonth()
+		const { getFormatTime, getTimeParams } = useTimeParam()
 		const daysInfo = reactive({
 			total: 0,
 			orderBonus: 0
@@ -92,26 +88,26 @@ export default defineComponent({
 			// orderType: 1
 		})
 		onMounted(() => {
-			const end = new Date()
-			const start = new Date()
-			start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const { startTime, endTime, timeStr } = getTimeParams(6)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 
 			getSum()
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<ISelectBenefitOrderListItem>
-		>usePullRefreshPageList('taa/selectBenefitOrderList', params, { method: 'POST' })
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			ISelectBenefitOrderListItem,
+			ISelectBenefitOrderListModel
+		>('taa/selectBenefitOrderList', params, { method: 'POST' })
 
 		// 選擇時間
-		const onConfirm = (date: any) => {
-			const [start, end] = date
+		const onConfirm = (date: Date[]) => {
 			showTime.value = false
-			dateDisplay.value = `${formatDayMonth(start)} - ${formatDayMonth(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate()
+			const [start, end] = date
+			const { startTime, endTime, timeStr } = getFormatTime(start, end)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 			params.pageNum = 0
 			loading.value = true
 			finished.value = false

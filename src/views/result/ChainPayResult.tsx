@@ -16,8 +16,7 @@ export default defineComponent({
             replace(path)
         }
         return () => {
-            let el
-            el = (
+			const el = (
                 <div class="pay-result" >
                     <div class="content">
                         <div>

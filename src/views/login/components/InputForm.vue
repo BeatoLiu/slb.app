@@ -39,7 +39,7 @@ import { checkPhone, checkPassWord, checkCode6 } from '../../../utils'
 
 export type bizTypeProps = 'register' | 'findPWD'
 export default defineComponent({
-	name: 'inputForm',
+	name: 'InputForm',
 	components: {
 		CellGroup,
 		Field,

@@ -39,7 +39,7 @@ import { showSelfTaokeOrderSum } from "@/apis/taoKe"
 import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 
 export default defineComponent({
-	name: 'incomePower',
+	name: 'IncomePower',
 	components: {
 		Sticky,
 		PullRefresh,

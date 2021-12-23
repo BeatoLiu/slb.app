@@ -26,11 +26,11 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import { Sticky, Tabs, Tab, PullRefresh, List, Toast } from 'vant'
 import PDDListItem from '../components/PDDListItem.vue'
-import { showPddGoodsFromApi } from '../../../apis/taoKe'
-import { useOffSetTop } from '../../../hooks/web/useOffSetTop'
+import { showPddGoodsFromApi } from '@/apis/taoKe'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
-	name: 'pDDIndex',
+	name: 'PDDIndex',
 	components: {
 		Sticky,
 		Tabs,
@@ -79,7 +79,7 @@ export default defineComponent({
 			showPddGoodsFromApi(data.params).then(res => {
 				// 加载状态结束
 				data.loading = false
-				if (res.resultCode == 1) {
+				if (res.resultCode === 1) {
 					const data1 = res.data ? JSON.parse(res.data) : {}
 					// let result = JSON.parse(data.result)
 					data1.goods_list.forEach((item: any) => {
@@ -133,5 +133,3 @@ export default defineComponent({
 	}
 })
 </script>
-
-<style lang="less" scoped></style>

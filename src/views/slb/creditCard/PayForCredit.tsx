@@ -17,7 +17,7 @@ export default defineComponent({
                 linkName: currentRoute.value.query.name as string,
                 creditCode: currentRoute.value.query.id as string
             },
-            show: false, //数字键盘
+            show: false, // 数字键盘
             sum: '',
             exInfo: 0,
             loading: false,
@@ -37,8 +37,8 @@ export default defineComponent({
             laCurrencyType: 18, //  17 usdt; 18 zsdt
             // 支付币种类型
             payTypeList: [
-                { value: 18, label: 'ZSDT', ishow: true, dis: false },
-                { value: 17, label: 'USDT', ishow: true, dis: true },
+                { value: 18, label: 'ZSDT', isShow: true, dis: false },
+                { value: 17, label: 'USDT', isShow: true, dis: true },
             ],
             // 密码
             showPop: false,
@@ -46,9 +46,9 @@ export default defineComponent({
         })
 
         const dis = computed(() => {
-            const permisionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
+            const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
             const memCode = localStorage.getItem('memCode') || ''
-            if (permisionList.includes(memCode)) {
+            if (permissionList.includes(memCode)) {
                 return true
             }
 
@@ -79,11 +79,11 @@ export default defineComponent({
         })
 
         const payTypeListFilter = computed(() => {
-            return data.payTypeList.filter((item) => item.ishow)
+            return data.payTypeList.filter((item) => item.isShow)
         })
 
         const subLinkName = (str: string) => {
-            let len = str.length
+            const len = str.length
             let starStr = ''
             for (let i = 1; i < len; i++) {
                 starStr += '*'
@@ -170,7 +170,7 @@ export default defineComponent({
                             data.pwdError = res.msg
                         }
                     })
-                    .catch(err => {
+                    .catch(() => {
                         data.loading = false
                     })
             } else {
@@ -186,7 +186,7 @@ export default defineComponent({
             })
             showDictionary({ dType: 42 }).then(res => {
                 if (res.resultCode === 1 && res.data.length) {
-                    let str = JSON.parse(res.data[0].dSubName)
+                    const str = JSON.parse(res.data[0].dSubName)
                     if (str['结束时间']) {
                         data.limitDetail = str
                     }
@@ -202,26 +202,26 @@ export default defineComponent({
                     </div>
                     <div class="box">
                         <p>还款金额</p>
-                        <div class="item" onClick={() => data.show = true}>
+                        <div class="item" onClick={() => {data.show = true}}>
                             <span class="name">￥</span>
                             <div class="money-content">
                                 <div class="money-input">
                                     {
                                         !data.sum ?
-                                            (<div class={!data.sum ? 'value plholder no-value' : 'value plholder'} >请输入还款金额</div>)
+                                            (<div class={!data.sum ? 'value placeholder no-value' : 'value placeholder'} >请输入还款金额</div>)
                                             :
                                             (<div class="value" >{data.sum}</div>)
                                     }
                                     {
                                         data.show ?
-                                            <div class={!data.sum ? 'like-input no-value-like' : 'like-input'}></div>
+                                            <div class={ !data.sum ? "like-input no-value-like" : "like-input" }/>
                                             : ''
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex-space biztype">
+                    <div class="flex-space biz-type">
                         <p>支付类型</p>
                         <RadioGroup v-model={[data.payType]} onChange={radioChange} direction="horizontal">
                             {

@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { setInterval } from 'timers'
-import { defineComponent } from 'vue-demi'
+// import { setInterval } from 'timers'
+import { defineComponent } from 'vue'
 import { selectPayOrderByBizOrderCode } from '../../apis/mx'
 export default defineComponent({
-	name: 'paySuccess',
+	name: 'PaySuccess',
 	data() {
 		return {
 			status: 0, // 0 待支付，2成功，3失败
@@ -41,7 +41,7 @@ export default defineComponent({
 			this.status = 2
 		} else {
 			let count = 0
-			let timer = setInterval(() => {
+			const timer = setInterval(() => {
 				if (count < 3) {
 					selectPayOrderByBizOrderCode(this.newParams).then(res => {
 						// console.log(res)
@@ -50,6 +50,8 @@ export default defineComponent({
 						}
 					})
 					count++
+				} else {
+					clearInterval(timer)
 				}
 			}, 3000)
 		}
@@ -62,9 +64,9 @@ export default defineComponent({
 <style scoped lang="less">
 @import '../../assets/css/local.less';
 .pay-success {
+	position: relative;
 	height: calc(100vh - 90px);
 	background: #fff;
-	position: relative;
 	.pay-cont {
 		padding: 0 20 * @fontSize;
 		text-align: center;
@@ -77,9 +79,9 @@ export default defineComponent({
 		}
 		.money {
 			margin-top: 35 * @fontSize;
-			font-size: 36 * @fontSize;
+			color: #333;
 			font-weight: bold;
-			color: #333333;
+			font-size: 36 * @fontSize;
 		}
 		.error {
 			color: red;

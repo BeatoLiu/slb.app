@@ -5,13 +5,12 @@ import { ref } from "vue"
  * @returns taa價格
  */
 export const useGetTAAPrice = () => {
-    const taaPrice = ref(2)
-    getTAAPrice().then(res => {
+	const taaPrice = ref(2)
+	getTAAPrice().then(res => {
+		if (res.resultCode === 1) {
+			taaPrice.value = res.data
+		}
+	})
 
-        if (res.resultCode === 1) {
-            taaPrice.value = res.data
-        }
-    })
-
-    return { taaPrice }
+	return { taaPrice }
 }

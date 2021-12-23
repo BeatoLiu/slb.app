@@ -65,13 +65,13 @@ import { Button, Uploader, Cell, Dialog } from 'vant'
 
 import ElePayComponent from './components/ElePayComponent.vue'
 
-import { getMerchantList } from "@/apis/mem"
-import { IGetMerchantListItem } from "@/apis/model/memModel"
-import { useImgPath } from "@/hooks/mx/useImgPath"
-import { useUploadImg } from "@/hooks/web/useUploadImg"
+import { getMerchantList } from '@/apis/mem'
+import { IGetMerchantListItem } from '@/apis/model/memModel'
+import { useImgPath } from '@/hooks/mx/useImgPath'
+import { useUploadImg } from '@/hooks/web/useUploadImg'
 
 export default defineComponent({
-	name: 'eleList',
+	name: 'EleList',
 	components: { Button, Uploader, Cell, [Dialog.Component.name]: Dialog.Component, ElePayComponent },
 	setup() {
 		const { imgPath } = useImgPath()

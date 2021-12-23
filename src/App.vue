@@ -15,16 +15,16 @@
 		</Sticky>
 		<!-- <router-view /> -->
 		<router-view v-slot="{ Component, route }">
-			<keep-alive :exclude="cachList">
+			<keep-alive :exclude="cacheList">
 				<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
 			</keep-alive>
 		</router-view>
 	</div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, watch, isReactive } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { Icon, Sticky, NavBar, Button } from 'vant'
-import { useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 import { useI18n } from './hooks/setting/useI18n'
 import { useTitle } from './hooks/web/useTitle'
@@ -32,7 +32,7 @@ import { useTitle } from './hooks/web/useTitle'
 import { isIOSorANDROID } from './utils'
 
 export default defineComponent({
-	name: 'app',
+	name: 'App',
 	components: {
 		Icon,
 		Sticky,
@@ -121,7 +121,7 @@ export default defineComponent({
 			goSearch,
 			goTransferRecord,
 			token,
-			cachList: /^\w.*(?<!-alive)$/ // /^\w.*(?<!-alive)$/ 不以-alive结尾的，不缓存
+			cacheList: /^\w.*(?<!-alive)$/ // /^\w.*(?<!-alive)$/ 不以-alive结尾的，不缓存
 		}
 	}
 })
@@ -135,28 +135,28 @@ body {
 }
 
 #app {
+	color: #000;
+	font-size: 28 * @fontSize;
 	font-family: 'PingFangSC-Medium', 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #000;
-	font-size: 28 * @fontSize;
 
 	.app-header {
-		background-color: #fff;
 		// text-align: right;
 		// display: flex;
 		// position:relative;
 		// justify-content: space-between;
 		// padding: 60px 50% 10px 10px;
-		height: 46px;
 		box-sizing: border-box;
+		height: 46px;
+		text-align: center;
+		background-color: #fff;
 		// padding-top: 44px;
 		// padding-bottom: 10px;
-		text-align: center;
 
 		.back-arrow {
-			width: 20%;
 			position: absolute;
+			width: 20%;
 		}
 	}
 
@@ -186,51 +186,51 @@ body {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
 	align-items: center;
-	-webkit-align-items: center;
+	//-webkit-align-items: center;
 	justify-content: center;
-	-webkit-justify-content: center;
+	//-webkit-justify-content: center;
 }
 
 .flex-start {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
 	align-items: center;
-	-webkit-align-items: center;
+	//-webkit-align-items: center;
 	justify-content: flex-start;
-	-webkit-justify-content: flex-start;
+	//-webkit-justify-content: flex-start;
 }
 
 .flex-space {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
 	align-items: center;
-	-webkit-align-items: center;
+	//-webkit-align-items: center;
 	justify-content: space-between;
-	-webkit-justify-content: space-between;
+	//-webkit-justify-content: space-between;
 }
 
 .flex-end {
 	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
 	display: -webkit-flex; /* NEW - Chrome */
 	align-items: center;
-	-webkit-align-items: center;
+	//-webkit-align-items: center;
 	justify-content: flex-end;
-	-webkit-justify-content: flex-end;
+	//-webkit-justify-content: flex-end;
 }
 
 .page-tips {
-	border-radius: 5px;
 	margin-top: 20 * @fontSize;
 	padding: 20 * @fontSize;
 	background: #fff;
+	border-radius: 5px;
 
 	.title {
 		font-size: 30 * @fontSize;
 	}
 
 	& > div {
-		font-size: 28 * @fontSize;
 		color: #666;
+		font-size: 28 * @fontSize;
 	}
 }
 </style>

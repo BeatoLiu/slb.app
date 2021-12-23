@@ -29,7 +29,7 @@
 <script lang="ts">
 import { defineComponent, ref, toRefs } from 'vue'
 import { Popup, Button, RadioGroup, Radio, Cell, CellGroup, Icon, Toast } from 'vant'
-import { usePayType } from '../../hooks/web/usePayType'
+import { usePayType } from '@/hooks/web/usePayType'
 // import BankCard from '../BankCard'
 
 export default defineComponent({
@@ -104,23 +104,23 @@ export default defineComponent({
 @import '../../assets/css/local.less';
 .pay-result {
 	.img-icon {
-		margin-right: 20 * @fontSize;
 		height: 100%;
+		margin-right: 20 * @fontSize;
 	}
 	.btn {
-		font-size: 30 * @fontSize;
-		margin: 20 * @fontSize 0;
 		display: inline-block;
 		width: 600 * @fontSize;
-		line-height: 80 * @fontSize;
-		border-radius: 12 * @fontSize;
-		background: #ed0c17;
+		margin: 20 * @fontSize 0;
 		color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		background: #ed0c17;
+		border-radius: 12 * @fontSize;
 	}
 	.pop-close {
-		text-align: right;
-		margin-right: 40 * @fontSize;
 		margin-top: 40 * @fontSize;
+		margin-right: 40 * @fontSize;
+		text-align: right;
 		i {
 			color: #000;
 		}

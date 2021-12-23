@@ -30,7 +30,9 @@
 								<!-- <p>审核状态：{{ item.mAuditStatusDesc }}</p> -->
 							</div>
 							<div v-if="item.orderPayStatus === 0">
-								<Button type="primary" size="small" round @click="showUpload(item, idx)">转账凭证</Button>
+								<Button type="primary" size="small" round @click="showUpload(item, idx)"
+									>转账凭证</Button
+								>
 							</div>
 						</div>
 					</div>
@@ -86,13 +88,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, onMounted } from 'vue'
 import { Sticky, PullRefresh, List, Button, Cell, Calendar, Uploader, Dialog } from 'vant'
+import { IShowPayOrderListByMemCodeItem, IShowPayOrderListByMemCodeModel } from '@/apis/model/slbModel'
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useUploadImg } from '@/hooks/web/useUploadImg'
+import { useImgPath } from '@/hooks/mx/useImgPath'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { useTimeParam } from '@/hooks/web/useTimeParam'
 
-import { IPullRefreshListRes } from "@/apis/model/commonModel"
-import { IShowPayOrderListByMemCodeItem, IShowPayOrderListByMemCodeModel } from "@/apis/model/slbModel"
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useUploadImg } from "@/hooks/web/useUploadImg"
-import { useImgPath } from "@/hooks/mx/useImgPath"
-import { useOffSetTop } from "@/hooks/web/useOffSetTop"
 export default defineComponent({
 	name: 'BankTransOrderSUSD-alive',
 	components: {
@@ -109,11 +111,12 @@ export default defineComponent({
 		const { imgPath } = useImgPath()
 		const { uploadImg } = useUploadImg()
 		const { offSetTop } = useOffSetTop(2)
+		const { getTimeParams, getFormatTime } = useTimeParam()
 		// 顯示上傳圖片
 		const showUploadDialog = ref(false)
 		const imgMsg = ref('上传')
 		// 圖片
-		const imgList = <any>ref([{ url: '' }])
+		const imgList = ref<any>([{ url: '' }])
 		// 上傳狀態
 		const imgIsLoading = ref(false)
 		const dateDisplay = ref('')
@@ -129,27 +132,24 @@ export default defineComponent({
 			endTime: ''
 		})
 		onMounted(() => {
-			const end = new Date()
-			const start = new Date()
-			start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-			dateDisplay.value = `${formatDate(start)} - ${formatDate(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' 23:59:59'
+			const { startTime, endTime, timeStr } = getTimeParams(6, true)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<IShowPayOrderListByMemCodeItem>
-		>usePullRefreshPageList('mg/slpay/showPayOrderListByMemCodeApp', params, { method: 'POST' })
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			IShowPayOrderListByMemCodeItem,
+			IShowPayOrderListByMemCodeModel
+		>('mg/slpay/showPayOrderListByMemCodeApp', params, { method: 'POST' })
 
-		const formatDate = (date: Date) => {
-			return `${date.getMonth() + 1}/${date.getDate()}`
-		}
 		// 選擇時間
-		const onConfirm = (date: any) => {
-			const [start, end] = date
+		const onConfirm = (date: Date[]) => {
 			showTime.value = false
-			dateDisplay.value = `${formatDate(start)} - ${formatDate(end)}`
-			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
-			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' 23:59:59'
+			const [start, end] = date
+			const { startTime, endTime, timeStr } = getFormatTime(start, end, true)
+			dateDisplay.value = timeStr
+			params.startTime = startTime
+			params.endTime = endTime
 			params.pageNum = 0
 			loading.value = true
 			finished.value = false
@@ -161,7 +161,7 @@ export default defineComponent({
 		}
 		// 上傳圖片
 		const upload = async () => {
-			let file = imgList.value[0].file
+			const file = imgList.value[0].file
 			const formData = new FormData()
 			formData.append('orderCode', orderCode.value + '')
 			const res = await uploadImg(file, 'mg/slpay/uploadPayOrderMoneyProve', formData)

@@ -10,14 +10,16 @@
 					<span class="name">￥</span>
 					<div class="money-content">
 						<div class="money-input">
-							<div class="value plholder" :class="{ 'no-value': !sum }" v-if="!sum">请询问店员后输入</div>
+							<div class="value placeholder" :class="{ 'no-value': !sum }" v-if="!sum">
+								请询问店员后输入
+							</div>
 							<div class="value" v-else>{{ sum }}</div>
 							<div class="like-input" :class="{ 'no-value-like': !sum }" v-if="show"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="flex-space biztype">
+			<div class="flex-space biz-type">
 				<p>支付类型</p>
 				<RadioGroup v-model="payType" @change="radioChange" direction="horizontal">
 					<Radio v-for="item in payTypeListFilter" :name="item.value" :disabled="item.dis" :key="item.value">
@@ -73,12 +75,12 @@
 </template>
 
 <script lang="ts">
-import { Toast, NumberKeyboard, Dialog, Button, Icon, Field, CellGroup, RadioGroup, Radio } from 'vant'
+import { Toast, NumberKeyboard, Button, RadioGroup, Radio } from 'vant'
 import { Base64 } from 'js-base64'
 
-import { getExchangeRatioinDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '../../../apis/slb'
+import { getExchangeRatioinDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '@/apis/slb'
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { showDictionary } from '../../../apis/common'
+import { showDictionary } from '@/apis/common'
 // import slb from '../../../utils/jslb-1.0.0'
 import InputPayPWD from '../../../components/InputPayPWD'
 import { useRouter } from 'vue-router'
@@ -87,11 +89,8 @@ export default defineComponent({
 	components: {
 		[NumberKeyboard.name]: NumberKeyboard,
 		Button,
-		Icon,
 		RadioGroup,
 		Radio,
-		Field,
-		CellGroup,
 		InputPayPWD
 	},
 	setup() {
@@ -102,7 +101,7 @@ export default defineComponent({
 			exInfo: 0,
 			lng: '',
 			lat: '',
-			show: false, //数字键盘
+			show: false, // 数字键盘
 			merchantName: '',
 			mCode: 0,
 			error: false,
@@ -115,8 +114,8 @@ export default defineComponent({
 			laCurrencyType: 18, //  17 usdt; 18 zsdt
 			// 支付币种类型
 			payTypeList: [
-				{ value: 18, label: 'ZSDT', ishow: true, dis: false },
-				{ value: 17, label: 'USDT', ishow: true, dis: true }
+				{ value: 18, label: 'ZSDT', isShow: true, dis: false },
+				{ value: 17, label: 'USDT', isShow: true, dis: true }
 			],
 			limitDetail: {
 				开始时间: '7:00:00',
@@ -166,7 +165,7 @@ export default defineComponent({
 			}
 		})
 		const payTypeListFilter = computed(() => {
-			return data.payTypeList.filter(item => item.ishow)
+			return data.payTypeList.filter(item => item.isShow)
 		})
 
 		// 汇率换算
@@ -207,7 +206,7 @@ export default defineComponent({
 			// 	'http://slpay.2qzs.com/slpay/index.html#/payDetail?id=10_DA5859D030EC4464F8723FEAE3A9530E_E1A169704C798EA7E8A8AC832DB742DB_298C9FDD2924191B591630F1A3C1144B_D653D3F3BDF3406658594771A3F0F2A0&mqcCode=0'
 
 			const query = currentRoute.value.query
-			let params = {
+			const params = {
 				id: query.id as string,
 				mqcCode: query.mqcCode as string
 			}
@@ -248,7 +247,7 @@ export default defineComponent({
 		const closePop = (pwd?: string) => {
 			if (pwd?.length === 6) {
 				// data.allianceWalletPassword = pwd || ''
-				let params = {
+				const params = {
 					paySum: data.sum,
 					payFactSum: data.exInfo,
 					remark: data.payTypeName.toLowerCase() + '到店付',
@@ -276,7 +275,7 @@ export default defineComponent({
 							data.pwdError = res.msg
 						}
 					})
-					.catch(err => {
+					.catch(() => {
 						data.loading = false
 					})
 				// transfer(params).then(async res => {
@@ -309,7 +308,7 @@ export default defineComponent({
 		onMounted(() => {
 			showDictionary({ dType: 43 }).then(res => {
 				if (res.resultCode === 1 && res.data.length) {
-					let str = JSON.parse(res.data[0].dSubName)
+					const str = JSON.parse(res.data[0].dSubName)
 					if (str['结束时间']) {
 						data.limitDetail = str
 					}
@@ -345,9 +344,9 @@ export default defineComponent({
 		// background: #fff;
 		.address {
 			height: 100 * @s;
+			color: #808080;
 			line-height: 100 * @s;
 			text-align: center;
-			color: #808080;
 		}
 		.error {
 			color: red;
@@ -360,16 +359,15 @@ export default defineComponent({
 		}
 		.box {
 			// border: 1px solid #BFBFBF;
-			border-radius: 10 * @s;
 			padding: 30 * @s;
 			background: #fff;
+			border-radius: 10 * @s;
 			.item {
+				position: relative;
 				display: flex;
 				align-items: center;
-
 				font-size: 28 * @s;
 				line-height: 105 * @s;
-				position: relative;
 				.money-content {
 					flex: 1;
 					// border-bottom: 1px solid #BFBFBF;
@@ -387,31 +385,31 @@ export default defineComponent({
 					// text-align: right;
 					// margin-right: 2*@s;
 					padding-left: 20 * @s;
-					font-size: 54 * @s;
 					font-weight: 600;
+					font-size: 54 * @s;
 				}
-				.plholder {
+				.placeholder {
 					color: #ccc;
 				}
 				.like-input {
 					position: absolute;
-					right: 0;
 					top: 20 * @s;
+					right: 0;
 					width: 2px;
 					height: 60 * @s;
 					background: #1989fa;
 					animation: flick 1s infinite;
-					-moz-animation: flick 1s infinite; /* Firefox */
-					-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
-					-o-animation: flick 1s infinite; /* Opera */
+					//-moz-animation: flick 1s infinite; /* Firefox */
+					//-webkit-animation: flick 1s infinite; /* Safari 和 Chrome */
+					//-o-animation: flick 1s infinite; /* Opera */
 				}
 				.no-value {
 					font-size: 28 * @s;
 				}
 				.no-value-like {
-					height: 44 * @s;
 					top: 36 * @s;
 					left: 20 * @s;
+					height: 44 * @s;
 				}
 			}
 			.remark {
@@ -420,61 +418,61 @@ export default defineComponent({
 				line-height: 100 * @s;
 				// border-bottom: 1px solid #BFBFBF;
 				input {
+					width: 100%;
 					border: none;
 					border-bottom: 1px solid #bfbfbf;
-					width: 100%;
 				}
 			}
 			:last-child {
 				border-bottom: none;
 			}
 		}
-		.biztype {
-			background: #fff;
+		.biz-type {
+			margin-top: 20 * @s;
 			padding: 0 20 * @s;
 			line-height: 120 * @s;
+			background: #fff;
 			border-radius: 5px;
-			margin-top: 20 * @s;
 		}
 		.return-fee {
-			background: #fff;
-			padding: 0 20 * @s;
-			line-height: 120 * @s;
-			border-radius: 5px;
 			margin-top: 20 * @s;
+			padding: 0 20 * @s;
 			font-size: 30 * @s;
+			line-height: 120 * @s;
+			background: #fff;
+			border-radius: 5px;
 			p:nth-child(2) {
 				font-weight: 600;
 			}
 			span {
 				color: #505050;
-				font-size: 24 * @s;
 				font-weight: 100;
+				font-size: 24 * @s;
 			}
 		}
 		.page-tips {
 			margin-bottom: calc(64px + 20 * @s);
 		}
 		.footer {
-			background: #f7f7f7;
 			position: fixed;
-			z-index: 12;
 			bottom: 0;
+			z-index: 12;
 			width: 100%;
-			text-align: center;
 			padding-bottom: 22px;
+			text-align: center;
+			background: #f7f7f7;
 		}
 		.btn {
 			display: block;
 			width: 660 * @s;
-			margin-left: calc(50% - 350 * @s);
 			margin-top: 20 * @s;
-			line-height: 88 * @s;
+			margin-left: calc(50% - 350 * @s);
 			// background: #ed0c17;
-			border-radius: 12 * @s;
-			text-align: center;
-			font-size: 30 * @s;
 			color: #fff;
+			font-size: 30 * @s;
+			line-height: 88 * @s;
+			text-align: center;
+			border-radius: 12 * @s;
 		}
 	}
 	@keyframes flick {

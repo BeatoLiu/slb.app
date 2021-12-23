@@ -9,6 +9,8 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+	name: 'YiDuoBao',
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	setup() {}
 })
 </script>
@@ -16,13 +18,13 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '../../../assets/css/local.less';
 .yi-duo-bao {
+	display: inline-block;
 	width: 100vw;
 	// min-height: 100vh;
 	height: 2600 * @fontSize;
 	background-image: url('https://ytxxkj-bucket.oss-cn-hangzhou.aliyuncs.com/img/secret/yiduobao/ydb-bg.jpg');
-	background-size: contain;
 	background-repeat: no-repeat;
-	display: inline-block;
+	background-size: contain;
 	div {
 		width: 480 * @fontSize;
 		height: 200 * @fontSize;
