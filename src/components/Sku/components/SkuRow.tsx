@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent } from "vue";
 import { createNamespace } from "vant/lib/utils";
 
@@ -57,7 +58,7 @@ export default defineComponent({
 
             const nodes: any[] = [];
 
-            template.map((node) => {
+            template.forEach((node) => {
                 Array.isArray(node.children)
                     ? nodes.push(...node.children)
                     : nodes.push(node);

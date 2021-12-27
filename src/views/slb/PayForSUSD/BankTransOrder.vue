@@ -2,7 +2,6 @@
 	<div class="bank-order-list">
 		<Sticky :offset-top="offSetTop">
 			<div class="top">
-				<div class="flex-space" style="padding-top: 10px"></div>
 				<div class="time flex-space" @click="showTime = true">
 					<div class="balance">选择日期区间</div>
 					<div class="withdraw">{{ dateDisplay }}</div>
@@ -116,7 +115,8 @@ export default defineComponent({
 		const showUploadDialog = ref(false)
 		const imgMsg = ref('上传')
 		// 圖片
-		const imgList = ref<any>([{ url: '' }])
+		/* eslint-disable-next-line */
+		const imgList = ref<any[]>([{ url: '' }])
 		// 上傳狀態
 		const imgIsLoading = ref(false)
 		const dateDisplay = ref('')
@@ -226,7 +226,8 @@ export default defineComponent({
 			margin-right: 50 * @fontSize;
 		}
 		.time {
-			padding: 10px 0;
+			padding-top: 20px;
+			padding-bottom: 10px;
 			color: #fff;
 			background-color: transparent;
 			// margin-top: 40 * @fontSize;

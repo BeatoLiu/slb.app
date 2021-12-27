@@ -72,10 +72,7 @@ export default defineComponent({
 			memPassword: process.env.VUE_APP_ENV !== 'production' ? '123456' : ''
 		})
 		const dis = computed(() => {
-			return (
-				/^[a-zA-Z0-9_-]{6,20}$/.test(params.memPassword) &&
-				/^1[3|4|5|6|7|8|9][0-9]\d{8}$/.test(params.memMobile)
-			)
+			return /^[a-zA-Z0-9_-]{6,20}$/.test(params.memPassword) && /^1[3-9][0-9]\d{8}$/.test(params.memMobile)
 		})
 		const login = () => {
 			pwdLogin(params).then(async res => {
@@ -85,7 +82,7 @@ export default defineComponent({
 					// localStorage.memCode = res.data.memCode
 					// document.cookie = `token=${res.data.token}`
 					await store.dispatch('user/setUserInfo', res.data)
-					push('/')
+					await push('/')
 				}
 			})
 		}

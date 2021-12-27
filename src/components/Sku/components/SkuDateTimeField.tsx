@@ -1,13 +1,11 @@
 import { defineComponent, PropType } from "vue";
 import { createNamespace } from "vant/lib/utils";
 
-import { stringToDate, dateToString } from "../utils/time-helper";
+import { stringToDate, dateToString } from '../utils/timeHelper'
 
 // Components
 import { Popup, DatetimePicker, Field } from "vant";
-const [name, bem] = createNamespace("sku-datetime-field");
-// import DateTimePicker from "vant/lib/datetime-picker";
-// import Field from "vant/lib/field";
+const [name] = createNamespace("sku-datetime-field");
 
 const format = {
     year: "年",
@@ -74,7 +72,7 @@ export default defineComponent({
         onConfirm(val: Date | string) {
             let data = val;
             if (this.type !== "time") {
-                data = dateToString(val, this.type) as string;
+                data = dateToString(val as Date, this.type) as string;
             }
             this.$emit("update:modelValue", data);
             this.showDatePicker = false;

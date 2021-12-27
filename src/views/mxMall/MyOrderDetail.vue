@@ -86,10 +86,10 @@
 			<p>订单编号：{{ msg.podCode }}</p>
 			<p>订单时间：{{ msg.createTime }}</p>
 			<p>订单状态：{{ msg.podStatusName }}</p>
-			<p v-if="msg.podStatus === 5 && msg.orderPayType === 1" style="color: red">
+			<p v-if="msg.podStatus === 5 && msg.orderPayType === 1" class="color-red">
 				提示：若未完善支付宝账号，为方便退款，请到“我的-提现账号”中完善支付宝账号
 			</p>
-			<p v-if="msg.podRemark" style="color: red">备注：{{ msg.podRemark }}</p>
+			<p v-if="msg.podRemark" class="color-red">备注：{{ msg.podRemark }}</p>
 			<!-- <p>付款时间：2019-8-11 13:04:54</p> -->
 		</div>
 		<div class="order" v-if="number">
@@ -143,6 +143,7 @@ export default defineComponent({
 			number: null,
 			lgType: ''
 		})
+		/* eslint-disable-next-line */
 		const msg = reactive<any>({})
 
 		const toRefund = (podCode: number) => {
@@ -344,6 +345,9 @@ export default defineComponent({
 		p {
 			margin-top: 20 * @fontSize;
 			line-height: 1;
+		}
+		.color-red {
+			color: red;
 		}
 	}
 	.img-icon {

@@ -27,17 +27,17 @@
 					<p class="title">热销榜</p>
 					<p class="sub-title hot-sub">限时促销</p>
 				</div>
-				<p class="sub-title flex-start" style="margin: 0">
+				<p class="sub-title flex-start margin0">
 					<Icon name="bullhorn-o" />
 					爆款限时抢购
 				</p>
-				<div class="flex-start" style="overflow: hidden">
+				<div class="flex-start overflow-hidden">
 					<div v-for="item in proList1" :key="item.cCode" class="pro-content" @click="toFood(item.cCode)">
 						<img :src="imgPath(item.cPicName)" alt="" />
 						<p class="child-title">{{ item.cName }}</p>
 						<div class="price">
 							<span class="group-price">￥{{ item.cPrice }}</span>
-							<span class="orige">￥{{ item.cShowPrice }}</span>
+							<span class="orange">￥{{ item.cShowPrice }}</span>
 						</div>
 					</div>
 				</div>
@@ -50,23 +50,23 @@
 					<p class="title">大红包</p>
 					<p class="sub-title big-sub">省钱利器</p>
 				</div>
-				<p class="sub-title flex-start" style="margin: 0">
+				<p class="sub-title flex-start margin0">
 					<Icon name="bullhorn-o" />
 					买就返大额TAA
 				</p>
-				<div class="flex-start" style="overflow: hidden">
+				<div class="flex-start overflow-hidden">
 					<div v-for="item in proList2" :key="item.cCode" class="pro-content" @click="toFood(item.cCode)">
 						<img :src="imgPath(item.cPicName)" alt="" />
 						<p class="child-title">{{ item.cName }}</p>
 						<div class="price">
 							<span class="group-price">￥{{ item.cPrice }}</span>
-							<span class="orige">￥{{ item.cShowPrice }}</span>
+							<span class="orange">￥{{ item.cShowPrice }}</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<section class="benifit" v-if="proList3.length">
+		<section class="benefit" v-if="proList3.length">
 			<div
 				class="flex-space"
 				@click="$router.push({ name: 'GoodsSearch', query: { cTag: 3, title: '限时优惠' } })"
@@ -74,20 +74,20 @@
 				<div class="main-title flex-start">
 					<img src="../../assets/img/title-left.png" alt="" />
 					<p class="title">限时优惠</p>
-					<p class="sub-title benifit-sub flex-start">
+					<p class="sub-title benefit-sub flex-start">
 						<Icon name="fire-o" />
 						爆款限时抢购
 					</p>
 				</div>
-				<p style="color: #999">更多&nbsp;></p>
+				<p class="color999">更多&nbsp;></p>
 			</div>
-			<div class="flex-space" style="overflow: hidden">
-				<div v-for="item in proList3" :key="item.cCode" class="benifit-content" @click="toFood(item.cCode)">
+			<div class="flex-space overflow-hidden">
+				<div v-for="item in proList3" :key="item.cCode" class="benefit-content" @click="toFood(item.cCode)">
 					<img :src="imgPath(item.cPicName)" alt="" />
 					<p class="child-title">{{ item.cName }}</p>
 					<div class="price">
 						<span class="group-price">￥{{ item.cPrice }}</span>
-						<span class="orige">￥{{ item.cShowPrice }}</span>
+						<span class="orange">￥{{ item.cShowPrice }}</span>
 					</div>
 				</div>
 			</div>
@@ -106,7 +106,7 @@
 								<p class="child-title">{{ item.cName }}</p>
 								<div class="price">
 									<span class="group-price">￥{{ item.cPrice }}</span>
-									<span class="orige">￥{{ item.cShowPrice }}</span>
+									<span class="orange">￥{{ item.cShowPrice }}</span>
 								</div>
 								<div class="foot">
 									<!-- &#8776;  -->
@@ -205,6 +205,7 @@ export default defineComponent({
 		}
 	},
 	beforeRouteEnter: (to, from, next) => {
+		/* eslint-disable @typescript-eslint/no-explicit-any */
 		next((vm: any) => {
 			if (from.name === 'class' && to.query.proName) {
 				vm.proName = to.query.proName
@@ -238,6 +239,12 @@ export default defineComponent({
 		font-size: 20 * @fontSize;
 		border-radius: 10px;
 	}
+	.margin0 {
+		margin: 0;
+	}
+	.overflow-hidden {
+		overflow: hidden;
+	}
 	// 每个类别标题
 	.main-title {
 		img {
@@ -260,7 +267,7 @@ export default defineComponent({
 	}
 	.price {
 		text-align: left;
-		.orige {
+		.orange {
 			// margin-right: 10*@fontSize;
 			color: #808080;
 			font-size: 14 * @fontSize;
@@ -333,13 +340,15 @@ export default defineComponent({
 			}
 		}
 	}
-	.benifit {
+	.benefit {
 		min-height: 180 * @fontSize;
 		padding: 20 * @fontSize;
 		border-radius: 10px;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
-
-		.benifit-sub {
+		.color999 {
+			color: #999;
+		}
+		.benefit-sub {
 			border: 1px solid #ff484e;
 		}
 	}
@@ -368,13 +377,13 @@ export default defineComponent({
 			}
 		}
 	}
-	.orige {
+	.orange {
 		// margin-right: 10*@fontSize;
 		color: #808080;
 		font-size: 14 * @fontSize;
 		text-decoration: line-through;
 	}
-	.benifit-content {
+	.benefit-content {
 		flex: 1;
 		width: 50%;
 		margin-top: 10 * @fontSize;
@@ -392,7 +401,7 @@ export default defineComponent({
 		}
 		.price {
 			text-align: left;
-			.orige {
+			.orange {
 				// margin-right: 10*@fontSize;
 				color: #808080;
 				font-size: 16 * @fontSize;

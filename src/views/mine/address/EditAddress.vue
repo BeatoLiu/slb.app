@@ -56,15 +56,15 @@ export default defineComponent({
 					if (res.resultCode === 1) {
 						const arr = res.data
 						if (val === 2) {
-							arr.forEach((ele: any) => {
+							arr.forEach(ele => {
 								data.areaList.province_list[ele.currentCode] = ele.currentName
 							})
 						} else if (val === 3) {
-							arr.forEach((ele: any) => {
+							arr.forEach(ele => {
 								data.areaList.city_list[ele.currentCode] = ele.currentName
 							})
 						} else if (val === 4) {
-							arr.forEach((ele: any) => {
+							arr.forEach(ele => {
 								data.areaList.county_list[ele.currentCode] = ele.currentName
 							})
 						}
@@ -87,7 +87,6 @@ export default defineComponent({
 				if (res.resultCode === 1) {
 					replace('/mine/address/list')
 					// if (this.$route.query.type === 1) {
-					// 	push('/mineToAddr')
 					// } else {
 					// 	push('/addressList')
 					// }

@@ -4,7 +4,7 @@ import { createNamespace } from "vant/lib/utils";
 import { Stepper } from "vant";
 import { LIMIT_TYPE } from "../constants";
 
-const [name, bem] = createNamespace("sku-header");
+const [name] = createNamespace("sku-header");
 const { QUOTA_LIMIT, STOCK_LIMIT } = LIMIT_TYPE;
 
 export default defineComponent({
@@ -116,7 +116,7 @@ export default defineComponent({
             this.currentNum = num;
             this.checkState(this.stepperMinLimit, this.stepperLimit);
         },
-
+		/* eslint-disable @typescript-eslint/no-explicit-any */
         onOverLimit(action: any) {
             this.skuEventBus!.emit("sku:overLimit", {
                 action,

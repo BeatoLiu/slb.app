@@ -1,6 +1,6 @@
 <template>
 	<div class="test">
-		<div class="coin-lsit">
+		<div class="coin-list">
 			<p class="title">红包类型</p>
 			<RadioGroup v-model="orderParams.incomeType" direction="horizontal">
 				<Radio
@@ -12,13 +12,13 @@
 					{{ item.dSubName.toUpperCase() }}
 				</Radio>
 			</RadioGroup>
-			<div style="margin-top: 20px">修改为TAA剩余次数：{{ 2 - updateCount }}</div>
+			<div class="time-count">修改为TAA剩余次数：{{ 2 - updateCount }}</div>
 		</div>
 		<div class="page-tips">
 			<p class="title">温馨提示：</p>
 			<div>
 				<p>1、用于设置所得红包的类型</p>
-				<p style="color: red">2、红包类型修改为TAA时，只能修改两次</p>
+				<p class="color-red">2、红包类型修改为TAA时，只能修改两次</p>
 			</div>
 		</div>
 		<Button class="btn" size="large" @click="createOrder">提交设置</Button>
@@ -108,7 +108,7 @@ export default defineComponent({
 	// min-height: calc(100vh - 90px);
 	box-sizing: border-box;
 	padding: 20 * @fontSize;
-	.coin-lsit {
+	.coin-list {
 		padding: 16px;
 		background: #fff;
 		border-radius: 10 * @fontSize;
@@ -122,6 +122,9 @@ export default defineComponent({
 		}
 		.van-dropdown-menu__bar {
 			box-shadow: none;
+		}
+		.time-count {
+			margin-top: 20px;
 		}
 	}
 	button {

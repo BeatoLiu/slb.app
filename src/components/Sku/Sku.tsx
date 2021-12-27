@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent, PropType } from "vue";
 import { TinyEmitter } from "tiny-emitter";
 import { createNamespace } from "vant/lib/utils";
 import { Toast, ImagePreview } from "vant";
-// import Toast from "vant/lib/toast";
-// import ImagePreview from "vant/lib/image-preview";
 import { isEmpty } from "./utils";
 
 import './index.less'
@@ -27,7 +26,7 @@ import SkuActions from "./components/SkuActions";
 import SkuStepper from "./components/SkuStepper";
 import SkuMessages from "./components/SkuMessages";
 
-import type { SkuData, SkuGoodsData, SelectedSkuData } from "./data";
+import type { SkuData, SelectedSkuData } from "./data";
 
 const [name, bem] = createNamespace("sku");
 const { QUOTA_LIMIT } = LIMIT_TYPE;
@@ -200,8 +199,11 @@ export default defineComponent({
         selectedSkuComb(): {
             id?: number;
             price?: number;
+			// eslint-disable-next-line camelcase
             stock_num?: number;
+			// eslint-disable-next-line camelcase
             property_price?: number;
+			// eslint-disable-next-line camelcase
             origin_price?: number;
         } | null {
             let skuComb = null;
@@ -410,6 +412,7 @@ export default defineComponent({
                 this.propList.forEach((item: any) => {
                     // 没有加价的属性，默认选中第一个
                     if (item?.v?.length > 0) {
+						// eslint-disable-next-line camelcase
                         const { v, k_id } = item;
                         const isHasConfigPrice = v.some((i: any) => +i.price !== 0);
                         if (!isHasConfigPrice) {
@@ -636,6 +639,7 @@ export default defineComponent({
         centerInitialSku() {
             // console.log(this.$refs.skuRows);
             ((this.$refs.skuRows as any[]) || []).forEach((it: any) => {
+				// eslint-disable-next-line camelcase
                 const { k_s } = it.skuRow || {};
                 it.centerItem(this.initialSku[k_s]);
             });

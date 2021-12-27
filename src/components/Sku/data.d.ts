@@ -32,7 +32,7 @@ export type SkuData = {
   	collection_id: number;
   	tree: SkuTreeItemData[];
   	list: SkuListItemData[];
-  	messages: SkuMessageData[];
+  	messages?: SkuMessageData[];
   	origin_price?: string;
   // properties: SkuPropItemData[];
 }
@@ -65,3 +65,8 @@ export type SkuGoodsData = {
 }
 
 export type SelectedSkuData = Record<string, string>
+
+export interface ISkuToChoose{
+	key:string,
+	valueId:string
+}

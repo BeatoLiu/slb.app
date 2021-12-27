@@ -1,4 +1,4 @@
-import { IBaseDateParams, IBasePageDateParams, IBaseResPageList, IBaseResT } from "./base";
+import { IBaseDateParams, IBasePageDateParams, IBaseResT } from "./base";
 
 /**
  * taa訂單列表
@@ -14,7 +14,7 @@ export interface ISelectBenefitOrderListItem {
     orderBonus: number;
     orderBonusPerDay: number;
 }
-export type ISelectBenefitOrderListRes = IBaseResPageList<ISelectBenefitOrderListItem>
+// export type ISelectBenefitOrderListRes = IBaseResPageList<ISelectBenefitOrderListItem>
 
 /**
  * 解锁列表
@@ -71,10 +71,10 @@ export interface ICanTakeOutModel extends IBaseDateParams {
 /**
  * 提幣
  */
-export interface IWithdrawalTaaModel {
-    payPlat: string;
-    payType: number;
-}
+// export interface IWithdrawalTaaModel {
+//     payPlat: string;
+//     payType: number;
+// }
 
 /**
  * 获取会员总资产（ZSDT）

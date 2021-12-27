@@ -3,7 +3,7 @@
 		<Popup v-model:show="show" position="bottom" round :close-on-click-overlay="false">
 			<p class="pop-close"><Icon name="cross" color="999" @click="close" /></p>
 			<!-- <br/> -->
-			<p style="text-align: center">请选择支付方式</p>
+			<p class="text-center">请选择支付方式</p>
 			<RadioGroup v-model="radio" @change="radioChange">
 				<CellGroup>
 					<Cell v-for="item in payTypeList" :key="item.value" :title="item.label" center clickable>
@@ -20,7 +20,7 @@
 					</Cell>
 				</CellGroup>
 			</RadioGroup>
-			<div style="text-align: center">
+			<div class="text-center">
 				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoading" @click="toPay">立即付款</Button>
 			</div>
 		</Popup>
@@ -393,6 +393,9 @@ export default defineComponent({
 	.copy {
 		color: #07c160;
 		font-size: 16px;
+		text-align: center;
+	}
+	.text-center {
 		text-align: center;
 	}
 }

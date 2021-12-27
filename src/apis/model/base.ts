@@ -48,6 +48,7 @@ export type IBaseResList<T> = IBaseRes & {
 
 // 無分頁, 可能是個字符串，可能是個對象，可能是數字
 // t = any 相當於默認值，即在不需要的時候可以不傳
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type IBaseResT<T = any> = IBaseRes & {
     data: T
 }

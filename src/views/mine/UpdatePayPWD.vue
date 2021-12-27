@@ -10,7 +10,6 @@ export default defineComponent({
 	name: 'UpDatePayPWD',
 	components: {
 		PayPWDComponent
-	},
-	setup() {}
+	}
 })
 </script>

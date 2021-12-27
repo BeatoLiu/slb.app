@@ -6,9 +6,7 @@ import Image from "vant/lib/image";
 
 import type {
     SkuData,
-    SkuGoodsData,
     SelectedSkuData,
-    SkuListItemData,
 } from "../data";
 
 type SelectedValueType = {

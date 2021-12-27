@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, Method } from 'axios'
 import { stringify } from "qs"
 import { Toast } from 'vant'
@@ -151,4 +152,3 @@ export const httpRequest = <T = any>(method: Method, url: string, params: any, {
     const config: configInter = { showLoading, type }
     return ajaxMain(method, url, params, config)
 }
-// }

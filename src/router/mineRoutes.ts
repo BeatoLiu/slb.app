@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { t } from '../hooks/setting/useI18n'
+import { t } from "@/hooks/setting/useI18n"
 
 export const mineRoutes: Array<RouteRecordRaw> = [
     // 賬單明細

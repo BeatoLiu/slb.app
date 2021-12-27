@@ -10,13 +10,7 @@
 		</router-view>
 		<Tabbar v-model="active" active-color="#39b9b9" route safe-area-inset-bottom>
 			<!-- :icon="item.icon" -->
-			<TabbarItem
-				v-for="item in nav"
-				:name="item.to"
-				:to="{ name: item.to }"
-				:key="item.icon"
-				:icon-prefix="item.extra ? 'icon' : 'van-icon'"
-			>
+			<TabbarItem v-for="item in nav" :name="item.to" :to="{ name: item.to }" :key="item.icon">
 				<template #icon="props">
 					<Icon :name="props.active ? item.icon.active : item.icon.inactive" />
 					<!-- <img :src="props.active ? item.icon.active : item.icon.inactive" /> -->

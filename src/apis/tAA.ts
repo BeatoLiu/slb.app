@@ -67,7 +67,7 @@ export const updateWalletUrl = (p: { walletUrl: string }) => httpGet<IBaseResT>(
 
 /**
  * @description 訂單列表
- * @param {selectBenefitOrderListModel}
+ * @param selectBenefitOrderListModel
  * @returns 訂單列表
  */
 // export const selectBenefitOrderList = (p: selectBenefitOrderListModel) => httpGet<selectBenefitOrderListRes>(Api.SELECT_BENEFIT_ORDER_LIST, p)
@@ -95,7 +95,7 @@ export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalList
 
 /**
 * @description 解锁列表總計(非签到)
-* @param {selectBenefitOrderListModel}
+* @param selectBenefitOrderListModel
 * @returns 解锁列表總計
 */
 // export const selectUnLockListSum = (p: { startTime: string, endTime: string }) => {
@@ -105,7 +105,7 @@ export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalList
 
 /**
 * @description 解锁列表總計（签到）
-* @param {selectBenefitOrderListModel}
+* @param selectBenefitOrderListModel
 * @returns 解锁列表總計
 */
 // export const selectAvailableTokenNoRealTimeListSum = (p: { startTime: string, endTime: string }) => {
@@ -115,7 +115,7 @@ export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalList
 
 /**
 * @description 解锁列表總計
-* @param {selectBenefitOrderListModel}
+* @param selectBenefitOrderListModel
 * @returns 解锁列表總計
 */
 // export const selectAvailableTokenListSum = (p: selectAvailableTokenListModel) => {
@@ -150,14 +150,12 @@ export const getWalletBalance = () => httpPost<IBaseResT>(Api.GET_WALLET_BALANCE
 
 /**
 * @description 生成提币订单
-* @param {selectBenefitOrderListModel}
 * @returns 生成提币订单
 */
 export const createTakeTokenDetail = () => httpPost<IBaseResT>(Api.CREATE_TAKE_TOKEN_DETAIL)
 
 /**
 * @description 会员提币
-* @param {withdrawalTaaModel}
 * @returns 会员提币
 */
 export const withdrawalTaa = () => httpGet<IBaseResT>(Api.WITHDRAWAL_TAA, {})

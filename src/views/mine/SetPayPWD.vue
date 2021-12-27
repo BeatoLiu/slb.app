@@ -10,7 +10,6 @@ export default defineComponent({
 	name: 'SetPayPWD',
 	components: {
 		PayPWDComponent
-	},
-	setup() {}
+	}
 })
 </script>

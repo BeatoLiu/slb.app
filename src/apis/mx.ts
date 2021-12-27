@@ -127,5 +127,3 @@ export const selectPayOrderByBizOrderCode = (p: { orderBizType: number, orderBiz
  * @returns
  */
 export const showCommodityClassFilter = (p: { ccType: number }) => httpGet<IShowCommodityClassFilterRes>(Api.SHOW_COMMODITY_CLASS_FILTER, p)
-
-

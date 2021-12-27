@@ -7,7 +7,7 @@
 					<Search
 						v-model="keywords"
 						shape="round"
-						background="transparent"
+						:background="'transparent'"
 						input-align="center"
 						:placeholder="t('common.searchPlaceholder')"
 						@click="$router.push('/taoKe/search')"
@@ -97,7 +97,7 @@
 		<section>
 			<div class="benefit">
 				<div class="benefit-container">
-					<div class="flex-space" style="align-items: stretch; height: 100%">
+					<div class="flex-space benefit-content">
 						<div class="te-hui" @click="$router.push({ name: 'TBPreferential' })">
 							<div class="benefit-left">
 								<!-- <p>9.9购</p> -->
@@ -109,7 +109,7 @@
 								<van-image :src="teHuiImg" />
 							</div> -->
 						</div>
-						<div class="benefit-top flex-space" style="margin-left: 5px; align-items: stretch">
+						<div class="benefit-top flex-space">
 							<div class="flex-space" @click="goTaoBao('yiTao', '淘宝')">
 								<div class="benefit-left">
 									<p>快抢</p>
@@ -147,7 +147,7 @@
 							<p>{{ item.title }}</p>
 							<p>{{ item.subtitle }}</p>
 							<div>
-								<img :src="item.icon" />
+								<img :src="item.icon" alt="" />
 							</div>
 						</div>
 					</div>
@@ -196,6 +196,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent, reactive, ref, toRefs, computed, onActivated } from 'vue'
 import { Search, List, Image, Icon, Dialog, Toast, Sticky } from 'vant'
 
@@ -759,6 +760,10 @@ export default defineComponent({
 			background: #fff;
 			border-radius: 5 * @fontSize;
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+			.benefit-content {
+				align-items: stretch;
+				height: 100%;
+			}
 			.te-hui {
 				box-sizing: border-box;
 				width: 50%;
@@ -804,8 +809,10 @@ export default defineComponent({
 			.benefit-top {
 				// margin-left: 5*@fontSize;
 				flex-direction: column;
+				align-items: stretch;
 				width: 50%;
 				height: 100%;
+				margin-left: 5px;
 				& > div {
 					// width: 100%;
 					height: 50%;

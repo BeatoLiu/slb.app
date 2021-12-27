@@ -56,6 +56,8 @@ export interface ICsbListItem {
     csCode: number;
     csPicName: string;
     csSkuCollection: IPrdCsSkuCollectionItem[];
+	buyNum?:number;
+	connectName?:string
 }
 /**
  * 商品详情
@@ -132,7 +134,7 @@ export interface IInsertRefundOrderModel {
     podCode: number; // 产品编号
     roType: number; // 退货类型
     roRecType: number; // 是否已收货
-    roReasonType: string, // 退货原因
+    roReasonType: number, // 退货原因
     remark: string, //  备注
 }
 

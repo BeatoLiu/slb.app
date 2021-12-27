@@ -306,6 +306,7 @@ export default defineComponent({
 						.catch(() => vm.$router.back())
 				})
 			} else {
+				/* eslint-disable @typescript-eslint/no-explicit-any */
 				next((vm: any) => {
 					vm.fromName = from.name as string
 				})

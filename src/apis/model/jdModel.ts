@@ -1,4 +1,4 @@
-import { IBaseResList, IBaseResT } from "./base";
+import { IBaseResT } from "./base";
 
 export interface ISku {
     sku: number

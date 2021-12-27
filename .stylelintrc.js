@@ -14,5 +14,5 @@ module.exports = {
 		// 'at-rule-whitelist': ['import', '@deepGreen'],
 		// 'unit-whitelist': ['@fontSize', 'px', 'vh', 'vw']
 	},
-	ignoreFiles: ['node_modules/**/*', 'slbAppJD/**/*']
+	ignoreFiles: ['node_modules/**/*', 'slbApp/**/*', 'slbAppTest/**/*']
 }

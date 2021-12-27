@@ -1,7 +1,7 @@
 <template>
 	<div class="app">
 		<Sticky>
-			<header class="app-header" :class="{ isNeedBg: isNeedBg }" :style="searchStyle">
+			<header :class="[isNeedBg ? 'isNeedBg app-header' : 'app-header']" :style="searchStyle">
 				<NavBar :title="title" :border="false" @click-left="goBack">
 					<template #left v-if="isShowArrow">
 						<Icon name="arrow-left" size="18" />
@@ -231,6 +231,12 @@ body {
 	& > div {
 		color: #666;
 		font-size: 28 * @fontSize;
+	}
+	.color-red {
+		color: red;
+	}
+	.text-underline {
+		text-decoration: underline;
 	}
 }
 </style>

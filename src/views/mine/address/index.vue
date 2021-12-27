@@ -1,6 +1,13 @@
 <template>
 	<div class="address">
-		<AddressList v-model="chosenAddressId" :list="list" @add="onAdd" @edit="onEdit" @click-item="clickItem" />
+		<AddressList
+			v-model="chosenAddressId"
+			:list="list"
+			default-tag-text="默认"
+			@add="onAdd"
+			@edit="onEdit"
+			@click-item="clickItem"
+		/>
 		<div class="tip" v-if="list.length === 0">暂无收获地址</div>
 	</div>
 </template>
@@ -11,9 +18,9 @@ import { AddressList } from 'vant'
 import { showSelfDeliveryAddress } from '@/apis/mem'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default defineComponent({
-	name: 'AddressList',
+	name: 'SlbAddressList',
 	components: { AddressList },
 	setup() {
 		const { push, replace, options } = useRouter()
@@ -21,7 +28,7 @@ export default defineComponent({
 
 		const data = reactive({
 			// list: [],
-			chosenAddressId: '2',
+			chosenAddressId: '',
 			isEdit: false,
 			fromPath: ''
 		})
@@ -44,7 +51,7 @@ export default defineComponent({
 			if (!data.isEdit && data.fromPath === 'rewardGoodsOrder')
 				push({ name: 'rewardGoodsOrder', query: { addrInfo: item } })
 		}
-		const getAddrList = () => {
+		const getAddressList = () => {
 			showSelfDeliveryAddress().then(res => {
 				if (res.resultCode === 1) {
 					list.value = res.data
@@ -61,7 +68,7 @@ export default defineComponent({
 			})
 		}
 		onMounted(() => {
-			getAddrList()
+			getAddressList()
 		})
 		return {
 			...toRefs(data),

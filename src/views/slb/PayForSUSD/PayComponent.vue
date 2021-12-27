@@ -1,14 +1,15 @@
 <template>
 	<div class="pay-result">
+		<!--eslint-disable-next-line vue/no-mutating-props -->
 		<Popup v-model:show="show" position="bottom" round :close-on-click-overlay="false">
 			<p class="pop-close"><Icon name="cross" color="999" @click="close" /></p>
 			<!-- <br/> -->
-			<p style="text-align: center">请选择支付方式</p>
+			<p class="text-center">请选择支付方式</p>
 			<RadioGroup v-model="radio" @change="radioChange">
 				<CellGroup>
 					<Cell v-for="item in payTypeList" :key="item.value" :title="item.label" center clickable>
 						<template #icon>
-							<img class="img-icon" :src="item.imgSrc" />
+							<img class="img-icon" :src="item.imgSrc" alt="" />
 						</template>
 						<template #right-icon>
 							<Radio :name="item.value" :disabled="item.dis"> </Radio>
@@ -16,7 +17,7 @@
 					</Cell>
 				</CellGroup>
 			</RadioGroup>
-			<div style="text-align: center">
+			<div class="text-center">
 				<Button size="normal" class="btn" color="#ED0C17" :loading="payLoading" @click="toPay">立即付款</Button>
 			</div>
 		</Popup>
@@ -42,7 +43,7 @@ import VueQr from 'vue-qr/src/packages/vue-qr.vue'
 import BankCard from '../../../components/BankCard'
 
 import { usePayType } from '@/hooks/web/usePayType'
-import { stringify } from 'qs'
+// import { stringify } from 'qs'
 import { bankCardRechargeSUSD, saleSusdFromSlb } from '@/apis/slb'
 
 export default defineComponent({
@@ -84,15 +85,16 @@ export default defineComponent({
 		const payTypeName = ref('') // 支付名称
 		const qrText = ref('')
 		const imageUrl = ref('')
+		// eslint-disable-next-line
 		const images = ref<any[]>([])
 		const showQr = ref(false)
 		const showCard = ref(false)
-		const { payTypeList } = usePayType({ alipayShow: false })
+		const { payTypeList } = usePayType()
 		const valueCode = ref('')
 		const close = () => {
 			emit('close', false)
 		}
-		const radioChange = (value: any) => {
+		const radioChange = (value: string) => {
 			console.log(value)
 			imageUrl.value = payTypeList.value.filter(item => item.value === value)[0].imgSrc
 			if (radio.value === 'alipay') {
@@ -130,8 +132,18 @@ export default defineComponent({
 			if (radio.value === 'alipay') {
 				// qrText.value = 'http://192.168.0.10:9009/slPay/saleSusdFromSlb?' + stringify(params)
 				// 支付宝是前端直接用这个地址生成二维码
-				qrText.value = 'http://slpayservice.2qzs.com/slPay/saleSusdFromSlb?' + stringify(params)
-				flag = true
+				// qrText.value = 'http://slpayservice.2qzs.com/slPay/saleSusdFromSlb?' + stringify(params)
+				// flag = true
+				await saleSusdFromSlb(params).then(res => {
+					if (res.resultCode === 1) {
+						const div = document.createElement('divform')
+						div.innerHTML = res.data
+						document.body.appendChild(div)
+						// 保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+						document.forms[0].acceptCharset = 'utf-8'
+						document.forms[0].submit()
+					}
+				})
 			} else if (radio.value === 'bank') {
 				await bankCardRechargeSUSD(params).then(res => {
 					if (res.resultCode === 1) {
@@ -145,6 +157,7 @@ export default defineComponent({
 					if (res.resultCode === 1) {
 						flag = true
 						qrText.value = res.msg
+						// window.location.href = res.msg
 					}
 				})
 			}
@@ -163,6 +176,7 @@ export default defineComponent({
 		}
 
 		return {
+			// eslint-disable-next-line vue/no-dupe-keys
 			show,
 			payTypeList,
 			radio,
@@ -208,12 +222,18 @@ export default defineComponent({
 			color: #000;
 		}
 	}
+
 	.qr-img {
 		text-align: center;
 	}
+
 	.copy {
 		color: #07c160;
 		font-size: 16px;
+		text-align: center;
+	}
+
+	.text-center {
 		text-align: center;
 	}
 }

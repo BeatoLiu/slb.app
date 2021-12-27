@@ -1,8 +1,9 @@
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { createNamespace } from "vant/lib/utils";
 import { isSkuChoosable } from "../utils/sku-helper";
 
 import { Icon, Image } from "vant";
+import { SelectedSkuData, SkuListItemData } from "@/components/Sku/data";
 // import Image from "vant/lib/image";
 
 const [name, bem] = createNamespace("sku-row");
@@ -13,20 +14,26 @@ export default defineComponent({
     props: {
         lazyLoad: Boolean,
         skuValue: Object,
-        skuKeyStr: String,
+        skuKeyStr: {
+			type:String,
+			default: ''
+		},
         skuEventBus: Object,
-        selectedSku: Object,
+        selectedSku: {
+			type: Object as PropType<SelectedSkuData>,
+			default: ()=>({})
+		} ,
         largeImageMode: Boolean,
         disableSoldoutSku: Boolean,
         skuList: {
-            type: Array,
+            type: Array as PropType<SkuListItemData[]>,
             default: () => [],
         },
     },
 
     computed: {
         imgUrl(): string {
-            const url = this.skuValue!.imgUrl || this.skuValue!.img_url;
+            const url = this.skuValue?.imgUrl || this.skuValue?.img_url;
             return this.largeImageMode
                 ? url ||
                 "https://img01.yzcdn.cn/upload_files/2020/06/24/FmKWDg0bN9rMcTp9ne8MXiQWGtLn.png"

@@ -32,6 +32,7 @@ type PlaceholderType =
     | "textarea"
     | "mobile";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default defineComponent({
     name,
 

@@ -37,7 +37,7 @@ export default defineComponent({
 		const images = ref<any[]>([])
 		watch(
 			imageUrl,
-			options => {
+			() => {
 				// 若不设置定时器，图片会显示上一条
 				setTimeout(() => {
 					const div = document.getElementById('qr')

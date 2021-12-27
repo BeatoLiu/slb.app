@@ -42,7 +42,7 @@
 					<div class="btn" @click="joinGroup(item)">去拼团</div>
 				</div>
 			</div>
-			<div class="group-foot">按照团购价支付开团<span @click="showRule = true">玩法详情&#155;&#155;</span></div>
+			<div class="group-foot">按照团购价支付开团<span @click="showRule = true">玩法详情 >></span></div>
 		</div>
 
 		<!-- <Eval></Eval> -->
@@ -105,11 +105,12 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent, defineAsyncComponent, onMounted, reactive, ref, toRefs } from 'vue'
 import { Popup, Icon, Dialog, Toast } from 'vant'
 import Clipboard from 'clipboard'
 import { Base64 } from 'js-base64'
-import { useRouter } from 'vue-router' // from '../../components/Sku'
+import { useRouter } from 'vue-router'
 import { ICDetailPicItem, ICsbListItem, IPrdCsSkuCollectionItem } from '@/apis/model/mxModel'
 import { getEcTaaCalcPower, showCommodityDetail } from '@/apis/mx'
 import { useImgPath } from '@/hooks/mx/useImgPath'
@@ -419,7 +420,6 @@ export default defineComponent({
 					}
 				]
 			}
-			// console.log(parms)
 			store.dispatch('user/buyProduct', params)
 			push({ name: 'GoodsSubmit' })
 		}
@@ -445,14 +445,14 @@ export default defineComponent({
 		const copyWaybillNo = () => {
 			const clipboard = new Clipboard('#logNumber')
 			// console.log(clipboard)
-			clipboard.on('success', function (e) {
+			clipboard.on('success', function () {
 				Dialog.alert({
 					title: '口令复制成功',
 					message: '在秘选商城中输入口令，即可搜索商品'
 				})
 				clipboard.destroy()
 			})
-			clipboard.on('error', function (e) {
+			clipboard.on('error', function () {
 				Toast('您的浏览器不支持点击复制')
 				clipboard.destroy()
 			})

@@ -16,7 +16,7 @@ export default defineComponent({
         showAddCartBtn: Boolean,
     },
 
-    setup(props, { slots }) {
+    setup(props) {
         const createEmitter = (name: string) => () => {
             props.skuEventBus?.emit(name);
         };

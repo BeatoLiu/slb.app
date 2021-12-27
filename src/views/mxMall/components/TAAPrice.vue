@@ -7,8 +7,8 @@ import { ref } from 'vue'
 import { useEcGasCalc } from '@/hooks/mx/useEcGasCalc'
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	mCode: Number,
-	price: Number
+	mCode: { type: Number, default: 0 },
+	price: { type: Number, default: 0 }
 })
 
 const taaPrice = ref(0)

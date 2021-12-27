@@ -24,7 +24,9 @@
 							<div class="title">{{ item.prdCName }}</div>
 							<p v-if="item.prdCsSkuCollection.length">规格：{{ skuName(item.prdCsSkuCollection) }}</p>
 							<div class="price">
-								<span>{{ item.pointMCode ? 'VBM' + item.pointNumber : '￥' + item.prdSum / item.prdCount }}</span>
+								<span>{{
+									item.pointMCode ? 'VBM' + item.pointNumber : '￥' + item.prdSum / item.prdCount
+								}}</span>
 								<span class="num">x{{ item.prdCount }} </span>
 							</div>
 						</div>
@@ -35,38 +37,48 @@
 							{{ item.pointMCode ? 'VBM' : '元' }} &nbsp;&nbsp; 金额：<span class="dis-price">{{
 								item.pointMCode ? (item.pointNumber * item.prdCount).toFixed(2) : item.prdSum
 							}}</span
-							>({{ item.pointMCode ? 'VBM' : item.orderPayTypeName === 'CNY' ? '元' : item.orderPayTypeName }})
+							>({{
+								item.pointMCode
+									? 'VBM'
+									: item.orderPayTypeName === 'CNY'
+									? '元'
+									: item.orderPayTypeName
+							}})
 						</div>
 					</div>
 
 					<div class="foot">
 						<!-- v-if="item.podStatus == 0" -->
 						<div class="btn active" @click="choosePayType(item)" v-if="item.podStatus === 0">付款</div>
-						<div class="btn active" v-if="item.podStatus === 3" @click="conReception(item.podCode)">确认收货</div>
+						<div class="btn active" v-if="item.podStatus === 3" @click="conReception(item.podCode)">
+							确认收货
+						</div>
 						<div class="btn active" v-if="item.podStatus === 1">评价</div>
-						<div class="btn active" @click="$router.push({ name: 'MyOrderDetail', query: { podCode: item.podCode } })">
+						<div
+							class="btn active"
+							@click="$router.push({ name: 'MyOrderDetail', query: { podCode: item.podCode } })"
+						>
 							订单详情
 						</div>
 					</div>
 				</div>
 			</List>
 		</PullRefresh>
-		<PayComponent ref="paychild" :poCode="poCode" :podCode="podCode" :show="show" @close="close" />
+		<PayComponent :poCode="poCode" :podCode="podCode" :show="show" @close="close" />
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { PullRefresh, List, Tab, Tabs, Icon, Dialog } from 'vant'
-
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useI18n } from "@/hooks/setting/useI18n"
-import { useImgPath } from "@/hooks/mx/useImgPath"
-import { useSkuName } from "@/hooks/mx/useSkuName"
-import { IShowSelfOrderDetailModel, IShowSelfOrderDetailItem } from "@/apis/model/mxModel"
-import { IPullRefreshListRes } from "@/apis/model/commonModel"
-import { confirmTakeDelivery } from "@/apis/mx"
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { useImgPath } from '@/hooks/mx/useImgPath'
+import { useSkuName } from '@/hooks/mx/useSkuName'
+import { IShowSelfOrderDetailModel, IShowSelfOrderDetailItem } from '@/apis/model/mxModel'
+import { confirmTakeDelivery } from '@/apis/mx'
 import PayComponent from './components/PayComponent.vue'
+
 export default defineComponent({
 	name: 'ShowSelfOrderDetail-alive',
 	components: { PullRefresh, List, Tab, Tabs, Icon, PayComponent },
@@ -81,9 +93,10 @@ export default defineComponent({
 			payStatus: -1,
 			oStatus: -1
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<IShowSelfOrderDetailItem>
-		>usePullRefreshPageList('mem/order/showSelfOrderDetail', params)
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			IShowSelfOrderDetailItem,
+			IShowSelfOrderDetailModel
+		>('mem/order/showSelfOrderDetail', params)
 
 		const active = ref(0)
 		// 切換tabs
@@ -103,16 +116,14 @@ export default defineComponent({
 		const show = ref(false)
 		const podCode = ref(0)
 		const poCode = ref(0)
-		// const paychild = ref(null)
 		// 支付
 		const choosePayType = (item: IShowSelfOrderDetailItem) => {
 			show.value = true
 			podCode.value = item.podCode
 			poCode.value = item.poCode
 			// console.log($ref)
-			// paychild.value.getPayType(item.prdCCode)
 		}
-		const close = (val: boolean) => {
+		const close = () => {
 			show.value = false
 		}
 		// 確認收貨
@@ -133,7 +144,6 @@ export default defineComponent({
 			dataList,
 			onRefresh,
 			onLoad,
-			// paychild,
 			podCode,
 			poCode,
 			show,

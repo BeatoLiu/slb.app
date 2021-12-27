@@ -45,9 +45,7 @@
 				<!-- <p>5、数点兑换兑换usdt功能，即将开放公测</p> -->
 				<p>5、银行卡支付时间为9:00-20:00</p>
 				<p>6、BNB兑换仅用于初始手续费，且只限购一次</p>
-				<p style="color: red; text-decoration: underline" @click="showHelpImg = true">
-					7、数点兑换银行卡转账帮助说明
-				</p>
+				<p class="color-red text-underline" @click="showHelpImg = true">7、数点兑换银行卡转账帮助说明</p>
 			</div>
 		</div>
 		<div class="bottom flex-end">
@@ -92,9 +90,9 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { NumberKeyboard, Button, RadioGroup, Radio, ImagePreview, Toast } from 'vant'
 
-import { picDisplayPath } from "@/utils/config"
-import { showDictionary } from "@/apis/common"
-import { getExchangeRatioinDcToCny, showLimitAcct } from "@/apis/slb"
+import { picDisplayPath } from '@/utils/config'
+import { showDictionary } from '@/apis/common'
+import { getExchangeRatioinDcToCny, showLimitAcct } from '@/apis/slb'
 
 import PayComponent from './PayComponent.vue'
 
@@ -219,7 +217,7 @@ export default defineComponent({
 			}
 		}
 		const onInput = (value: string) => {
-			const reg = /^\d+\.?\d{0,1}$/
+			const reg = /^\d+\.?\d?$/
 			if (reg.test(data.sum) || data.sum === '') {
 				data.sum = data.sum + value
 			}

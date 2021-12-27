@@ -3,7 +3,7 @@
 	<van-dialog
 		v-model:show="show"
 		title="人民币支付，请转账至如下银行账户"
-		:before-close="beforeclose"
+		:before-close="beforeClose"
 		:show-confirm-button="false"
 	>
 		<CellGroup>
@@ -62,9 +62,9 @@
 
 			<Cell clickable>
 				<template #default>
-					<p style="color: green">点击以上相应选项，可复制内容</p>
-					<div style="color: red">注：转账时必须备注【摘要】！！！</div>
-					<div style="color: red">因未上传打款凭证导致的损失，需自行承担</div>
+					<p class="green-color">点击以上相应选项，可复制内容</p>
+					<div class="red-color">注：转账时必须备注【摘要】！！！</div>
+					<div class="red-color">因未上传打款凭证导致的损失，需自行承担</div>
 				</template>
 			</Cell>
 			<Cell center clickable>
@@ -156,7 +156,7 @@ export default defineComponent({
 		const updateShow = (show: boolean) => emit('update:show', show)
 		// !不能直接修改showQr的值，只能绕个弯，即使如此，控制台还是会报错，但暂别无它法
 		// Todo
-		const beforeclose = () => {
+		const beforeClose = () => {
 			updateShow(false)
 			return true
 		}
@@ -166,7 +166,7 @@ export default defineComponent({
 			bankCard,
 			show,
 			clipboard,
-			beforeclose,
+			beforeClose,
 			closeDialog
 		}
 	}
@@ -174,7 +174,13 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.van-button__text {
+.red-color {
 	color: red;
+}
+.green-color {
+	color: green;
+}
+.van-button__text {
+	.red-color;
 }
 </style>

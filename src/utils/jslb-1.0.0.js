@@ -1,5 +1,6 @@
+/*eslint-disable*/
 const slb = window.slb || function (w) {
-	const slb = {
+	return {
 		/**
 		 * @description 扫一扫
 		 * @param {*} options 预留的参数，暂时无用
@@ -42,7 +43,7 @@ const slb = window.slb || function (w) {
 		w.androidJsHandle && androidJsHandle[type](options)
 	}
 
-	return slb
+	// return slb
 }(window)
 
 // console.log(slb)

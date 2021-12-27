@@ -14,7 +14,7 @@
 		</div>
 		<div class="reason">
 			<div class="name"><span>*</span>退款原因:</div>
-			<div class="val" @click="getReasonList">{{ resonText }}</div>
+			<div class="val" @click="getReasonList">{{ reasonText }}</div>
 			<Icon name="arrow" />
 		</div>
 		<div class="reason">
@@ -53,7 +53,13 @@
 		<div class="foot active" @click="submit" v-if="activeFoot">提交申请</div>
 		<div class="foot" v-else>提交申请</div>
 		<Popup v-model:show="showPicker" position="bottom">
-			<Picker show-toolbar :columns="reasonList" @cancel="showPicker = false" @confirm="onConfirm" />
+			<Picker
+				show-toolbar
+				:columns="reasonList"
+				:columns-field-names="customFieldName"
+				@cancel="showPicker = false"
+				@confirm="onConfirm"
+			/>
 		</Popup>
 		<Popup v-model:show="roTypePicker" position="bottom">
 			<Picker show-toolbar :columns="roTypeList" @cancel="roTypePicker = false" @confirm="roTypeConfirm" />
@@ -77,9 +83,11 @@ import { showDictionary } from '@/apis/common'
 import { getMallPrdOrderDetail, insertRefundOrder, uploadPic } from '@/apis/mx'
 import { useImgPath } from '@/hooks/mx/useImgPath'
 import { useSkuName } from '@/hooks/mx/useSkuName'
+import { IShowDictionaryItem } from '@/apis/model/commonModel'
 
-interface listItem {
-	[key: string]: any
+interface IConfirmOpts {
+	text: string
+	id: number
 }
 export default defineComponent({
 	name: 'MxRefund',
@@ -88,9 +96,8 @@ export default defineComponent({
 		const { currentRoute, back } = useRouter()
 		const { imgPath } = useImgPath()
 		const { skuName } = useSkuName()
-		const reasonList = ref<listItem[]>([]) // 退款原因列表
+		const reasonList = ref<IShowDictionaryItem[]>([]) // 退款原因列表
 		const data = reactive({
-			// resonList: [], // 退款原因列表
 			showPicker: false, // 原因列表弹层
 			reasonText: '请选择', // 具体原因
 
@@ -115,49 +122,48 @@ export default defineComponent({
 				podCode: 0, // 产品编号
 				roType: 0, // 退货类型
 				roRecType: 0, // 是否已收货
-				roReasonType: '', // 退货原因
+				roReasonType: 0, // 退货原因
 				remark: '' //  备注
 			}
 		})
+		/* eslint-disable-next-line */
 		const dataInfo = reactive<any>({})
 		const activeFoot = computed(() => {
-			if (data.reasonText !== '请选择' && data.roTypeText !== '请选择' && data.roRecTypeText !== '请选择') {
-				return true
-			} else {
-				return false
-			}
+			return data.reasonText !== '请选择' && data.roTypeText !== '请选择' && data.roRecTypeText !== '请选择'
 		})
+		const customFieldName = { text: 'dSubName' }
 		const getReasonList = () => {
 			if (!reasonList.value.length) {
 				showDictionary({ dType: 20 }).then(res => {
 					// console.log(res)
 					reasonList.value = res.data
-					reasonList.value.forEach(i => {
-						i.text = i.dSubName
-						// i.values = i.dSubCode
-					})
+					// reasonList.value.forEach(i => {
+					// 	i.text = i.dSubName
+					// 	// i.values = i.dSubCode
+					// })
 				})
 			}
 			data.showPicker = true
 		}
 		// 确认选中原因
-		const onConfirm = (val: any) => {
-			console.log(val.dSubCode)
+		const onConfirm = (val: IShowDictionaryItem) => {
+			console.log(val)
 			data.showPicker = false
 			data.reasonText = val.dSubName
 			data.refundParams.roReasonType = val.dSubCode
 		}
-		const roTypeConfirm = (val: any) => {
+		const roTypeConfirm = (val: IConfirmOpts) => {
 			data.roTypePicker = false
 			data.roTypeText = val.text
 			data.refundParams.roType = val.id
 		}
-		const roRecTypeConfirm = (val: any) => {
+		const roRecTypeConfirm = (val: IConfirmOpts) => {
 			data.roRecTypePicker = false
 			data.roRecTypeText = val.text
 			data.refundParams.roRecType = val.id
 		}
 		// 上传图片
+		/* eslint-disable-next-line */
 		const afterRead = (file: any) => {
 			console.log(file)
 			const params = new FormData()
@@ -171,6 +177,7 @@ export default defineComponent({
 		}
 		const submit = () => {
 			// this.refundParams.roCount = this.num
+			// return console.log(data.refundParams)
 			insertRefundOrder(data.refundParams).then(res => {
 				if (res.resultCode === 1) {
 					Toast('退款申请已提交！')
@@ -210,6 +217,7 @@ export default defineComponent({
 			...toRefs(data),
 			dataInfo,
 			reasonList,
+			customFieldName,
 			activeFoot,
 			imgPath,
 			skuName,

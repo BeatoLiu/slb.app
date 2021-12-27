@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { createNamespace } from "vant/lib/utils";
 
-const [name, bem] = createNamespace("sku-row-prop-item");
+const [name] = createNamespace("sku-row-prop-item");
 
 export default defineComponent({
     name,

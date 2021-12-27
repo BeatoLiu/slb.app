@@ -4,7 +4,7 @@
 			<CellGroup>
 				<Field readonly>
 					<template #button>
-						<div class="flex-center" style="color: #ee0a24" @click="edit">
+						<div class="flex-center color-ee" @click="edit">
 							<Icon name="edit" color="#ee0a24" size="20" />修改
 						</div>
 					</template>
@@ -154,6 +154,9 @@ export default defineComponent({
 		// height: calc(100vh);
 		text-align: center;
 		background: #fff;
+		.color-ee {
+			color: #ee0a24;
+		}
 	}
 	.btn {
 		width: 100%;

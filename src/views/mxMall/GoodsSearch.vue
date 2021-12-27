@@ -138,6 +138,7 @@ export default defineComponent({
 	// 进入该页面时，用之前保存的滚动位置赋值
 	beforeRouteEnter(to, from, next) {
 		// console.log(to)
+		/* eslint-disable @typescript-eslint/no-explicit-any */
 		next((vm: any) => {
 			// console.log(from)
 			if (from.name === 'GoodsCategory' && to.query.proName) {

@@ -5,12 +5,24 @@
 		</Sticky>
 		<PullRefresh v-model="refreshing" @refresh="onRefresh">
 			<div class="list">
-				<List v-model:loading="loading" :finished="finished" :finished-text="t('common.noDataText')" @load="onLoad">
+				<List
+					v-model:loading="loading"
+					:finished="finished"
+					:finished-text="t('common.noDataText')"
+					@load="onLoad"
+				>
 					<div class="waterfall">
 						<div class="wrap left" ref="left">
 							<div class="item" v-for="item in dataList" :key="item.oTaobaoSubId">
 								<div class="order">
-									<div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%">
+									<div
+										style="
+											display: flex;
+											justify-content: space-between;
+											align-items: flex-start;
+											width: 100%;
+										"
+									>
 										<p>新增算力</p>
 										<div class="order-name">
 											<p>算力{{ item.oScRetSumMock.toFixed(2) }}元 X10</p>
@@ -30,13 +42,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { Sticky, PullRefresh, List } from 'vant'
-
-import { IPullRefreshListRes } from "@/apis/model/commonModel"
-import { IShowSelfTaoKeOrderModel, IShowSelfTaoKeOrderItem } from "@/apis/model/taoKeModel"
-import { usePullRefreshPageList } from "@/hooks/web/usePullRefreshPageList"
-import { useI18n } from "@/hooks/setting/useI18n"
-import { showSelfTaokeOrderSum } from "@/apis/taoKe"
-import { useOffSetTop } from "@/hooks/web/useOffSetTop"
+import { IShowSelfTaoKeOrderModel, IShowSelfTaoKeOrderItem } from '@/apis/model/taoKeModel'
+import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
+import { useI18n } from '@/hooks/setting/useI18n'
+import { showSelfTaokeOrderSum } from '@/apis/taoKe'
+import { useOffSetTop } from '@/hooks/web/useOffSetTop'
 
 export default defineComponent({
 	name: 'IncomePower',
@@ -54,9 +64,10 @@ export default defineComponent({
 			pageNum: 0,
 			oScRetStatus: 1
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <IPullRefreshListRes<IShowSelfTaoKeOrderItem>>(
-			usePullRefreshPageList('mg/taoke/showSelfTaokeOrder', params)
-		)
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			IShowSelfTaoKeOrderItem,
+			IShowSelfTaoKeOrderModel
+		>('mg/taoke/showSelfTaokeOrder', params)
 
 		const totalPower = ref(0)
 		onMounted(() => {

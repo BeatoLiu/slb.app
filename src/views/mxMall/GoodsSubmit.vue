@@ -16,16 +16,16 @@
 				<p>3.人满成团</p>
 			</div>
 		</div>
-		<div class="contact" v-if="addrInfo.daMobile">
+		<div class="contact" v-if="addressInfo.daMobile">
 			<img src="../../assets/img/mixuan/address.png" alt="" />
 			<div class="info">
-				<div class="phone">{{ addrInfo.daMobile }}</div>
-				<div class="name">收货人：{{ addrInfo.daName }}</div>
-				<p>收货地址：{{ addrInfo.aName + addrInfo.daDetailAddress }}</p>
+				<div class="phone">{{ addressInfo.daMobile }}</div>
+				<div class="name">收货人：{{ addressInfo.daName }}</div>
+				<p>收货地址：{{ addressInfo.aName + addressInfo.daDetailAddress }}</p>
 			</div>
-			<div class="right" @click="chooseAddr"><Icon name="arrow" /></div>
+			<div class="right" @click="chooseAddress"><Icon name="arrow" /></div>
 		</div>
-		<div class="add-address" @click="chooseAddr" v-if="!addrInfo.daMobile">
+		<div class="add-address" @click="chooseAddress" v-if="!addressInfo.daMobile">
 			<Icon name="add-o" size="0.5rem" />
 			<span>增加收货地址</span>
 		</div>
@@ -94,6 +94,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, SubmitBar, Toast } from 'vant'
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
@@ -145,7 +146,7 @@ export default defineComponent({
 		// 支付方式
 		const payType = reactive({ alipayShow: false, bankShow: false })
 		// 地址信息
-		const addrInfo = reactive({
+		const addressInfo = reactive({
 			aCode: 0,
 			daCode: 0,
 			daName: '',
@@ -158,21 +159,20 @@ export default defineComponent({
 		const getDefault = () => {
 			showAcquiesceDeliveryAddress().then(res => {
 				if (res.resultCode === 1 && res.data) {
-					Object.assign(addrInfo, res.data)
-					// addrInfo = res.data
+					Object.assign(addressInfo, res.data)
 				}
 			})
 		}
 		// 提交订单
 		const onSubmit = () => {
-			if (!addrInfo.daMobile) {
+			if (!addressInfo.daMobile) {
 				Toast('请增加收货地址！')
 				return
 			}
 			// console.log(data.orderInfo)orderList
-			orderInfo.value.daCode = addrInfo.daCode
-			orderInfo.value.poACode = addrInfo.aCode
-			orderInfo.value.poAName = addrInfo.aName + addrInfo.daDetailAddress
+			orderInfo.value.daCode = addressInfo.daCode
+			orderInfo.value.poACode = addressInfo.aCode
+			orderInfo.value.poAName = addressInfo.aName + addressInfo.daDetailAddress
 			if (!data.poCode) {
 				submitEcBill(orderInfo.value).then(res => {
 					if (res.resultCode === 1) {
@@ -232,22 +232,20 @@ export default defineComponent({
 				}
 			})
 		}
-		const chooseAddr = () => {
+		const chooseAddress = () => {
 			push('/mine/address/list')
 		}
 
 		onMounted(() => {
-			data.routeFrom === 'AddressList' && Object.assign(addrInfo, store.state.user.deliveryAddress)
-			// addrInfo = store.state.product.deliveryAddress
-			// console.log(addrInfo)
+			data.routeFrom === 'AddressList' && Object.assign(addressInfo, store.state.user.deliveryAddress)
 		})
 		return {
 			...toRefs(data),
 			orderInfo,
-			addrInfo,
+			addressInfo,
 			payType,
 			onSubmit,
-			chooseAddr,
+			chooseAddress,
 			getDefault,
 			pay
 		}
@@ -259,7 +257,6 @@ export default defineComponent({
 				vm.poCode = null
 			}
 			if (from.name !== 'AddressList') {
-				// let orderInfo = to.query.parms
 				// vm.orderInfo = orderInfo
 				// vm.proInfo = orderInfo.orderList[0].podList[0]
 				// 获取默认收货地址

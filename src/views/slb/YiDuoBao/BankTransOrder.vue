@@ -100,9 +100,7 @@
 <script lang="ts">
 // !這個文件和PayForSUSD下的同名文件，有很多能複用的地方。有空的時候再改
 import { defineComponent, onMounted, reactive, ref } from 'vue'
-import { Sticky, PullRefresh, List, Button, Cell, Uploader, Switch, Dialog } from 'vant'
-
-import { IPullRefreshListRes } from '@/apis/model/commonModel'
+import { PullRefresh, List, Button, Cell, Uploader, Switch, Dialog } from 'vant'
 import { IShowPayOrderListByMemCodeItem, IShowPayOrderListModel } from '@/apis/model/slbModel'
 import { updateMemberWJSConfirmLazyFlag } from '@/apis/slb'
 
@@ -117,7 +115,6 @@ export default defineComponent({
 		Cell,
 		List,
 		PullRefresh,
-		Sticky,
 		[Switch.name]: Switch,
 		[Dialog.Component.name]: Dialog.Component
 	},
@@ -147,16 +144,17 @@ export default defineComponent({
 			params.startTime = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate()
 			params.endTime = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' 23:59:59'
 		})
-		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = <
-			IPullRefreshListRes<IShowPayOrderListByMemCodeItem>
-		>usePullRefreshPageList('mg/slpay/showPayOrderListApp', params, { method: 'POST' })
+		const { refreshing, loading, finished, dataList, onRefresh, onLoad } = usePullRefreshPageList<
+			IShowPayOrderListByMemCodeItem,
+			IShowPayOrderListModel
+		>('mg/slpay/showPayOrderListApp', params, { method: 'POST' })
 
 		const afterRead = () => {
 			imgMsg.value = '上传'
 			imgIsLoading.value = false
 		}
 		const upload = async () => {
-			let file = imgList.value[0].file
+			const file = imgList.value[0].file
 			const formData = new FormData()
 			formData.append('orderCode', orderCode.value + '')
 			const res = await uploadImg(file, 'mg/slpay/uploadPayOrderMoneyProve', formData)
@@ -194,7 +192,7 @@ export default defineComponent({
 		}
 		// 是否一期
 		const olderTime = (createTime: string) => {
-			createTime = createTime.replace(/\-/g, '/')
+			createTime = createTime.replace(/-/g, '/')
 			// console.log(createTime)
 			const older = new Date(createTime)
 			const now = new Date('2021/09/17 00:00:00')
@@ -270,4 +268,3 @@ export default defineComponent({
 	}
 }
 </style>
-

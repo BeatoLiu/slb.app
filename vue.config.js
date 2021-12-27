@@ -23,7 +23,10 @@ const outputDir = () => {
 }
 
 module.exports = {
-	publicPath: './', // outputDir: 'slbApp', outputDir: outputDir(), productionSourceMap: false, filenameHashing: true,
+	publicPath: './', // outputDir: 'slbApp',
+	outputDir: outputDir(), 
+	productionSourceMap: false,
+	filenameHashing: true,
 	lintOnSave: false,
 	devServer: {
 		port: 8092, // 端口号

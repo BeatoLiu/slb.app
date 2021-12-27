@@ -10,8 +10,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
 	name: 'YiDuoBao',
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	setup() {}
 })
 </script>
 

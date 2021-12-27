@@ -23,7 +23,7 @@
 			<div class="card-content" :class="{ mccTipFlag: item.mccTipFlag === 1 }">
 				<p>
 					尾号{{ item.mccCard.substring(item.mccCard.length - 4) }}
-					<span style="color: red" v-if="item.mccTipFlag === 1">(银行卡异常)</span>
+					<span class="color-red" v-if="item.mccTipFlag === 1">(银行卡异常)</span>
 				</p>
 				<!-- <p>请自主查询账单</p> -->
 			</div>
@@ -119,6 +119,9 @@ export default defineComponent({
 		background: #fff;
 		border-radius: 5px;
 		// text-align: center;
+	}
+	.color-red {
+		color: red;
 	}
 }
 </style>
