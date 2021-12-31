@@ -25,7 +25,7 @@ export default defineComponent({
         )
         return () => (
             <div class="balance">
-                <div class="top" />
+				<div class="top"/>
 				<div class="balance-container">
 					<div>
 						<p class="title">我的余额</p>

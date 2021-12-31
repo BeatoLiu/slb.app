@@ -5,11 +5,14 @@ import { getExchangeRatioinDcToCny, payCreditReturnForDc, showLimitAcct } from "
 import InputPayPWD from "@/components/InputPayPWD";
 import './PayForCredit.less'
 import { showDictionary } from "@/apis/common";
+import { useStore } from "@/store";
 
 export default defineComponent({
     name: 'PayForCredit',
     setup() {
         const { currentRoute, replace } = useRouter()
+		const store = useStore()
+		const memCode = computed(() => store.state.user.userInfo.memCode)
         const data = reactive({
             cardInfo: {
                 cardName: currentRoute.value.query.mccBankName as string,
@@ -47,8 +50,8 @@ export default defineComponent({
 
         const dis = computed(() => {
             const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
-            const memCode = localStorage.getItem('memCode') || ''
-            if (permissionList.includes(memCode)) {
+            // const memCode = localStorage.getItem('memCode') || ''
+            if (permissionList.includes(memCode.value + '')) {
                 return true
             }
 
@@ -110,7 +113,7 @@ export default defineComponent({
         }
 
         const onInput = (value: string) => {
-            const reg = /^\d+\.?\d{0,1}$/
+            const reg = /^\d+\.?\d?$/
             if (reg.test(data.sum) || data.sum === '') {
                 data.sum = data.sum + value
             }
@@ -245,8 +248,8 @@ export default defineComponent({
                         <p class="title">温馨提示：</p>
                         <div>
                             <p>1、测试期间，还款金额为【{data.limitObj.laSingleLimitLow}-{data.limitObj.laSingleLimit}】之间</p>
-                            <p>2、未完善信息的用户，请先完善信息</p>
-                            <p>3、还款时间为【{data.limitDetail['开始时间']} — {data.limitDetail['结束时间']}】</p>
+                            {/*<p>2、未完善信息的用户，请先完善信息</p>*/}
+                            <p>2、测试期间，还款时间为【{data.limitDetail['开始时间']} — {data.limitDetail['结束时间']}】</p>
                             {
                                 data.limitDetail['结束日期'] ?
                                     (<p>

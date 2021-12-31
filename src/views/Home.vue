@@ -13,16 +13,6 @@
 						@click="$router.push('/taoKe/search')"
 					></Search>
 				</div>
-				<!-- 頂部標籤欄 -->
-				<!-- <div class="tabs">
-					<Tabs background="transparent" color="#fff" v-model:active="activeTab">
-						<Tab title-class="tabs-tab" v-for="item in tabsList" :key="item.catId" :name="item.catId">
-							<template #title>
-								<span class="tabs-tab">{{ t(item.title) }}</span>
-							</template>
-						</Tab>
-					</Tabs>
-				</div> -->
 			</header>
 		</Sticky>
 		<!-- 搜索框下面部分 -->
@@ -88,7 +78,6 @@
 		<section>
 			<div class="lc-index">
 				<div>
-					<!-- <img :src="picPath + 'custom/secret/point-index.jpg'" alt=""> -->
 					<img :src="lcImg" alt="" />
 				</div>
 			</div>
@@ -100,14 +89,10 @@
 					<div class="flex-space benefit-content">
 						<div class="te-hui" @click="$router.push({ name: 'TBPreferential' })">
 							<div class="benefit-left">
-								<!-- <p>9.9购</p> -->
 								<p>特惠</p>
 								<p>全场促销 5折起步</p>
 								<p>立即抢购</p>
 							</div>
-							<!-- <div class="benefit-left">
-								<van-image :src="teHuiImg" />
-							</div> -->
 						</div>
 						<div class="benefit-top flex-space">
 							<div class="flex-space" @click="goTaoBao('yiTao', '淘宝')">
@@ -141,9 +126,7 @@
 						<img src="../assets/img/title-left.png" alt="" />每日必逛<span>发现更多好货</span>
 					</p>
 					<div class="cat-top flex-space">
-						<!-- :style="{'backgroundImage': 'url(' + item.icon + ')'}" -->
 						<div v-for="item in catList" :key="item.title" @click="getGridId(item)">
-							<!-- <p>淘宝</p> -->
 							<p>{{ item.title }}</p>
 							<p>{{ item.subtitle }}</p>
 							<div>
@@ -172,10 +155,7 @@
 		<!-- 商品列表 -->
 		<div class="list">
 			<List v-model:loading="loading" :finished="finished" :finished-text="t('common.noDataText')" @load="onload">
-				<!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
-				<!-- {{ list }} -->
 				<div class="item flex-start" v-for="item in list" :key="item.category_id">
-					<!-- {{ item.short_title }} -->
 					<div class="item-left"><img :src="item.pict_url" alt="" /></div>
 					<div class="item-right">
 						<div class="goods-title">{{ item.short_title }}</div>
@@ -199,7 +179,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent, reactive, ref, toRefs, computed, onActivated } from 'vue'
 import { Search, List, Image, Icon, Dialog, Toast, Sticky } from 'vant'
-
 import { picDisplayPath } from '@/utils/config'
 import slb from './../utils/jslb-1.0.0'
 
@@ -211,7 +190,6 @@ import { useGetTAAPrice } from '@/hooks/web/useGetTAAPrice'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
 
-// import { addAdvertising } from '../apis/tAA'
 interface ITaoBaoUrl {
 	[key: string]: string
 }
@@ -219,14 +197,8 @@ interface ITaoBaoUrl {
 export default defineComponent({
 	name: 'Home-alive',
 	components: {
-		// Button,
 		Search,
-		// Tabs,
-		// Tab,
-		// Swipe,
-		// SwipeItem,
 		List,
-		// NoticeBar,
 		Icon,
 		Sticky,
 		[Image.name]: Image
@@ -253,7 +225,6 @@ export default defineComponent({
 			return calcPower / taaPrice.value
 		}
 		const data = reactive({
-			// picDisplayPath,
 			// 搜索關鍵字，可能不需要
 			keywords: '',
 			// 輪播圖
@@ -272,7 +243,7 @@ export default defineComponent({
 					isShow: true
 				},
 				{
-					id: 4,
+					id: 2,
 					title: '收款',
 					icon: picDisplayPath + 'slbApp/home/make-collections.png',
 					iconColor: '#fff',
@@ -289,22 +260,13 @@ export default defineComponent({
 					isShow: true
 				},
 				{
-					id: 2,
+					id: 4,
 					title: '信用卡还款',
 					icon: picDisplayPath + 'slbApp/home/credit.png',
 					iconColor: '#fff',
 					to: { name: 'CreditCard' },
 					isShow: true
 				}
-
-				// {
-				// 	id: 4,
-				// 	title: '节点申请',
-				// 	icon: picDisplayPath + 'slbApp/home/ele.png',
-				// 	iconColor: '#fff',
-				// 	to: 'http://mg.2qzs.com/slmer/index.html#/',
-				// 	isShow: true
-				// }
 			],
 			// 各平臺list
 			platformList: [
@@ -381,7 +343,6 @@ export default defineComponent({
 					type: 'benefit',
 					materialId: 13366
 				},
-				// {title: '拼好货', subtitle: '品质好货', icon: cat8, to: 'pddHomeList', type: 'life', materialId: 2},
 				{
 					title: '热销',
 					subtitle: '款款好物',
@@ -406,8 +367,6 @@ export default defineComponent({
 					type: 'life',
 					materialId: 30443
 				}
-				// {title: '拼爆款', icon: cat9, to: 'pddHomeList', type: 'life', materialId: 1},
-				//
 			],
 			// 獲得taa的滾動消息
 			memTAAList: [],
@@ -445,8 +404,6 @@ export default defineComponent({
 		const onload = () => {
 			// 异步更新数据
 			setTimeout(() => {
-				// data.params.pageNum++
-				// loading.value = true
 				getData()
 			}, 500)
 		}
@@ -507,13 +464,23 @@ export default defineComponent({
 					// console.log(typeof err)
 					// Toast(JSON.stringify(err))
 				}
-				// }
-				// } else if (id === 2) {
-				// 	Toast('敬请期待')
-			} else if (id === 2 || id === 3 || id === 4) {
+			} else if (id === 2) {
 				push(item.to)
-				// } else if (id === 4) {
-				// 	window.location.href = 'http://mg.2qzs.com/slmer/index.html#/'
+			} else if (id === 3 || id === 4) {
+				// push(item.to)
+				const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
+				if (permissionList.includes(memCode.value + '')) {
+					push(item.to)
+				} else {
+					Dialog.alert({
+						title: '—— 敬请期待——',
+						message:
+							'银企直联，是展市数联宝2021年取得的重⼤成就，银企直联的对接，意味着⽤' +
+							'ZSDT或SUSD还信⽤卡或商家购物⽀付，对应的⼈⺠币基本上可以实时到账。',
+						theme: 'round-button',
+						messageAlign: 'left'
+					})
+				}
 			}
 		}
 		// 打开淘宝各活动
@@ -544,7 +511,6 @@ export default defineComponent({
 
 		// 品类
 		const getGridId = (item: any) => {
-			// console.log(item)
 			push({ name: item.to, query: { ...item } })
 		}
 
@@ -562,23 +528,7 @@ export default defineComponent({
 				}
 			}, 3000)
 			window.location.href = url
-			// } else {
-			// 	const options = {
-			// 		title: `跳转到淘宝APP`,
-			// 		url: url
-			// 	}
-			// 	sc.openApp(options, (result) => {
-			// 		if (!(result && result.status === 200)) {
-			// 			Toast('没有安装淘宝APP', JSON.stringify(result))
-			// 		}
-			// 	})
-			// }
 		}
-		// const adCb = result => {
-		// 	addAdvertising({ adCode: result }).then(res => {
-		// 		// console.log(res)
-		// 	})
-		// }
 		// 扫一扫回调
 		const scanRes = (res: any) => {
 			const strArr = res.split('?id=')
@@ -612,7 +562,6 @@ export default defineComponent({
 
 		return {
 			...toRefs(data),
-			// gainTAAListNav,
 			topListNav,
 			isShowSomething,
 			offSetTop,
@@ -623,7 +572,6 @@ export default defineComponent({
 			onload,
 			changeImg,
 			goPlatform,
-			// goGainTAA,
 			topFunc,
 			goTaoBao,
 			getGridId,
@@ -639,12 +587,6 @@ export default defineComponent({
 .home {
 	header {
 		background: linear-gradient(180deg, @primaryColor 0%, @primaryColor 100%);
-		// height: 450 * @fontSize;
-		// padding: 0 36 * @fontSize;
-		.search {
-			// margin-top: 70 * @fontSize;
-		}
-
 		.tabs {
 			color: #fff;
 			.tabs-tab {
@@ -664,15 +606,11 @@ export default defineComponent({
 		padding: 20 * @fontSize 82 * @fontSize;
 		color: #fff;
 		text-align: center;
-		// line-height: 32 * @fontSize;
-		// width: 100%;
 		// background: linear-gradient(180deg, @primaryColor 0%, @primaryColor 100%);
 		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		i {
-			// width: 96 * @fontSize;
-			// height: 96 * @fontSize;
 			font-size: 72 * @fontSize;
 		}
 		p {
@@ -718,8 +656,6 @@ export default defineComponent({
 			}
 		}
 		.platform-list {
-			// background: #fff;
-			// border-radius: 5px;
 			flex-wrap: wrap;
 			padding-bottom: 20 * @fontSize;
 			font-size: 24 * @fontSize;

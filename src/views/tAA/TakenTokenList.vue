@@ -102,7 +102,7 @@ export default defineComponent({
 			ttSetStatus: -1
 		})
 		onMounted(() => {
-			const { startTime, endTime, timeStr } = getTimeParams(6,true)
+			const { startTime, endTime, timeStr } = getTimeParams(6, true)
 			dateDisplay.value = timeStr
 			params.startTime = startTime
 			params.endTime = endTime
@@ -118,7 +118,7 @@ export default defineComponent({
 		const onConfirm = (date: Date[]) => {
 			showTime.value = false
 			const [start, end] = date
-			const { startTime, endTime, timeStr } = getFormatTime(start, end,true)
+			const { startTime, endTime, timeStr } = getFormatTime(start, end, true)
 			dateDisplay.value = timeStr
 			params.startTime = startTime
 			params.endTime = endTime
@@ -131,8 +131,8 @@ export default defineComponent({
 		const getSum = () => {
 			selectTakeTokenDetailListSum(params).then(res => {
 				if (res.resultCode === 1) {
-					daysInfo.total = res.data[0].total
-					daysInfo.orderBonus = res.data[0].ttSum
+					daysInfo.total = res.data.dataIn[0].total
+					daysInfo.orderBonus = res.data.dataIn[0].ttSum
 				}
 			})
 		}
@@ -220,14 +220,6 @@ export default defineComponent({
 				font-size: 32 * @fontSize;
 				border-bottom: 1px solid #f4f4f4;
 			}
-		}
-	}
-	.img-item {
-		padding-top: 20 * @fontSize;
-		border-top: 1px solid #ebedf0;
-		border-bottom: 1px solid #ebedf0;
-		p {
-			margin-right: 40 * @fontSize;
 		}
 	}
 }

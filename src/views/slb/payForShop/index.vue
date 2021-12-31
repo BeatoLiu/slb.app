@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Toast, NumberKeyboard, Button, RadioGroup, Radio } from 'vant'
+import { Toast, NumberKeyboard, Button, RadioGroup, Radio, Dialog } from 'vant'
 import { Base64 } from 'js-base64'
 
 import { getExchangeRatioinDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '@/apis/slb'
@@ -186,7 +186,7 @@ export default defineComponent({
 			}
 		}
 		const onInput = (value: string) => {
-			const reg = /^\d+\.?\d{0,1}$/
+			const reg = /^\d+\.?\d?$/
 			if (reg.test(data.sum) || data.sum === '') {
 				data.sum = data.sum + value
 			}
@@ -328,6 +328,41 @@ export default defineComponent({
 			toPay,
 			closePop
 		}
+	},
+	beforeRouteEnter(to, from, next) {
+		const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
+		const memCode = JSON.parse(localStorage.getItem('userInfo') || '{}')?.memCode
+		// console.log(memCode)
+		if (permissionList.includes(memCode + '')) {
+			next()
+		} else {
+			Dialog.confirm({
+				title: '提示',
+				message: '银企直联对接中，敬请期待',
+				theme: 'round-button'
+			})
+				.then(() => {
+					next({ path: '/' })
+				})
+				.catch(() => {
+					next({ path: '/' })
+				})
+		}
+		// if (process.env.VUE_APP_ENV === 'production') {
+		// 	Dialog.confirm({
+		// 		title: '提示',
+		// 		message: '银企直联对接中，敬请期待',
+		// 		theme: 'round-button'
+		// 	})
+		// 		.then(() => {
+		// 			next({ path: '/' })
+		// 		})
+		// 		.catch(() => {
+		// 			next({ path: '/' })
+		// 		})
+		// } else {
+		// 	next()
+		// }
 	}
 })
 </script>

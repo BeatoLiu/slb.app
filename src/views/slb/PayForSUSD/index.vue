@@ -31,19 +31,17 @@
 		<div class="page-tips">
 			<p class="title">温馨提示：</p>
 			<div>
-				<p>
-					1、数点是数联宝平台的积分，1数点=1元人民币；数点可以用来购买数联宝平台秘选商城的产品与数联宝提供的便民服务
-				</p>
+				<p>1、数点是数联宝平台的积分，1ZSDT=1元；数点可以用来购买数联宝平台的产品与数联宝提供的便民服务</p>
 				<p>
 					2、数点仅能用于兑换数联宝平台直接运营的产品和服务，不能兑换现金，不能进行转账交易，不能兑换数联宝体系外的产品和服务
 				</p>
-				<p>3、测试期间，兑换金额为【{{ limitObj.laSingleLimitLow }}-{{ limitObj.laSingleLimit }}】之间</p>
+				<p>3、兑换金额为【{{ limitObj.laSingleLimitLow }}-{{ limitObj.laSingleLimit }}】之间</p>
 				<p>4、兑换时间为【{{ limitDetail['开始时间'] }} — {{ limitDetail['结束时间'] }}】</p>
 				<p v-if="limitDetail['结束日期']">
 					{{ limitDetail['开始日期'] }}-{{ limitDetail['结束日期'] }}将进行优化，暂时关闭此功能
 				</p>
 				<!-- <p>5、数点兑换兑换usdt功能，即将开放公测</p> -->
-				<p>5、银行卡支付时间为9:00-20:00</p>
+				<p>5、银行卡支付时间为【9:00-20:00】</p>
 				<p>6、BNB兑换仅用于初始手续费，且只限购一次</p>
 				<p class="color-red text-underline" @click="showHelpImg = true">7、数点兑换银行卡转账帮助说明</p>
 			</div>
@@ -95,9 +93,10 @@ import { showDictionary } from '@/apis/common'
 import { getExchangeRatioinDcToCny, showLimitAcct } from '@/apis/slb'
 
 import PayComponent from './PayComponent.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
-	name: 'payForSUSD',
+	name: 'PayForSUSD',
 	components: {
 		[NumberKeyboard.name]: NumberKeyboard,
 		Button,
@@ -107,6 +106,8 @@ export default defineComponent({
 		PayComponent
 	},
 	setup() {
+		const store = useStore()
+		const memCode = computed(() => store.state.user.userInfo.memCode)
 		const data = reactive({
 			show: false, // 数字键盘
 			sum: '',
@@ -136,15 +137,15 @@ export default defineComponent({
 
 			showHelpImg: false,
 			helpImages: [
-				picDisplayPath + 'secret/help/sd/sd_help_1.jpg',
-				picDisplayPath + 'secret/help/sd/sd_help_2.jpg',
-				picDisplayPath + 'secret/help/sd/sd_help_3.jpg',
-				picDisplayPath + 'secret/help/sd/sd_help_4.jpg',
+				picDisplayPath + 'slbApp/slb/help/sd_help_1.jpg',
+				picDisplayPath + 'slbApp/slb/help/sd_help_2.jpg',
+				picDisplayPath + 'slbApp/slb/help/sd_help_3.jpg',
+				picDisplayPath + 'slbApp/slb/help/sd_help_4.jpg',
 				picDisplayPath + 'secret/help/sd/sd_help_5.jpg'
 			],
 			steps: [
-				'1、进入“秘密”-“展市商城”，点击“数联宝”，选择“数点兑换”',
-				'2、输入兑换金额，会自动换算成susd数量，点击“确认兑换”',
+				'1、打开“数联宝”APP，选择“数点兑换”',
+				'2、输入兑换金额，会自动换算成zsdt数量，点击“确认兑换”',
 				'3、会跳出支付方式，选择“银行卡转账”，点击“立即付款”',
 				'4、会弹出转账银行信息和摘要（点击相应内容可直接复制）',
 				'5、打开银行APP转账汇款，必须备注【摘要】里的信息，若不备注，或致到账失败。汇款金额必须和数点兑换金额一致。付款成功后，等待兑换的数点到账'
@@ -153,9 +154,8 @@ export default defineComponent({
 		})
 
 		const dis = computed(() => {
-			const permisionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
-			const memCode = localStorage.getItem('memCode') || ''
-			if (permisionList.includes(memCode)) {
+			const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
+			if (permissionList.includes(memCode.value + '')) {
 				return true
 			}
 
