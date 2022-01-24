@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
-import { Sticky, PullRefresh, List,  Calendar } from 'vant'
+import { Sticky, PullRefresh, List, Calendar } from 'vant'
 
 import { ISelectBenefitOrderListItem, ISelectBenefitOrderListModel } from '@/apis/model/tAAModel'
 import { usePullRefreshPageList } from '@/hooks/web/usePullRefreshPageList'
@@ -77,7 +77,7 @@ export default defineComponent({
 		const showTime = ref(false)
 		const minDate = ref(new Date('2021/09/1'))
 		const maxDate = ref(new Date())
-		const idx = ref(0)
+		// const idx = ref(0)
 		const params = reactive<ISelectBenefitOrderListModel>({
 			pageSize: 10,
 			pageNum: 0,
@@ -136,7 +136,7 @@ export default defineComponent({
 			showTime,
 			minDate,
 			maxDate,
-			idx,
+			// idx,
 			offSetTop,
 			refreshing,
 			loading,

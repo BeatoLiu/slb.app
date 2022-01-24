@@ -150,6 +150,13 @@ export default defineComponent({
 					isShow: true
 				},
 				{
+					title: 'routes.identityCard',
+					to: { path: '/mine/identityCard' },
+					icon: picDisplayPath + 'slbApp/new-ui/credit-card.png',
+					iconColor: '#1989fa',
+					isShow: true
+				},
+				{
 					title: 'routes.banCard',
 					to: { path: '/mine/banCard' },
 					icon: picDisplayPath + 'slbApp/new-ui/credit-card.png',
@@ -266,7 +273,7 @@ export default defineComponent({
 			if (typeof path === 'string') {
 				slb.openAgentManagerUrl(locationOrigin + path)
 				// slb.openAgentManagerUrl('http://mg.2qzs.com/slmer/index.html#/')
-				// window.location.href = localtionOrigin + path
+				// window.location.href = locationOrigin + path
 			} else {
 				push(path)
 			}
@@ -275,7 +282,7 @@ export default defineComponent({
 			localStorage.clear()
 			replace('/login')
 			// window.location.href =
-			// 	process.env.NODE_ENV === 'production' ? localtionOrigin + '/slbApp/index.html' : localtionOrigin + '#login'
+			// 	process.env.NODE_ENV === 'production' ? locationOrigin + '/slbApp/index.html' : locationOrigin + '#login'
 		}
 
 		onActivated(() => {

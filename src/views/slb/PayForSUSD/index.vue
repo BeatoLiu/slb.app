@@ -6,16 +6,26 @@
 				<span class="name">￥</span>
 				<div class="money-content">
 					<div class="money-input">
-						<div class="value placeholder" :class="{ 'no-value': !sum }" v-if="!sum">请输入兑换金额</div>
-						<div class="value" v-else>{{ sum }}</div>
-						<div class="like-input" :class="{ 'no-value-like': !sum }" v-if="show"></div>
+						<div
+							class="value placeholder"
+							:class="{ 'no-value': !exchangeParams.cnyMoney }"
+							v-if="!exchangeParams.cnyMoney"
+						>
+							请输入兑换金额
+						</div>
+						<div class="value" v-else>{{ exchangeParams.cnyMoney }}</div>
+						<div
+							class="like-input"
+							:class="{ 'no-value-like': !exchangeParams.cnyMoney }"
+							v-if="show"
+						></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="biz-type">
 			<p>兑换类型</p>
-			<RadioGroup v-model="laCurrencyType" @change="radioChange" direction="horizontal">
+			<RadioGroup v-model="exchangeParams.laCurrencyType" @change="radioChange" direction="horizontal">
 				<Radio v-for="item in payTypeListFilter" :name="item.value" :disabled="item.dis" :key="item.value">
 					{{ item.label }}
 				</Radio>
@@ -31,15 +41,13 @@
 		<div class="page-tips">
 			<p class="title">温馨提示：</p>
 			<div>
-				<p>1、数点是数联宝平台的积分，1ZSDT=1元；数点可以用来购买数联宝平台的产品与数联宝提供的便民服务</p>
+				<p>1、数点是数联宝平台的积分，1ZSDT=1元；数点可以用来购买数联宝平台的产品与数联宝提供的便民服务；</p>
 				<p>
-					2、数点仅能用于兑换数联宝平台直接运营的产品和服务，不能兑换现金，不能进行转账交易，不能兑换数联宝体系外的产品和服务
+					2、数点仅能用于兑换数联宝平台直接运营的产品和服务，不能兑换现金，不能进行转账交易，不能兑换数联宝体系外的产品和服务；
 				</p>
 				<p>3、兑换金额为【{{ limitObj.laSingleLimitLow }}-{{ limitObj.laSingleLimit }}】之间</p>
 				<p>4、兑换时间为【{{ limitDetail['开始时间'] }} — {{ limitDetail['结束时间'] }}】</p>
-				<p v-if="limitDetail['结束日期']">
-					{{ limitDetail['开始日期'] }}-{{ limitDetail['结束日期'] }}将进行优化，暂时关闭此功能
-				</p>
+				<p v-if="limitDetail['结束日期']">{{ limitDetail['开始日期'] }}-{{ limitDetail['结束日期'] }}</p>
 				<!-- <p>5、数点兑换兑换usdt功能，即将开放公测</p> -->
 				<p>5、银行卡支付时间为【9:00-20:00】</p>
 				<p>6、BNB兑换仅用于初始手续费，且只限购一次</p>
@@ -69,7 +77,13 @@
 			@delete="onDelete"
 		/>
 		<!-- 支付方式选择 -->
-		<PayComponent :show="showComponent" :sum="+sum" :exInfo="exInfo" :bizType="bizType" @close="close" />
+		<PayComponent
+			:show="showComponent"
+			:sum="+exchangeParams.cnyMoney"
+			:exInfo="exInfo"
+			:bizType="bizType"
+			@close="close"
+		/>
 		<!-- 帮助说明 -->
 		<van-image-preview v-model:show="showHelpImg" :images="helpImages" @change="onChange">
 			<template v-slot:index>
@@ -86,14 +100,15 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { NumberKeyboard, Button, RadioGroup, Radio, ImagePreview, Toast } from 'vant'
+import { Button, ImagePreview, NumberKeyboard, Radio, RadioGroup, Toast } from 'vant'
 
 import { picDisplayPath } from '@/utils/config'
 import { showDictionary } from '@/apis/common'
-import { getExchangeRatioinDcToCny, showLimitAcct } from '@/apis/slb'
 
 import PayComponent from './PayComponent.vue'
 import { useStore } from '@/store'
+import useLimitAcct from '@/hooks/web/useLimitAcct'
+import useExchangeRationDcToCny from '@/hooks/web/useExchangeRationDcToCny'
 
 export default defineComponent({
 	name: 'PayForSUSD',
@@ -108,9 +123,11 @@ export default defineComponent({
 	setup() {
 		const store = useStore()
 		const memCode = computed(() => store.state.user.userInfo.memCode)
+		const { getLimitAcct } = useLimitAcct()
+		const { exchangeRationDcToCny } = useExchangeRationDcToCny()
 		const data = reactive({
 			show: false, // 数字键盘
-			sum: '',
+			// sum: '',
 			exInfo: 0, // 换算后的金额
 			loading: false,
 			limitDetail: {
@@ -126,13 +143,13 @@ export default defineComponent({
 			showComponent: false,
 			bizType: 36, // 9 susd; 36 ZSDT; 32 bnb; 12 usdt
 			payTypeName: 'ZSDT',
-			laCurrencyType: 18,
+			// laCurrencyType: 18,
 			// 购买币种类型
 			payTypeList: [
-				{ value: 18, label: 'ZSDT', ishow: true, dis: false },
-				{ value: 16, label: 'BNB', ishow: true, dis: false },
-				{ value: 7, label: 'SUSD', ishow: true, dis: true },
-				{ value: 10, label: 'USDT', ishow: true, dis: true }
+				{ value: 18, label: 'ZSDT', isShow: true, dis: false },
+				{ value: 16, label: 'BNB', isShow: true, dis: false },
+				{ value: 7, label: 'SUSD', isShow: true, dis: false },
+				{ value: 10, label: 'USDT', isShow: true, dis: true }
 			],
 
 			showHelpImg: false,
@@ -153,6 +170,12 @@ export default defineComponent({
 			idx: 0
 		})
 
+		const exchangeParams = reactive({
+			laType: 1, // 0买，1卖
+			cnyMoney: '',
+			laCurrencyType: 18 // 17 usdt; 18 zsdt
+		})
+
 		const dis = computed(() => {
 			const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
 			if (permissionList.includes(memCode.value + '')) {
@@ -163,13 +186,12 @@ export default defineComponent({
 			const timeNow = h.getTime()
 
 			if (data.limitDetail['结束日期']) {
-				console.log(new Date(data.limitDetail['开始日期']))
 				const startDay = new Date(data.limitDetail['开始日期']).getTime()
 				const endDay = new Date(data.limitDetail['结束日期']).getTime()
 				if (timeNow > startDay && timeNow < endDay) {
 					return false
 				} else {
-					return data.sum
+					return exchangeParams.cnyMoney
 				}
 			}
 
@@ -180,52 +202,29 @@ export default defineComponent({
 			const startTime = new Date(day + ' ' + startTimeStr).getTime()
 			const endTime = new Date(day + ' ' + endTimeStr).getTime()
 			if (startTime <= timeNow && timeNow < endTime) {
-				return data.sum
+				return exchangeParams.cnyMoney
 			} else {
 				return false
 			}
 		})
 		// 所能兌換幣種
 		const payTypeListFilter = computed(() => {
-			return data.payTypeList.filter(item => item.ishow)
+			return data.payTypeList.filter(item => item.isShow)
 		})
 
 		const onChange = (index: number) => {
 			data.idx = index
 		}
-		// 汇率换算
-		const exchangeRatioinDcToCny = () => {
-			if (data.sum) {
-				const params = {
-					laType: 1, // 0买，1卖
-					cnyMoney: +data.sum,
-					laCurrencyType: data.laCurrencyType // 7 susd; 10 usdt
-				}
-				data.loading = true
-				getExchangeRatioinDcToCny(params)
-					.then(res => {
-						data.loading = false
-						if (res.resultCode === 1) {
-							data.exInfo = res.data
-						} else {
-							data.exInfo = 0
-						}
-					})
-					.catch(() => (data.exInfo = 0))
-			} else {
-				data.exInfo = 0
-			}
-		}
-		const onInput = (value: string) => {
+		const onInput = async (value: string) => {
 			const reg = /^\d+\.?\d?$/
-			if (reg.test(data.sum) || data.sum === '') {
-				data.sum = data.sum + value
+			if (reg.test(exchangeParams.cnyMoney) || exchangeParams.cnyMoney === '') {
+				exchangeParams.cnyMoney = exchangeParams.cnyMoney + value
 			}
-			exchangeRatioinDcToCny()
+			data.exInfo = await exchangeRationDcToCny(exchangeParams)
 		}
-		const onDelete = () => {
-			data.sum = data.sum.slice(0, data.sum.length - 1)
-			exchangeRatioinDcToCny()
+		const onDelete = async () => {
+			exchangeParams.cnyMoney = exchangeParams.cnyMoney.slice(0, exchangeParams.cnyMoney.length - 1)
+			data.exInfo = await exchangeRationDcToCny(exchangeParams)
 		}
 		const complete = () => {
 			data.show = false
@@ -233,7 +232,7 @@ export default defineComponent({
 
 		const toSign = () => {
 			const minMoney = data.limitObj.laSingleLimitLow
-			if (+data.sum < minMoney) {
+			if (+exchangeParams.cnyMoney < minMoney) {
 				return Toast('最低兑换金额为' + minMoney)
 			}
 			data.showComponent = true
@@ -241,40 +240,33 @@ export default defineComponent({
 		const close = () => {
 			data.showComponent = false
 		}
-		const radioChange = (radio: number) => {
+		const radioChange = async (radio: number) => {
 			if (radio === 7) {
 				data.payTypeName = 'SUSD'
 				data.bizType = 9
-				getLimitAcct(2)
+				const res = await getLimitAcct(2)
+				Object.assign(data.limitObj, res)
 			} else if (radio === 10) {
 				data.payTypeName = 'USDT'
 				data.bizType = 12
-				getLimitAcct(2)
+				const res = await getLimitAcct(4)
+				Object.assign(data.limitObj, res)
 			} else if (radio === 16) {
 				data.payTypeName = 'BNB'
 				data.bizType = 32
-				getLimitAcct(7)
+				const res = await getLimitAcct(13)
+				Object.assign(data.limitObj, res)
 			} else if (radio === 18) {
 				data.payTypeName = 'ZSDT'
 				data.bizType = 36
-				getLimitAcct(11)
+				const res = await getLimitAcct(11)
+				Object.assign(data.limitObj, res)
 			}
-			exchangeRatioinDcToCny()
+			data.exInfo = await exchangeRationDcToCny(exchangeParams)
 		}
-		// 查詢該功能開放的限額
-		const getLimitAcct = (val: number) => {
-			showLimitAcct({ laCode: val }).then(res => {
-				if (res.resultCode === 1) {
-					Object.assign(data.limitObj, res.data)
-					// this.limitObj = res.data
-				}
-			})
-		}
-		onMounted(() => {
-			getLimitAcct(2)
-
+		const getLimitTime = (val: number) => {
 			// 查詢該功能開放時間斷
-			showDictionary({ dType: 41 }).then(res => {
+			showDictionary({ dType: val }).then(res => {
 				if (res.resultCode === 1 && res.data.length) {
 					const str = JSON.parse(res.data[0].dSubName)
 					if (str['结束时间']) {
@@ -282,9 +274,15 @@ export default defineComponent({
 					}
 				}
 			})
+		}
+		onMounted(async () => {
+			const res = await getLimitAcct(11)
+			Object.assign(data.limitObj, res)
+			getLimitTime(41)
 		})
 		return {
 			...toRefs(data),
+			exchangeParams,
 			dis,
 			payTypeListFilter,
 			radioChange,

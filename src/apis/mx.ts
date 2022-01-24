@@ -11,23 +11,23 @@ import {
 } from "./model/mxModel";
 import { IBaseResT } from './model/base'
 
-
 enum Api {
-    SHOW_MEMBER_COMMODITY = 'mall/commodity/showMemberCommodity',
-    GET_EC_GAS_CALC_POWER = 'mall/commodity/getEcGasCalcPower',
-    GET_EC_TAA_CALC_POWER = 'mall/commodity/getEcTaaCalcPower',
-    CONFIRM_TAOKE_DELIVERY = 'mem/order/confirmTakeDelivery',
-    GET_MALL_PRD_ORDER_DETAIL = 'mem/order/getMallPrdOrderDetail',
-    GET_LOGISTICS_INFO_BY_LOG_CODE = 'mall/logistics/getLogisticsInfoByLogCode',
-    UPLOAD_PIC = 'mall/refund/uploadPic',
-    INSERT_REFUND_ORDER = 'mall/refund/insertRefundOrder',
-    MALL_PAY_ONLINE = 'mg/ytpay/mallPayOnline',
-    MALL_PAY_ONLINE_DETAIL = 'mg/ytpay/mallPayOnlineDetail',
-    SELECT_PAY_ORDER_BY_BIZ_ORDER_CODE = 'mg/order/selectPayOrderByBizOrderCode',
-    SHOW_COMMODITY_DETAIL = 'mall/commodity/showCommodityDetail',
-    SUBMIT_EC_BILL = 'mall/order/submitEcBill',
-    SHOW_COMMODITY_CLASS_FILTER = 'mall/commodityClass/showCommodityClassFilter'
+	SHOW_MEMBER_COMMODITY = 'mall/commodity/showMemberCommodity',
+	GET_EC_GAS_CALC_POWER = 'mall/commodity/getEcGasCalcPower',
+	GET_EC_TAA_CALC_POWER = 'mall/commodity/getEcTaaCalcPower',
+	CONFIRM_TAOKE_DELIVERY = 'mem/order/confirmTakeDelivery',
+	GET_MALL_PRD_ORDER_DETAIL = 'mem/order/getMallPrdOrderDetail',
+	GET_LOGISTICS_INFO_BY_LOG_CODE = 'mall/logistics/getLogisticsInfoByLogCode',
+	UPLOAD_PIC = 'mall/refund/uploadPic',
+	INSERT_REFUND_ORDER = 'mall/refund/insertRefundOrder',
+	MALL_PAY_ONLINE = 'mg/ytpay/mallPayOnline',
+	MALL_PAY_ONLINE_DETAIL = 'mg/ytpay/mallPayOnlineDetail',
+	SELECT_PAY_ORDER_BY_BIZ_ORDER_CODE = 'mg/order/selectPayOrderByBizOrderCode',
+	SHOW_COMMODITY_DETAIL = 'mall/commodity/showCommodityDetail',
+	SUBMIT_EC_BILL = 'mall/order/submitEcBill',
+	SHOW_COMMODITY_CLASS_FILTER = 'mall/commodityClass/showCommodityClassFilter'
 }
+
 /**
  * 查询秘选商城产品列表
  * @param p
@@ -91,7 +91,6 @@ export const uploadPic = (p: FormData) => httpPost<IBaseResT>(Api.UPLOAD_PIC, p)
 */
 export const insertRefundOrder = (p: IInsertRefundOrderModel) => httpPost<IBaseResT>(Api.INSERT_REFUND_ORDER, p);
 
-
 /**
  * @description 生成秘选订单
  * @param p
@@ -106,7 +105,6 @@ export const submitEcBill = (p: any) => httpPost(Api.SUBMIT_EC_BILL, p)
 */
 export const mallPayOnline = (p: { payPlat: string, poCode: number }) => httpGet<IBaseResT>(Api.MALL_PAY_ONLINE, p);
 
-
 /**
 * @description 待支付秘選訂單支付
 * @param p.podCode 訂單編號
@@ -120,7 +118,6 @@ export const mallPayOnlineDetail = (p: { payPlat: string, podCode: number }) => 
 * @returns 返回操作是否成功
 */
 export const selectPayOrderByBizOrderCode = (p: { orderBizType: number, orderBizCode: number }) => httpGet<IBaseResT>(Api.SELECT_PAY_ORDER_BY_BIZ_ORDER_CODE, p, { showLoading: false });
-
 
 /**
  * @description 查詢有名下有商品的分類

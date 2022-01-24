@@ -122,7 +122,21 @@ export type IModifyDeliveryAddressModel = IAddDeliveryAddressModel & IModifyAcqu
  * @param allianceWalletPasswordConfirm rePwd
  */
 export interface ISetMemberAllianceWalletPwdModel {
-    allianceWalletPassword: string;
-    allianceWalletPasswordConfirm: string;
-    vCode: string
+	allianceWalletPassword: string;
+	allianceWalletPasswordConfirm: string;
+	vCode: string
+}
+
+/**
+ * @description 上传身份证
+ * @param name 姓名
+ * @param idCardNo 身份证号码
+ * @param idCardFaceImageUrl 下面照
+ * @param idCardBackImageUrl 反面照
+ */
+export interface IBindMemberIdCardInfo {
+	name: string;
+	idCardNo: string;
+	idCardFaceImageUrl: string;
+	idCardBackImageUrl: string;
 }

@@ -9,15 +9,15 @@ import {
 import { IBasePageParams, IBaseResT } from "./model/base";
 
 enum Api {
-    SHOW_CREDIT_CARD_LIST = 'mg/creditCard/showCreditCardList',
-    DELETE_CREDIT_CARD = 'mg/creditCard/deleteCreditCard',
-    ADD_CREDIT_CARD = 'mg/creditCard/addCreditCard',
-    UPDATE_CREDIT_CARD = 'mg/creditCard/updateCreditCard',
-    SHOW_BANK_LIST = 'mg/bankInfo/showBankList',
-    GET_CREDIT_CARD_BY_MCC_CODE = 'mg/creditCard/getCreditCardByMccCode',
-    SHOW_CREDIT_POS_LIST = 'mg/creditPos/showCreditPosList',
-    ADD_CREDIT_POS = 'mg/creditPos/addCreditPos',
-    DELETE_CREDIT_POS = 'mg/creditPos/deleteCreditPos'
+	SHOW_CREDIT_CARD_LIST = 'mg/creditCard/showCreditCardList',
+	DELETE_CREDIT_CARD = 'mg/creditCard/deleteCreditCard',
+	ADD_CREDIT_CARD = 'mg/creditCard/addCreditCard',
+	UPDATE_CREDIT_CARD = 'mg/creditCard/updateCreditCard',
+	SHOW_BANK_LIST = 'mg/bankInfo/showBankList',
+	GET_CREDIT_CARD_BY_MCC_CODE = 'mg/creditCard/getCreditCardByMccCode',
+	SHOW_CREDIT_POS_LIST = 'mg/creditPos/showCreditPosList',
+	ADD_CREDIT_POS = 'mg/creditPos/addCreditPos',
+	DELETE_CREDIT_POS = 'mg/creditPos/deleteCreditPos'
 }
 
 /**
@@ -45,7 +45,6 @@ export const addCreditCard = (p: IAddCreditCardModel) => httpPost<IBaseResT>(Api
 * @returns 會員銀行卡（信用卡）信息
 */
 export const updateCreditCard = (p: IUpdateCardByMccCodeModel) => httpPost<IBaseResT>(Api.UPDATE_CREDIT_CARD, p)
-
 
 /**
  * @description 查詢銀行卡列表

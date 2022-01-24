@@ -38,7 +38,13 @@
 		<Popup v-model:show="showBankListPop" position="top">
 			<div class="bank-list">
 				<p class="title">银行选择</p>
-				<Search v-model="keywords" shape="round" placeholder="请输入银行名称" clearable @input="filterBank"></Search>
+				<Search
+					v-model="keywords"
+					shape="round"
+					placeholder="请输入银行名称"
+					clearable
+					@input="filterBank"
+				></Search>
 				<CellGroup>
 					<Cell
 						v-for="item in bankList"
@@ -58,11 +64,11 @@ import { computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue
 import { useRouter } from 'vue-router'
 import { Popup, CellGroup, Cell, Search, Button, Field, Uploader, Toast } from 'vant'
 
-import { useUploadImg } from "@/hooks/web/useUploadImg"
-import { useImgPath } from "@/hooks/mx/useImgPath"
+import { useUploadImg } from '@/hooks/web/useUploadImg'
+import { useImgPath } from '@/hooks/mx/useImgPath'
 
-import { IAddCreditCardModel, IShowBankListItem } from "@/apis/model/bankCardModel"
-import { addCreditCard, updateCreditCard, showBankList, getCreditCardByMccCode } from "@/apis/bankCard"
+import { IAddCreditCardModel, IShowBankListItem } from '@/apis/model/bankCardModel'
+import { addCreditCard, updateCreditCard, showBankList, getCreditCardByMccCode } from '@/apis/bankCard'
 
 export default defineComponent({
 	name: 'AddCard',
@@ -111,7 +117,7 @@ export default defineComponent({
 		// 上傳圖片相關
 		const imgMsg = ref('上传')
 		// 圖片
-		const imgList = <any>ref([])
+		const imgList = ref<any>([])
 		// 上傳狀態
 		const imgIsLoading = ref(false)
 
@@ -121,7 +127,7 @@ export default defineComponent({
 		}
 		// 上傳圖片
 		const upload = async () => {
-			let file = imgList.value[0].file
+			const file = imgList.value[0].file
 			const formData = new FormData()
 			imgMsg.value = '上传中'
 			const res = await uploadImg(file, 'ocr/bankCard', formData)

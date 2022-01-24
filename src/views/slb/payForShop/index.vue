@@ -41,14 +41,13 @@
 						{{ limitDetail['开始日期'] }}-{{ limitDetail['结束日期'] }}将进行优化，暂时关闭此功能
 					</p>
 					<p>
-						1、到店付是为拥有USDT的消费者提供线下商店或线上电商平台购物应用的服务通道，商家收到的是人民币，到店付不为商家或消费者提供USDT的提现服务；
+						1、到店付是为拥有ZSDT的消费者提供线下商店或线上电商平台购物应⽤的服务通道，商家收到的是⼈⺠
+						币，到店付不为商家或消费者提供ZSDT的提现服务，如有违反，即关闭服务通道；
 					</p>
-					<p>2、使用到店付的用户，不得用到店付功能刷单变相提现，如有违反，即关闭通道服务；</p>
-					<p>
-						3、到店付功能需要收取一定的手续费，手续费根据USDT的市场汇率来设定，因为市场汇率是浮动的，所以，到店付的手续费也是浮动的；
-					</p>
-					<p>4、商户接受用户到店付的购物方式，不得为用户提供虚假交易，否则停止通道服务；</p>
-					<p>5、商户接受到店付需要自己到数联宝商家管理后台操作提现，提现到帐时间为T+1。</p>
+					<p>2、到店付功能需要收取⼀定的⼿续费，具体⼿续费⽤可以根据系统显示价格计算；</p>
+					<p>3、请确认银行信息正确，若不正确将影响到账时间</p>
+					<p>4、如果修改结算信息，普通支付将一并修改。</p>
+					<!--					<p>5、商户接受到店付需要自己到数联宝商家管理后台操作提现，提现到帐时间为T+1。</p>-->
 				</div>
 			</div>
 			<div class="footer">
@@ -58,8 +57,7 @@
 			</div>
 		</div>
 
-		<InputPayPWD :show="showPop" @close="closePop" :typeName="payTypeName" :amount="exInfo" :pwdError="pwdError">
-		</InputPayPWD>
+		<InputPayPWD :show="showPop" @close="closePop" :typeName="payTypeName" :amount="exInfo" :pwdError="pwdError" />
 
 		<van-number-keyboard
 			:show="show"
@@ -78,7 +76,7 @@
 import { Toast, NumberKeyboard, Button, RadioGroup, Radio, Dialog } from 'vant'
 import { Base64 } from 'js-base64'
 
-import { getExchangeRatioinDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '@/apis/slb'
+import { getExchangeRationDcToCny, getMerchantBymCodeAndMqcCode, payShopMoneyForDc } from '@/apis/slb'
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { showDictionary } from '@/apis/common'
 // import slb from '../../../utils/jslb-1.0.0'
@@ -133,9 +131,9 @@ export default defineComponent({
 		// const timer = ref(0)
 
 		const dis = computed(() => {
-			// const permisionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
+			// const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
 			// const memCode = localStorage.getItem('memCode') || ''
-			// if (permisionList.includes(memCode)) {
+			// if (permissionList.includes(memCode)) {
 			// 	return true
 			// }
 
@@ -169,14 +167,14 @@ export default defineComponent({
 		})
 
 		// 汇率换算
-		const exchangeRatioinDcToCny = () => {
+		const exchangeRationDcToCny = () => {
 			if (data.sum) {
 				const params = {
 					laType: 2, // 0买，1卖
-					cnyMoney: +data.sum,
+					cnyMoney: data.sum,
 					laCurrencyType: data.laCurrencyType // 7 susd; 10 usdt
 				}
-				getExchangeRatioinDcToCny(params).then(res => {
+				getExchangeRationDcToCny(params).then(res => {
 					if (res.resultCode === 1) {
 						data.exInfo = res.data
 					}
@@ -190,11 +188,11 @@ export default defineComponent({
 			if (reg.test(data.sum) || data.sum === '') {
 				data.sum = data.sum + value
 			}
-			exchangeRatioinDcToCny()
+			exchangeRationDcToCny()
 		}
 		const onDelete = () => {
 			data.sum = data.sum.slice(0, data.sum.length - 1)
-			exchangeRatioinDcToCny()
+			exchangeRationDcToCny()
 			// data.exInfo = data.sum
 		}
 		const complete = () => {
@@ -218,6 +216,9 @@ export default defineComponent({
 					data.mqcCode = query.mqcCode as string
 					// data.mHelpChar = res.data.mHelpChar
 				} else {
+					if (res.resultCode === 2) {
+						Dialog.alert({ message: res.msg })
+					}
 					data.merchantName = res.msg
 					data.mCode = 0
 					data.error = true
@@ -236,7 +237,7 @@ export default defineComponent({
 				data.laCurrencyType = 18
 				data.bizType = 34
 			}
-			exchangeRatioinDcToCny()
+			exchangeRationDcToCny()
 		}
 
 		// 点击确定
@@ -258,7 +259,7 @@ export default defineComponent({
 					mqcCode: data.mqcCode,
 					payType: data.payType,
 					bizType: data.bizType,
-					memCode: localStorage.memCode,
+					// memCode: localStorage.memCode,
 					allianceWalletPassword: pwd || ''
 				}
 
@@ -330,9 +331,19 @@ export default defineComponent({
 		}
 	},
 	beforeRouteEnter(to, from, next) {
-		const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
+		// next()
+		const permissionList = [
+			'500004',
+			'512636',
+			'500111',
+			'717260',
+			'500010',
+			'539241',
+			'500012',
+			'999739',
+			'657129'
+		]
 		const memCode = JSON.parse(localStorage.getItem('userInfo') || '{}')?.memCode
-		// console.log(memCode)
 		if (permissionList.includes(memCode + '')) {
 			next()
 		} else {
@@ -348,21 +359,6 @@ export default defineComponent({
 					next({ path: '/' })
 				})
 		}
-		// if (process.env.VUE_APP_ENV === 'production') {
-		// 	Dialog.confirm({
-		// 		title: '提示',
-		// 		message: '银企直联对接中，敬请期待',
-		// 		theme: 'round-button'
-		// 	})
-		// 		.then(() => {
-		// 			next({ path: '/' })
-		// 		})
-		// 		.catch(() => {
-		// 			next({ path: '/' })
-		// 		})
-		// } else {
-		// 	next()
-		// }
 	}
 })
 </script>

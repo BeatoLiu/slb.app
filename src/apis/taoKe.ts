@@ -12,21 +12,21 @@ import {
 	IMemberCoupleOrderModel
 } from "./model/taoKeModel";
 
-
 enum Api {
-    SHOW_TAOKE_GOODS_FROM_API = 'mg/taoke/showTaoKeGoodsFromApi',
-    MEMBER_COUPLE_ORDER = 'mg/taoke/memberCoupleOrder',
-    SHOW_SELF_TAOKE_ORDER_SUM = 'mg/taoke/showSelfTaokeOrderSum',
-    SHOW_JD_GOODS_BY_FROM_API = 'mg/taoke/showJdGoodsByFromApi',
-    SHOW_PDD_GOODS_FROM_API = 'mg/taoke/showPddGoodsFromApi',
-    VOP_SELECT_ITEMS_BY_KEY_WORD = 'mg/taoke/vopSelectItemsByKeyword',
-    GET_JD_LINK = 'mg/taoke/getJdLink',
-    GET_PDD_LINK = 'mg/taoke/getPddLink',
-    VOP_GET_LINK = 'mg/taoke/vopGetLink',
-    SHOW_TAOKE_GOODS_BY_MARERIAL_ID = 'mg/taoke/showTaoKeGoodsBymaterialId',
-    SHOW_JDJX_BY_ELITE_ID = 'mg/taoke/showJdjxByEliteId',
-    VOP_SELECT_GOODS_LIST = 'mg/taoke/vopSelectGoodsList'
+	SHOW_TAOKE_GOODS_FROM_API = 'mg/taoke/showTaoKeGoodsFromApi',
+	MEMBER_COUPLE_ORDER = 'mg/taoke/memberCoupleOrder',
+	SHOW_SELF_TAOKE_ORDER_SUM = 'mg/taoke/showSelfTaokeOrderSum',
+	SHOW_JD_GOODS_BY_FROM_API = 'mg/taoke/showJdGoodsByFromApi',
+	SHOW_PDD_GOODS_FROM_API = 'mg/taoke/showPddGoodsFromApi',
+	VOP_SELECT_ITEMS_BY_KEY_WORD = 'mg/taoke/vopSelectItemsByKeyword',
+	GET_JD_LINK = 'mg/taoke/getJdLink',
+	GET_PDD_LINK = 'mg/taoke/getPddLink',
+	VOP_GET_LINK = 'mg/taoke/vopGetLink',
+	SHOW_TAOKE_GOODS_BY_MATERIAL_ID = 'mg/taoke/showTaoKeGoodsBymaterialId',
+	SHOW_JDJX_BY_ELITE_ID = 'mg/taoke/showJdjxByEliteId',
+	VOP_SELECT_GOODS_LIST = 'mg/taoke/vopSelectGoodsList'
 }
+
 /**
  * 查询淘客产品列表
  * @param p
@@ -39,7 +39,7 @@ export const showTaoKeGoodsFromApi = (p: IShowTaoKeGoodsFromApiModel) => httpGet
  * @param p
  * @returns
  */
-export const showTaoKeGoodsBymaterialId = (p: IShowTaoKeGoodsBymaterialIdModel) => httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_BY_MARERIAL_ID, p);
+export const showTaoKeGoodsBymaterialId = (p: IShowTaoKeGoodsBymaterialIdModel) => httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_BY_MATERIAL_ID, p);
 
 /**
  * 訂單錄入（會員通過本平臺購買的淘客商品，需要在本平臺錄入訂單）
@@ -54,8 +54,6 @@ export const memberCoupleOrder = (p: IMemberCoupleOrderModel) => httpGet<IBaseRe
  * @returns 總算力
  */
 export const showSelfTaokeOrderSum = (p: IShowSelfTaokeOrderSumModel) => httpGet<IBaseResT>(Api.SHOW_SELF_TAOKE_ORDER_SUM, p)
-
-
 
 /**
  * 查询京東产品列表
@@ -77,7 +75,6 @@ export const showJdjxByEliteId = (p: IJdGoodsListModel) => httpGet<IBaseResT>(Ap
  * @returns
  */
 export const getJdLink = (p: { url: string, couponUrl?: string }) => httpGet<IBaseResT>(Api.GET_JD_LINK, p)
-
 
 /**
 * 查询拼多多产品列表

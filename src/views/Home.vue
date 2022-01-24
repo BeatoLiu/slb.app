@@ -39,7 +39,7 @@
 		<!-- 導航 -->
 		<section class="nav-content">
 			<div class="nav-container">
-				<p class="title">淘客</p>
+				<!-- <p class="title">淘客</p> -->
 				<div class="platform-list flex-space">
 					<div v-for="item in platformList" :key="item.plateName" @click="goPlatform(item)">
 						<div><van-image :src="item.icon" /></div>
@@ -467,20 +467,30 @@ export default defineComponent({
 			} else if (id === 2) {
 				push(item.to)
 			} else if (id === 3 || id === 4) {
-				// push(item.to)
-				const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
-				if (permissionList.includes(memCode.value + '')) {
-					push(item.to)
-				} else {
-					Dialog.alert({
-						title: '—— 敬请期待——',
-						message:
-							'银企直联，是展市数联宝2021年取得的重⼤成就，银企直联的对接，意味着⽤' +
-							'ZSDT或SUSD还信⽤卡或商家购物⽀付，对应的⼈⺠币基本上可以实时到账。',
-						theme: 'round-button',
-						messageAlign: 'left'
-					})
-				}
+				push(item.to)
+				// const permissionList = [
+				// 	'500004',
+				// 	'512636',
+				// 	'500111',
+				// 	'717260',
+				// 	'500010',
+				// 	'539241',
+				// 	'500012',
+				// 	'999739',
+				// 	'657129'
+				// ]
+				// if (permissionList.includes(memCode.value + '')) {
+				// 	push(item.to)
+				// } else {
+				// 	Dialog.alert({
+				// 		title: '—— 敬请期待——',
+				// 		message:
+				// 			'银企直联，是展市数联宝2021年取得的重⼤成就，银企直联的对接，意味着⽤' +
+				// 			'ZSDT或SUSD还信⽤卡或商家购物⽀付，对应的⼈⺠币基本上可以实时到账。',
+				// 		theme: 'round-button',
+				// 		messageAlign: 'left'
+				// 	})
+				// }
 			}
 		}
 		// 打开淘宝各活动

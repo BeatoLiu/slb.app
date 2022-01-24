@@ -114,7 +114,7 @@ export default defineComponent({
 			// atdStatusList: null
 		})
 		onMounted(() => {
-			const { startTime, endTime, timeStr } = getTimeParams(6,true)
+			const { startTime, endTime, timeStr } = getTimeParams(6, true)
 			dateDisplay.value = timeStr
 			params.startTime = startTime
 			params.endTime = endTime
@@ -130,7 +130,7 @@ export default defineComponent({
 		const onConfirm = (date: Date[]) => {
 			showTime.value = false
 			const [start, end] = date
-			const { startTime, endTime, timeStr } = getFormatTime(start, end,true)
+			const { startTime, endTime, timeStr } = getFormatTime(start, end, true)
 			dateDisplay.value = timeStr
 			params.startTime = startTime
 			params.endTime = endTime

@@ -50,7 +50,7 @@ export default {
 				refund: '申请退款',
 				selectMemberBenefitList: '账单明细',
 				whitePaper: '白皮书',
-
+				identityCard: '身份证',
 
 				bankTrans: '付款信息',
 				banCard: '我的银行卡',

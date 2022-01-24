@@ -1,3 +1,5 @@
 *.md
 *.less
-# *.json
+*.json
+*.js
+*.ts

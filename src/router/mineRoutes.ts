@@ -191,15 +191,24 @@ export const mineRoutes: Array<RouteRecordRaw> = [
         component: () => import('../views/mine/SetPayPWD.vue'),
         meta: {
             title: t('routes.setPayPWD')
-        }
-    },
-    // 修改支付密码
-    {
-        path: '/mine/updatePayPWD',
-        name: 'UpdatePayPWD',
-        component: () => import('../views/mine/UpdatePayPWD.vue'),
-        meta: {
-            title: t('routes.updatePayPWD')
-        }
-    }
+		}
+	},
+	// 修改支付密码
+	{
+		path: '/mine/updatePayPWD',
+		name: 'UpdatePayPWD',
+		component: () => import('../views/mine/UpdatePayPWD.vue'),
+		meta: {
+			title: t('routes.updatePayPWD')
+		}
+	},
+	// 上传身份证信息
+	{
+		path: '/mine/identityCard',
+		name: 'IdentityCard',
+		component: () => import('../views/mine/IdentityCard.vue'),
+		meta: {
+			title: t('routes.identityCard')
+		}
+	}
 ]

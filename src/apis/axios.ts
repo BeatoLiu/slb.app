@@ -62,32 +62,32 @@ axios.interceptors.request.use(config => {
 
 const ajaxMain = <T = any>(method: Method, url: string, params: any, config: configInter): Promise<T> => {
     return new Promise((resolve, reject) => {
-        const notBodyMethod = ["GET", "DELETE"];
+        // const notBodyMethod = ["GET", "DELETE"];
 
         const configObj: AxiosRequestConfig = {
-            method,
-            url
-        };
+			method,
+			url
+		};
 
-        if (notBodyMethod.indexOf(method) > -1) {
-            if (method === "GET") {
-                configObj.url = configObj.url + "?" + stringify(params);
-            } else {
-                configObj.data = params;
-            }
-        } else {
-            configObj.data = params;
-        }
+		// if (notBodyMethod.indexOf(method) > -1) {
+		if (method === 'GET') {
+			configObj.url = configObj.url + '?' + stringify(params);
+		} else {
+			configObj.data = params;
+		}
+		// } else {
+		//     configObj.data = params;
+		// }
 
-        if (config.showLoading) {
-            Toast.loading({
-                // icon: logoImg,
-                mask: true,
-                duration: 5000,
-                forbidClick: true, // 禁用背景点击
-                message: '加载中...'
-            })
-        }
+		if (config.showLoading) {
+			Toast.loading({
+				// icon: logoImg,
+				mask: true,
+				duration: 5000,
+				forbidClick: true, // 禁用背景点击
+				message: '加载中...'
+			})
+		}
         // 接口地址
         if (config.type === 'pay') {
             // console.log(payName)

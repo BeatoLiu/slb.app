@@ -11,33 +11,33 @@ import {
 } from "./model/tAAModel";
 
 enum Api {
-    APP_SIGN = 'taa/appSign',
-    UPDATE_WALLET_URL = 'taa/updateWalletUrl',
-    // SELECT_BENEFIT_ORDER_LIST = 'taa/selectBenefitOrderList',
-    SELECT_BENEFIT_ORDER_LIST_SUM = 'taa/selectBenefitOrderListSum',
-    // SELECT_AVAILABLE_TOKEN_LIST_SUM = 'taa/selectAvailableTokenListSum',
-    CAN_TAKE_OUT = 'taa/canTakeOut',
-    SELECT_TAKE_TOKEN_DETAIL_LIST_SUM = 'taa/selectTakeTokenDetailListSum',
-    // SELECT_AVAILABLE_TOKEN_NO_REAL_TIME_LIST_SUM = 'taa/selectAvailableTokenNoRealTimeListSum',
-    // SELECT_UNLOCK_LIST_SUM = 'taa/selectUnLockListSum',
-    SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM = 'taa/selectSignTokenTempTotalListSum',
-    GET_WALLET_BALANCE = 'taa/getWalletBalance',
-    CREATE_TAKE_TOKEN_DETAIL = 'taa/createTakeTokenDetail',
-    WITHDRAWAL_TAA = 'taa/memCode/withdrawalTaa',
-    SINGLE_WITHDRAWAL = 'taa/singleWithdrawal',
-    SINGLE_ONLINE_PAY = 'taa/singleOnlinePay',
-    ADD_ADVERTISING = 'mg/advertising/addAdvertising',
-    GET_MEMBER_WALLET_URL = 'mem/member/getMemberWalletUrl',
-    UN_RELAX_SUM = 'taa/unRelaxSum',
-    GET_TOTAL_ASSETS_LIST = 'taa/getTotalAssetsList',
-    TRANSFER = 'taa/transfer',
-    GET_MEMBER_WALLET = 'taa/getMemberWallet',
+	APP_SIGN = 'taa/appSign',
+	UPDATE_WALLET_URL = 'taa/updateWalletUrl',
+	// SELECT_BENEFIT_ORDER_LIST = 'taa/selectBenefitOrderList',
+	SELECT_BENEFIT_ORDER_LIST_SUM = 'taa/selectBenefitOrderListSum',
+	// SELECT_AVAILABLE_TOKEN_LIST_SUM = 'taa/selectAvailableTokenListSum',
+	CAN_TAKE_OUT = 'taa/canTakeOut',
+	SELECT_TAKE_TOKEN_DETAIL_LIST_SUM = 'taa/selectTakeTokenDetailListSum',
+	// SELECT_AVAILABLE_TOKEN_NO_REAL_TIME_LIST_SUM = 'taa/selectAvailableTokenNoRealTimeListSum',
+	// SELECT_UNLOCK_LIST_SUM = 'taa/selectUnLockListSum',
+	SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM = 'taa/selectSignTokenTempTotalListSum',
+	GET_WALLET_BALANCE = 'taa/getWalletBalance',
+	CREATE_TAKE_TOKEN_DETAIL = 'taa/createTakeTokenDetail',
+	WITHDRAWAL_TAA = 'taa/memCode/withdrawalTaa',
+	SINGLE_WITHDRAWAL = 'taa/singleWithdrawal',
+	SINGLE_ONLINE_PAY = 'taa/singleOnlinePay',
+	ADD_ADVERTISING = 'mg/advertising/addAdvertising',
+	GET_MEMBER_WALLET_URL = 'mem/member/getMemberWalletUrl',
+	UN_RELAX_SUM = 'taa/unRelaxSum',
+	GET_TOTAL_ASSETS_LIST = 'taa/getTotalAssetsList',
+	TRANSFER = 'taa/transfer',
+	GET_MEMBER_WALLET = 'taa/getMemberWallet',
 
-    CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = 'taa/changeWalletAcctOnChainForOutZs',
-    CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs',
-    GET_TRANSFER_INFO_K_LINE_GRAPH = 'taa/getTransferInfoKLineGraph',
-    GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData',
-    GET_TAA_RISE_AND_FALL = 'taa/getTaaRiseAndFall'
+	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = 'taa/changeWalletAcctOnChainForOutZs',
+	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs',
+	GET_TRANSFER_INFO_K_LINE_GRAPH = 'taa/getTransferInfoKLineGraph',
+	GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData',
+	GET_TAA_RISE_AND_FALL = 'taa/getTaaRiseAndFall'
 }
 
 /**
@@ -78,10 +78,9 @@ export const updateWalletUrl = (p: { walletUrl: string }) => httpGet<IBaseResT>(
  * @param p
  */
 export const selectBenefitOrderListSum = (p: ISelectBenefitOrderListModel) => {
-    p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-    return httpPost<IBaseResT>(Api.SELECT_BENEFIT_ORDER_LIST_SUM, p)
+	p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
+	return httpPost<IBaseResT>(Api.SELECT_BENEFIT_ORDER_LIST_SUM, p)
 }
-
 
 /**
  * @description 解锁列表總計
@@ -89,8 +88,8 @@ export const selectBenefitOrderListSum = (p: ISelectBenefitOrderListModel) => {
  * @param p
  */
 export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalListModel) => {
-    p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-    return httpPost<IBaseResT>(Api.SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM, p)
+	p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
+	return httpPost<IBaseResT>(Api.SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM, p)
 }
 
 /**
@@ -129,17 +128,18 @@ export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalList
  * @param p
  */
 export const canTakeOut = (p: ICanTakeOutModel) => {
-    p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-    return httpPost<IBaseResT>(Api.CAN_TAKE_OUT, p)
+	p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
+	return httpPost<IBaseResT>(Api.CAN_TAKE_OUT, p)
 }
+
 /**
  * @description 提币列表總計
  * @returns 提币列表總計
  * @param p
  */
 export const selectTakeTokenDetailListSum = (p: ISelectTakenTokenListModel) => {
-    p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-    return httpGet<IBaseResT>(Api.SELECT_TAKE_TOKEN_DETAIL_LIST_SUM, p)
+	p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
+	return httpGet<IBaseResT>(Api.SELECT_TAKE_TOKEN_DETAIL_LIST_SUM, p)
 }
 
 /**
@@ -160,14 +160,12 @@ export const createTakeTokenDetail = () => httpPost<IBaseResT>(Api.CREATE_TAKE_T
 */
 export const withdrawalTaa = () => httpGet<IBaseResT>(Api.WITHDRAWAL_TAA, {})
 
-
 /**
  * @description 对提币列表中未提币的订单提币
  * @returns
  * @param p
  */
 export const singleWithdrawal = (p: { ttCode: number }) => httpGet<IBaseResT>(Api.SINGLE_WITHDRAWAL, p)
-
 
 /**
  * @description 对提币列表中未提币的订单提币支付

@@ -5,13 +5,13 @@ import {
 	IShowSubAreaModel, IShowSubAreaRes, ISmsModel,
 } from "./model/commonModel";
 
-
 enum Api {
-    SEND_SMS_CODE = 'mg/common/sendSmsCode',
-    SHOW_DICTIONARY = 'mg/common/showDictionary',
-    SHOW_SUB_AREA = 'mg/common/showSubArea',
-    GET_TAA_PRICE = 'mg/secret/getTAAPrice'
+	SEND_SMS_CODE = 'mg/common/sendSmsCode',
+	SHOW_DICTIONARY = 'mg/common/showDictionary',
+	SHOW_SUB_AREA = 'mg/common/showSubArea',
+	GET_TAA_PRICE = 'mg/secret/getTAAPrice'
 }
+
 /**
  * @description 發送短信
  * @param p.phoneNum 手機號
@@ -33,7 +33,6 @@ export const showDictionary = (p: IShowDictionaryModel) => httpGet<IShowDictiona
  * @returns
  */
 export const showSubArea = (p: IShowSubAreaModel) => httpGet<IShowSubAreaRes>(Api.SHOW_SUB_AREA, p);
-
 
 /**
  * @description 獲取TAA價格
