@@ -11,11 +11,10 @@
 							<img class="img-icon" :src="item.imgSrc" alt="" />
 						</template>
 						<template #right-icon>
-							<Radio :name="item.value" :disabled="item.dis">
-								<!-- <template #icon>
+							<Radio :name="item.value" :disabled="item.dis" />
+							<!-- <template #icon>
                                     <img class="img-icon" :src="item.imgSrc"/>
                                 </template> -->
-							</Radio>
 						</template>
 					</Cell>
 				</CellGroup>
@@ -25,10 +24,10 @@
 			</div>
 		</Popup>
 		<!-- 銀行卡轉賬時，銀行卡信息 -->
-		<BankCard biz="申请节点" v-model:show="showCard" :valueCode="mCode" @close="closeDialog"></BankCard>
+		<BankCard biz="申请节点" v-model:show="showCard" :valueCode="mCode" @close="closeDialog" companyType="yq" />
 		<!-- 支付二维码 -->
 		<div id="qr" class="qr-img" ref="content" hidden>
-			<vue-qr :logoSrc="imageUrl" :text="qrText" :size="260" :margin="5" :dotScale="1" :logoScale="16"></vue-qr>
+			<vue-qr :logoSrc="imageUrl" :text="qrText" :size="260" :margin="5" :dotScale="1" :logoScale="16" />
 			<p>请用{{ payTypeName }}扫码支付</p>
 		</div>
 		<van-image-preview v-model:show="showQr" :images="images">

@@ -6,7 +6,7 @@ import { Dialog, Toast } from 'vant'
  * @returns 正確為true，錯誤為false
  */
 export const checkPhone = (value: string): boolean => {
-	const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/
+	const reg = /^1[3-9][0-9]\d{8}$/
 	if (reg.test(value)) {
 		return true
 	} else {

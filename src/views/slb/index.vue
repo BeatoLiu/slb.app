@@ -56,7 +56,7 @@
 		<section class="cat-list">
 			<p class="cat-title flex-start main-title"><img src="../../assets/img/title-left.png" alt="" />投资</p>
 			<div style="margin-top: 5px">
-				<img :src="picDisplayPath + 'secret/banners/movie_banner.png'" alt="" />
+				<img :src="assetsOrigin + '/img/secret/banners/movie_banner.png'" alt="" />
 			</div>
 		</section>
 		<!-- k线图 -->
@@ -67,15 +67,17 @@
 				</p>
 				<div class="chart-top flex-space">
 					<div class="left">
-						<p>{{ gold(tAACurrentInfo.tokenPrice) }}</p>
-						<p :class="chg.key === '-' ? 'chg fall' : 'chg rise'">{{ chg.key + chg.value }}</p>
+						<p>{{ gold(tAACurrentInfo.nowPrice) }}</p>
+						<p :class="tAACurrentInfo.key === '-' ? 'chg fall' : 'chg rise'">
+							{{ tAACurrentInfo.key + tAACurrentInfo.value }}
+						</p>
 					</div>
 					<div class="right">
 						<p class="flex-space">
-							<span>高</span><span>{{ gold(tAACurrentInfo.maxPrice) }}</span>
+							<span>高</span><span>{{ gold(tAACurrentInfo.todayMaxPrice) }}</span>
 						</p>
 						<p class="flex-space">
-							<span>低</span><span>{{ gold(tAACurrentInfo.minPrice) }}</span>
+							<span>低</span><span>{{ gold(tAACurrentInfo.todayMinPrice) }}</span>
 						</p>
 						<p class="flex-space">
 							<span>24H</span><span>{{ gold(tAACurrentInfo.tokenCount) }}</span>
@@ -108,11 +110,20 @@
 import { Toast, Dialog } from 'vant'
 import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue-demi'
 import { useRouter } from 'vue-router'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin, locationOrigin } from '@/utils/config'
 import { gold } from '@/utils'
 import { useI18n } from '@/hooks/setting/useI18n'
 import { getDigitalTokeExchangeFromSc } from '@/apis/slb'
-import { appSign, getCurrentTaaData, getTaaRiseAndFall, getTransferInfoKLineGraph, unRelaxSum } from '@/apis/tAA'
+import {
+	appSign,
+	getCurrentTaaData,
+	getStockTaaData,
+	getStockTaaKLineData,
+	getTaaRiseAndFall,
+	getTaaRiseAndFall1,
+	getTransferInfoKLineGraph,
+	unRelaxSum
+} from '@/apis/tAA'
 
 import * as echarts from 'echarts/core'
 import {
@@ -135,6 +146,8 @@ import { CandlestickChart, CandlestickSeriesOption, LineChart, LineSeriesOption 
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { ref } from 'vue'
+import slb from '@/utils/jslb-1.0.0'
+import { useStore } from '@/store'
 
 echarts.use([
 	TitleComponent,
@@ -170,16 +183,18 @@ export default defineComponent({
 	setup() {
 		const { t } = useI18n()
 		const { push } = useRouter()
+		const store = useStore()
+		const memCode = computed(() => store.state.user.userInfo.memCode)
 		// const gold = gold
 		const data = reactive({
-			picDisplayPath,
-			images: [picDisplayPath + 'slbApp/slb/banner-mx.png', picDisplayPath + 'slbApp/slb/banner-1.png'],
+			assetsOrigin,
+			images: [assetsOrigin + '/img/slbApp/slb/banner-mx.png', assetsOrigin + '/img/slbApp/slb/banner-1.png'],
 			firstList: [
 				{
 					title: 'slb.signTAA',
 					id: 1,
 					to: '',
-					icon: picDisplayPath + 'slbApp/slb/sign.png',
+					icon: assetsOrigin + '/img/slbApp/slb/sign.png',
 					iconColor: '#ff976a',
 					isShow: true
 				},
@@ -195,7 +210,7 @@ export default defineComponent({
 					title: 'routes.withdrawalTaa',
 					id: 3,
 					to: { path: '/TAA/withdrawalTaa' },
-					icon: picDisplayPath + 'slbApp/slb/withdraw.png',
+					icon: assetsOrigin + '/img/slbApp/slb/withdraw.png',
 					iconColor: '#1afa29',
 					isShow: true
 				},
@@ -203,9 +218,31 @@ export default defineComponent({
 					title: 'routes.property',
 					id: 5,
 					to: { path: '/mine/property' },
-					icon: picDisplayPath + 'slbApp/new-ui/my-money.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/my-money.png',
 					iconColor: '#1afa29',
 					isShow: true
+				},
+				{
+					title: 'TAA交易',
+					id: 6,
+					icon: assetsOrigin + '/img/slbApp/new-ui/exchange.png',
+					to:
+						// locationOrigin +
+						// '/slbAppExchange/index.html#/?token=' +
+						// localStorage.token +
+						// '&t=' +
+						// new Date().getTime(),
+						process.env.NODE_ENV === 'production'
+							? locationOrigin +
+							  '/slbAppExchange/index.html#/?token=' +
+							  localStorage.token +
+							  '&t=' +
+							  new Date().getTime()
+							: 'http://192.168.0.99:8094/#/?token=' + localStorage.token,
+					type: '_blank',
+					isShow:
+						[512636, 500111, 717260, 500010, 500012, 999739, 2647502].includes(memCode.value) ||
+						new Date().getTime() > new Date('2022/03/12 13:00:00').getTime()
 				}
 				// {
 				// 	title: '资讯',
@@ -221,7 +258,7 @@ export default defineComponent({
 					title: 'routes.updateWallet',
 					id: 1,
 					to: { name: 'UpdateWallet' },
-					icon: picDisplayPath + 'slbApp/slb/wallet.png',
+					icon: assetsOrigin + '/img/slbApp/slb/wallet.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
@@ -229,7 +266,7 @@ export default defineComponent({
 					title: 'routes.availableTokenList',
 					id: 2,
 					to: { path: '/TAA/availableTokenList' },
-					icon: picDisplayPath + 'slbApp/slb/available-list.png',
+					icon: assetsOrigin + '/img/slbApp/slb/available-list.png',
 					iconColor: '#07c160',
 					isShow: true
 				},
@@ -237,7 +274,7 @@ export default defineComponent({
 					title: 'routes.takenTokenList',
 					id: 3,
 					to: { path: '/TAA/takenTokenList' },
-					icon: picDisplayPath + 'slbApp/slb/token-list.png',
+					icon: assetsOrigin + '/img/slbApp/slb/token-list.png',
 					iconColor: '#d4237a',
 					isShow: true
 				},
@@ -245,7 +282,7 @@ export default defineComponent({
 					title: '钱包教程',
 					id: 4,
 					to: { name: 'TAAIndex' },
-					icon: picDisplayPath + 'slbApp/slb/help.png',
+					icon: assetsOrigin + '/img/slbApp/slb/help.png',
 					iconColor: '#1afa29',
 					isShow: true
 				}
@@ -265,15 +302,21 @@ export default defineComponent({
 			},
 			// taa实时信息
 			tAACurrentInfo: {
-				maxPrice: 0,
-				minPrice: 0,
+				// maxPrice: 0,
+				// minPrice: 0,
+				// tokenCount: 0,
+				// tokenPrice: 0
+				todayMaxPrice: 0,
+				todayMinPrice: 0,
 				tokenCount: 0,
-				tokenPrice: 0
-			},
-			chg: {
-				value: '0%',
-				key: '+'
+				nowPrice: 0,
+				value: '',
+				key: ''
 			}
+			// chg: {
+			// 	value: '0%',
+			// 	key: '+'
+			// }
 		})
 
 		const firstListNav = computed(() => {
@@ -315,7 +358,8 @@ export default defineComponent({
 				})
 			} else {
 				if (typeof path === 'string') {
-					window.location.href = path
+					// window.location.href = path
+					slb.openAgentManagerUrl(path)
 				} else {
 					push(path)
 				}
@@ -325,7 +369,7 @@ export default defineComponent({
 		// var chartDom = document.getElementById('echart')
 		const chartDom = ref<any>(null)
 		const getK = () => {
-			getTransferInfoKLineGraph().then(res => {
+			getStockTaaKLineData().then(res => {
 				if (res.resultCode === 1) {
 					const myChart = echarts.init(chartDom.value, 'dark')
 					const upColor = '#ec0000'
@@ -337,8 +381,10 @@ export default defineComponent({
 					const seriesData = []
 					for (const key in res.data) {
 						xAxisData.push(key)
-						const { openPrice, closePrice, minPrice, maxPrice } = res.data[key]
-						seriesData.push([openPrice, closePrice, minPrice, maxPrice])
+						// const { openPrice, closePrice, minPrice, maxPrice } = res.data[key]
+						// seriesData.push([openPrice, closePrice, minPrice, maxPrice])
+						const { openPrice, closePrice, todayMinPrice, todayMaxPrice } = res.data[key]
+						seriesData.push([openPrice, closePrice, todayMinPrice, todayMaxPrice])
 					}
 					// Each item: open，close，lowest，highest
 					const option: EChartsOption = {
@@ -565,15 +611,25 @@ export default defineComponent({
 			// 生成k线图
 			getK()
 			// 获取taa当前交易信息
-			getCurrentTaaData().then(res => {
+			// getCurrentTaaData().then(res => {
+			// 	if (res.resultCode === 1) {
+			// 		res.data && Object.assign(data.tAACurrentInfo, res.data)
+			// 	}
+			// })
+			// // 涨跌幅
+			// getTaaRiseAndFall().then(res => {
+			// 	if (res.resultCode === 1) {
+			// 		data.chg = res.data
+			// 	}
+			// })
+			getTaaRiseAndFall1().then(res => {
 				if (res.resultCode === 1) {
 					res.data && Object.assign(data.tAACurrentInfo, res.data)
 				}
 			})
-			// 涨跌幅
-			getTaaRiseAndFall().then(res => {
+			getStockTaaData().then(res => {
 				if (res.resultCode === 1) {
-					data.chg = res.data
+					res.data && Object.assign(data.tAACurrentInfo, res.data)
 				}
 			})
 		})
@@ -608,14 +664,16 @@ export default defineComponent({
 		padding-top: 40 * @fontSize;
 		color: #fff;
 		text-align: center;
-		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
+		background-image: url('@{baseUrl}/img/slbApp/login/mine-bg.png');
 		background-repeat: no-repeat;
 		background-position-y: -60 * @fontSize;
 		background-size: cover;
+
 		.top-top {
 			font-weight: 400;
 			font-size: 36 * @fontSize;
 		}
+
 		.top-bottom {
 			box-sizing: border-box;
 			margin-top: 30 * @fontSize;

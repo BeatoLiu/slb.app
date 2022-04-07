@@ -1,13 +1,31 @@
 /*eslint-disable*/
 const slb = window.slb || function (w) {
+	// w.androidJsHandle = w.androidJsHandle || {}
 	return {
 		/**
 		 * @description 扫一扫
 		 * @param {*} options 预留的参数，暂时无用
 		 */
-		openScan: function (options) {
+		qrScan: function (options) {
 			// M('qrScan', options)
+			console.log("qrScan------", w.androidJsHandle)
 			w.androidJsHandle && androidJsHandle.qrScan()
+		},
+		/**
+		 * @description 扫一扫
+		 * @param {*} options 预留的参数，暂时无用
+		 */
+		qrScan2: function (options) {
+			// M('qrScan', options)
+			w.androidJsHandle && androidJsHandle.qrScan2(options)
+		},
+		/**
+		 * @description 扫一扫
+		 * @param {*} options 预留的参数，暂时无用
+		 */
+		qrScan3: function (options) {
+			// M('qrScan', options)
+			w.androidJsHandle && androidJsHandle.qrScan3()
 		},
 		/**
 		 * @description 唤起tp钱包支付
@@ -25,6 +43,20 @@ const slb = window.slb || function (w) {
 			w.androidJsHandle && androidJsHandle.clearCache()
 		},
 		/**
+		 * @description 清除缓存
+		 * @param {*} url
+		 */
+		clearCacheHistory: function (url) {
+			w.androidJsHandle && androidJsHandle.clearCacheHistory(url)
+		},
+		/**
+		 * @description 清除缓存
+		 * @param {*} url
+		 */
+		clearCacheFile: function (url) {
+			w.androidJsHandle && androidJsHandle.clearCacheFile(url)
+		},
+		/**
 		 * @description 打开第三方地址
 		 * @param {*} url
 		 */
@@ -39,9 +71,9 @@ const slb = window.slb || function (w) {
 		}
 	}
 
-	function M(type, options) {
-		w.androidJsHandle && androidJsHandle[type](options)
-	}
+	// function M(type, options) {
+	// 	w.androidJsHandle && androidJsHandle[type](options)
+	// }
 
 	// return slb
 }(window)

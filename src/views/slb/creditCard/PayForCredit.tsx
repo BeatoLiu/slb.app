@@ -1,6 +1,6 @@
 import { computed, defineComponent, onMounted, reactive } from 'vue'
 import { RadioGroup, Radio, Button, NumberKeyboard, Toast, Dialog } from 'vant'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { payCreditReturnForDc } from '@/apis/slb'
 import InputPayPWD from '@/components/InputPayPWD'
 import './PayForCredit.less'
@@ -59,7 +59,8 @@ export default defineComponent({
 		})
 
 		const dis = computed(() => {
-			const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
+			// const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '1892076', '657129']
+			const permissionList = ['512636', '500111', '500010', '539241', '500012', '999739']
 			// const memCode = localStorage.getItem('memCode') || ''
 			if (permissionList.includes(memCode.value + '')) {
 				return true
@@ -92,7 +93,7 @@ export default defineComponent({
 		})
 
 		const payTypeListFilter = computed(() => {
-			return data.payTypeList.filter((item) => item.isShow)
+			return data.payTypeList.filter(item => item.isShow)
 		})
 
 		const subLinkName = (str: string) => {
@@ -134,7 +135,7 @@ export default defineComponent({
 				Object.assign(data.limitObj, res)
 			}
 			data.exInfo = await exchangeRationDcToCny(exchangeParams)
-		};
+		}
 		const toSign = () => {
 			const minMoney = data.limitObj.laSingleLimitLow
 			if (+exchangeParams.cnyMoney < minMoney) {
@@ -177,9 +178,7 @@ export default defineComponent({
 								.then(() => {
 									push('/mine/identityCard')
 								})
-								.catch(() => {
-
-								})
+								.catch(() => {})
 						}
 					})
 					.catch(() => {
@@ -206,29 +205,43 @@ export default defineComponent({
 			return (
 				<div class="repayment">
 					<div class="card-desc flex-space">
-						<p>****{data.cardInfo.cardNo.substring(data.cardInfo.cardNo.length - 4)}({data.cardInfo.cardName})</p>
+						<p>
+							****{data.cardInfo.cardNo.substring(data.cardInfo.cardNo.length - 4)}(
+							{data.cardInfo.cardName})
+						</p>
 						<p>{subLinkName(data.cardInfo.linkName)}</p>
 					</div>
 					<div class="box">
 						<p>还款金额</p>
-						<div class="item" onClick={() => {
-							data.show = true;
-						}}>
+						<div
+							class="item"
+							onClick={() => {
+								data.show = true
+							}}
+						>
 							<span class="name">￥</span>
 							<div class="money-content">
 								<div class="money-input">
-									{
-										!exchangeParams.cnyMoney ?
-											(<div
-												class={!exchangeParams.cnyMoney ? "value placeholder no-value" : "value placeholder"}>请输入还款金额</div>)
-											:
-											(<div class="value">{exchangeParams.cnyMoney}</div>)
-									}
-									{
-										data.show ?
-											<div class={!exchangeParams.cnyMoney ? "like-input no-value-like" : "like-input"} />
-											: ""
-									}
+									{!exchangeParams.cnyMoney ? (
+										<div
+											class={
+												!exchangeParams.cnyMoney
+													? 'value placeholder no-value'
+													: 'value placeholder'
+											}
+										>
+											请输入还款金额
+										</div>
+									) : (
+										<div class="value">{exchangeParams.cnyMoney}</div>
+									)}
+									{data.show ? (
+										<div
+											class={!exchangeParams.cnyMoney ? 'like-input no-value-like' : 'like-input'}
+										/>
+									) : (
+										''
+									)}
 								</div>
 							</div>
 						</div>
@@ -236,36 +249,43 @@ export default defineComponent({
 					<div class="flex-space biz-type">
 						<p>支付类型</p>
 						<RadioGroup v-model={[data.payType]} onChange={radioChange} direction="horizontal">
-							{
-								payTypeListFilter.value.map(item => {
-									return (
-										<Radio name={item.value} disabled={item.dis} key={item.value}>
-											{item.label}
-										</Radio>
-									);
-								})
-							}
+							{payTypeListFilter.value.map(item => {
+								return (
+									<Radio name={item.value} disabled={item.dis} key={item.value}>
+										{item.label}
+									</Radio>
+								)
+							})}
 						</RadioGroup>
 					</div>
 					<div class="return-fee flex-space">
 						<p>换算</p>
 						<p>
-							{data.exInfo}<span> {data.payTypeName}</span>
+							{data.exInfo}
+							<span> {data.payTypeName}</span>
 						</p>
 					</div>
 					<div class="page-tips">
 						<p class="title">温馨提示：</p>
 						<div>
-							<p>1、测试期间，还款金额为【{data.limitObj.laSingleLimitLow}-{data.limitObj.laSingleLimit}】之间</p>
+							<p>
+								1、测试期间，还款金额为【{data.limitObj.laSingleLimitLow}-{data.limitObj.laSingleLimit}
+								】之间
+							</p>
 							{/* <p>2、未完善信息的用户，请先完善信息</p> */}
 							<p>2、测试期间，每日还款额度为{data.limitObj.laPersonLimitPerDay}元</p>
-							<p>3、测试期间，还款时间为【{data.limitDetail["开始时间"]} — {data.limitDetail["结束时间"]}】</p>
-							{
-								data.limitDetail["结束日期"] ?
-									(<p>
-										{data.limitDetail["开始日期"]}-{data.limitDetail["结束日期"]}将进行优化，暂时关闭此功能
-									</p>) : ""
-							}
+							<p>
+								3、测试期间，还款时间为【{data.limitDetail['开始时间']} — {data.limitDetail['结束时间']}
+								】
+							</p>
+							{data.limitDetail['结束日期'] ? (
+								<p>
+									{data.limitDetail['开始日期']}-{data.limitDetail['结束日期']}
+									将进行优化，暂时关闭此功能
+								</p>
+							) : (
+								''
+							)}
 							<p>4、如因提交Visa或MasterCard类别信用卡导致还款不及时的，可联系客服处理；</p>
 							<p>5、如遇问题，请及时反馈</p>
 						</div>
@@ -277,8 +297,9 @@ export default defineComponent({
 							</p>
 						</div>
 						<div>
-							<Button class="btn" onClick={toSign} disabled={!dis.value}
-								loading={data.loading}>确认还款</Button>
+							<Button class="btn" onClick={toSign} disabled={!dis.value} loading={data.loading}>
+								确认还款
+							</Button>
 						</div>
 					</div>
 					<InputPayPWD
@@ -287,8 +308,7 @@ export default defineComponent({
 						typeName={data.payTypeName}
 						amount={data.exInfo}
 						pwdError={data.pwdError}
-					>
-					</InputPayPWD>
+					/>
 					<NumberKeyboard
 						show={data.show}
 						theme="custom"

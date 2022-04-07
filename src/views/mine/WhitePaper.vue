@@ -106,7 +106,7 @@
 			<p>节点：是数联宝生态的建设者，通过推广数联宝这个工具获得TAA奖励。</p>
 		</div>
 		<p>4.业务逻辑：</p>
-		<img :src="picDisplayPath + 'slbApp/slb/white-paper.png'" alt="" />
+		<img :src="assetsOrigin + '/img/slbApp/slb/white-paper.png'" alt="" />
 		<h3>【数权TAA】</h3>
 		<h6 class="black-solid">什么是TAA？</h6>
 		<p class="indent">
@@ -197,12 +197,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue-demi'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 export default defineComponent({
 	name: 'WhitePaper',
 	data() {
 		return {
-			picDisplayPath
+			assetsOrigin
 		}
 	}
 })

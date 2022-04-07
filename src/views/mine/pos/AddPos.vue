@@ -34,7 +34,7 @@ import { Toast, CellGroup, Field, Button, Icon, ImagePreview, Picker, Popup } fr
 import { addCreditPos } from '@/apis/bankCard'
 import { useRouter } from 'vue-router'
 
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 
 export default defineComponent({
 	name: 'BindPos',
@@ -50,7 +50,7 @@ export default defineComponent({
 		const { replace } = useRouter()
 		const data = reactive({
 			orderId: '',
-			helpImg: picDisplayPath + 'slbApp/new-ui/pos.jpg',
+			helpImg: assetsOrigin + '/img/slbApp/new-ui/pos.jpg',
 			showPicker: false,
 			columns: [
 				{ mcpUmsId: 4, text: '拉卡拉' },

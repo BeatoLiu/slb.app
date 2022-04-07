@@ -1,4 +1,4 @@
-import { IBasePageParams } from './base';
+import { IBasePageParams } from './base'
 
 /**
  * @description 淘宝产品
@@ -6,10 +6,10 @@ import { IBasePageParams } from './base';
  * @param sortPattern des（降序）,asc（升序） (ortType不为空时候，不能为空)
  */
 export type IShowTaoKeGoodsFromApiModel = IBasePageParams & {
-	sortType: string,
-	sortPattern: string,
+	sortType: string
+	sortPattern: string
 	// pageNum: 0,
-	gName: string,
+	gName: string
 	// pageSize: 10,
 	hasCoupon: boolean
 }
@@ -38,7 +38,6 @@ export interface IShowSelfTaokeOrderSumModel {
 	oScRetStatus: number
 }
 
-
 /**
  * @description會員淘客訂單列表
  */
@@ -47,22 +46,22 @@ export type IShowSelfTaoKeOrderModel = IBasePageParams & IShowSelfTaokeOrderSumM
  * @description 淘客訂單信息
  */
 export interface IShowSelfTaoKeOrderItem {
-	createTime: string;
-	oTaobaoSubId: string;
-	gId: string;
-	gMainPic: string;
-	gName: string;
-	oPlatformType: string;
-	gSellerShopName: string;
-	oPayStatusDesc: string;
-	oPlatformSource: number;
-	gPrice: number;
-	gCount: number;
-	oTaobaoOrderId: string;
-	oApplyStatus: number;
-	oScRetStatusDesc: string;
-	oCommissionSum: number;
-	oScRetSumMock: number;
+	createTime: string
+	oTaobaoSubId: string
+	gId: string
+	gMainPic: string
+	gName: string
+	oPlatformType: string
+	gSellerShopName: string
+	oPayStatusDesc: string
+	oPlatformSource: number
+	gPrice: number
+	gCount: number
+	oTaobaoOrderId: string
+	oApplyStatus: number
+	oScRetStatusDesc: string
+	oCommissionSum: number
+	oScRetSumMock: number
 	oScRetTime: string
 }
 
@@ -70,16 +69,16 @@ export interface IShowSelfTaoKeOrderItem {
  *@description 京東商品列表
  */
 export type IShowJdGoodsByFromApiModel = IBasePageParams & {
-	keyword: string;
-	sortName: string;
+	keyword: string
+	sortName: string
 	sort: string
 }
 /**
  *@description 京東商品列表(物料)
  */
 export interface IJdGoodsListModel extends IBasePageParams {
-	eliteId: number;
-	sortName: string;
+	eliteId: number
+	sortName: string
 	sort: string
 }
 
@@ -87,13 +86,13 @@ export interface IJdGoodsListModel extends IBasePageParams {
  * @description 拼多多商品列表
  */
 export type IShowPddGoodsFromApiModel = IBasePageParams & {
-	keyword: string;
+	keyword: string
 	sortType: number
 }
 
 export type IVopSelectItemsByKeywordModel = IBasePageParams & {
-	keyword: string;
-	fieldName: string;
+	keyword: string
+	fieldName: string
 	// sort: 'asc'
 	orderType: number
 }
@@ -103,12 +102,12 @@ export type IVopSelectItemsByKeywordModel = IBasePageParams & {
  * @param sourceType 请求源类型：0-频道，1-组货
  */
 export interface IVopSelectGoodsListModel extends IBasePageParams {
-	pageNo: number;
+	pageNo: number
 	// pageSize: 10,
-	fieldName: string;
+	fieldName: string
 	// sort: 'asc'
-	orderType: number;
-	channelType: number;
-	sourceType: number;
-	jxCode: string;
+	orderType: number
+	channelType: number
+	sourceType: number
+	jxCode: string
 }

@@ -10,7 +10,7 @@ module.exports = {
 		'function-name-case': 'lower',
 		'no-descending-specificity': null,
 		'no-invalid-double-slash-comments': null,
-		'rule-empty-line-before': false,
+		'rule-empty-line-before': null
 		// 'at-rule-whitelist': ['import', '@deepGreen'],
 		// 'unit-whitelist': ['@fontSize', 'px', 'vh', 'vw']
 	},

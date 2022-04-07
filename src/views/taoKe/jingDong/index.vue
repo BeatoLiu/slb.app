@@ -32,6 +32,7 @@ import JDListItem from '../components/JDListItem.vue'
 import { useRouter } from 'vue-router'
 import { useJDEliteGoods } from '@/hooks/taoKe/useJDEliteGoods'
 import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { assetsOrigin } from '@/utils/config'
 
 export default defineComponent({
 	name: 'JdIndex',
@@ -51,12 +52,12 @@ export default defineComponent({
 		const { offSetTop } = useOffSetTop()
 		const data = reactive({
 			gridList: [
-				{ title: '今日必推', id: 31, icon: 'http://mg.2qzs.com/img/taoke/bitui.png' },
-				{ title: '好券商品', id: 1, icon: 'http://mg.2qzs.com/img/taoke/quan.png' },
-				{ title: '超级大卖场', id: 2, icon: 'http://mg.2qzs.com/img/taoke/chaoshi.png' },
-				{ title: '9.9专区', id: 10, icon: 'http://mg.2qzs.com/img/taoke/9.9.png' },
-				{ title: '热销爆品', id: 22, icon: 'http://mg.2qzs.com/img/taoke/rexiao.png' },
-				{ title: '新品首发', id: 109, icon: 'http://mg.2qzs.com/img/taoke/xinpin.png' }
+				{ title: '今日必推', id: 31, icon: assetsOrigin + '/img/taoke/bitui.png' },
+				{ title: '好券商品', id: 1, icon: assetsOrigin + '/img/taoke/quan.png' },
+				{ title: '超级大卖场', id: 2, icon: assetsOrigin + '/img/taoke/chaoshi.png' },
+				{ title: '9.9专区', id: 10, icon: assetsOrigin + '/img/taoke/9.9.png' },
+				{ title: '热销爆品', id: 22, icon: assetsOrigin + '/img/taoke/rexiao.png' },
+				{ title: '新品首发', id: 109, icon: assetsOrigin + '/img/taoke/xinpin.png' }
 			],
 			active: 23,
 			eliteIdList: [

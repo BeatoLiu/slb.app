@@ -1,0 +1,150 @@
+@import '../../../assets/css/local.less';
+.transfer-from-slb {
+	box-sizing: border-box;
+	// height: calc(100vh - 100px);
+	margin-bottom: 200 * @fontSize;
+	padding: 20 * @fontSize;
+	.box {
+		margin-top: 20 * @fontSize;
+		padding: 30 * @fontSize;
+		background: #fff;
+		border-radius: 10 * @fontSize;
+
+		& > p:nth-child(1) {
+			color: #404040;
+		}
+		.choose-all{
+			color: @deepGreen;
+		}
+		.item {
+			position: relative;
+			display: flex;
+			align-items: center;
+			font-size: 28 * @fontSize;
+			line-height: 105 * @fontSize;
+
+			.money-content {
+				flex: 1;
+				// border-bottom: 1px solid #BFBFBF;
+				.money-input {
+					position: relative;
+					display: inline-block;
+				}
+			}
+
+			.name {
+				// margin-left: 10*@fontSize;
+				font-size: 40 * @fontSize;
+			}
+
+			.value {
+				// flex: 1;
+				// text-align: right;
+				// margin-right: 2*@fontSize;
+				padding-left: 20 * @fontSize;
+				font-weight: 600;
+				font-size: 54 * @fontSize;
+			}
+
+			.placeholder {
+				margin-top: 10 * @fontSize;
+				color: #ccc;
+			}
+
+			.like-input {
+				position: absolute;
+				top: 20 * @fontSize;
+				right: 0;
+				width: 2px;
+				height: 60 * @fontSize;
+				background: #1989fa;
+				-moz-animation: flick 1s infinite;
+				-webkit-animation: flick 1s infinite;
+				-o-animation: flick 1s infinite;
+				animation: flick 1s infinite; /* Firefox */ /* Safari 和 Chrome */ /* Opera */
+			}
+
+			.no-value {
+				font-size: 28 * @fontSize;
+			}
+
+			.no-value-like {
+				top: 36 * @fontSize;
+				left: 20 * @fontSize;
+				height: 44 * @fontSize;
+			}
+		}
+
+		:last-child {
+			border-bottom: none;
+		}
+	}
+	.btn {
+		 margin-top: 200*@fontSize;
+		//display: inline-block;
+		//width: 200 * @fontSize;
+		//color: #fff;
+		font-size: 30 * @fontSize;
+		line-height: 80 * @fontSize;
+		text-align: center;
+		//background: #ed0c17;
+		border-radius: 12 * @fontSize;
+	}
+
+	@keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-moz-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-webkit-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-o-keyframes flick {
+		0% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+}

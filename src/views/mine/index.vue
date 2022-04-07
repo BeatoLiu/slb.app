@@ -71,7 +71,7 @@
 import { computed, defineComponent, onActivated, reactive } from 'vue'
 import { CellGroup, Cell, Icon } from 'vant'
 
-import { picDisplayPath, locationOrigin } from '@/utils/config'
+import { assetsOrigin, locationOrigin } from '@/utils/config'
 import slb from '../../utils/jslb-1.0.0'
 import { useI18n } from '@/hooks/setting/useI18n'
 
@@ -99,7 +99,7 @@ export default defineComponent({
 
 		const data = reactive({
 			isPayShow: true, // ['500004', '500111', '717260', '500010', '539241', '500012', '999739', '1892076'].includes(memCode),
-			avatarImg: picDisplayPath + 'slbApp/logo.png', // picDisplayPath + 'slb/logo.jpg',
+			avatarImg: assetsOrigin + '/img/slbApp/logo.png', // picDisplayPath + 'slb/logo.jpg',
 			userName: localStorage.getItem('userName'),
 
 			// 秘密相关
@@ -107,28 +107,28 @@ export default defineComponent({
 				{
 					title: 'routes.memberCoupleOrder',
 					to: { path: '/taoKe/memberCoupleOrder' },
-					icon: picDisplayPath + 'slbApp/new-ui/sc-input.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/sc-input.png',
 					iconColor: '#07c160',
 					isShow: true
 				},
 				{
 					title: 'routes.showSelfTaoKeOrder',
 					to: { name: 'ShowSelfTaoKeOrderList', params: { status: -1 } },
-					icon: picDisplayPath + 'slbApp/new-ui/sc-list.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/sc-list.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.incomePower',
 					to: { path: '/taoKe/incomePower' },
-					icon: picDisplayPath + 'slbApp/new-ui/power.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/power.png',
 					iconColor: '#ff976a',
 					isShow: false
 				},
 				{
 					title: 'routes.myOrder',
 					to: { path: '/mxMall/myOrder' },
-					icon: picDisplayPath + 'slbApp/new-ui/mx-list.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/mx-list.png',
 					iconColor: '#1989fa',
 					isShow: true
 				}
@@ -145,28 +145,28 @@ export default defineComponent({
 				{
 					title: 'routes.selectMemberBenefitList',
 					to: { path: '/mine/selectMemberBenefitList' },
-					icon: picDisplayPath + 'slbApp/new-ui/order-detail.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/order-detail.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.identityCard',
 					to: { path: '/mine/identityCard' },
-					icon: picDisplayPath + 'slbApp/new-ui/credit-card.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/credit-card.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.banCard',
 					to: { path: '/mine/banCard' },
-					icon: picDisplayPath + 'slbApp/new-ui/credit-card.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/credit-card.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.takeCashAccount',
 					to: { path: '/mine/takeCashAccount' },
-					icon: picDisplayPath + 'slbApp/new-ui/zfb.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/zfb.png',
 					// icon: 'alipay',
 					iconColor: '#3476fe',
 					isShow: true
@@ -174,28 +174,28 @@ export default defineComponent({
 				{
 					title: 'routes.bankTrans',
 					to: { name: 'BankTransOrderSUSD' },
-					icon: picDisplayPath + 'slbApp/new-ui/tran-list.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/tran-list.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.eleList',
 					to: { path: '/mine/eleList' },
-					icon: picDisplayPath + 'slbApp/new-ui/ele-list.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/ele-list.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: '渠道管理',
 					to: '/slmer/index.html',
-					icon: picDisplayPath + 'slbApp/new-ui/dis-manage.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/dis-manage.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: '商家管理',
 					to: '/slmer/index.html',
-					icon: picDisplayPath + 'slbApp/new-ui/mer-manage.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/mer-manage.png',
 					iconColor: '#1989fa',
 					isShow: true
 				}
@@ -205,21 +205,21 @@ export default defineComponent({
 				{
 					title: '完善信息',
 					to: { name: 'bindPhone' },
-					icon: picDisplayPath + 'slbApp/new-ui/info.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/info.png',
 					iconColor: '#ee0a24',
 					isShow: false
 				},
 				{
 					title: 'routes.addressList',
 					to: { name: 'AddressList' },
-					icon: picDisplayPath + 'slbApp/new-ui/location.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/location.png',
 					iconColor: '#07c160',
 					isShow: true
 				},
 				{
 					title: 'TAA钱包教程',
 					to: { name: 'TAAIndex' },
-					icon: picDisplayPath + 'slbApp/new-ui/help.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/help.png',
 					iconColor: '#07c160',
 					isShow: true
 				}
@@ -235,29 +235,29 @@ export default defineComponent({
 				{
 					title: 'routes.posList',
 					to: { name: 'PosList' },
-					icon: picDisplayPath + 'slbApp/new-ui/pos.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/pos.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: '白皮书',
 					// to: { path: '/mine/whitePaper' },
-					to: '/download/%E6%95%B0%E8%81%94%E5%AE%9D%E7%99%BD%E7%9A%AE%E4%B9%A61.5.pdf',
-					icon: picDisplayPath + 'slbApp/new-ui/white-paper.png',
+					to: '/download/%E6%95%B0%E8%81%94%E5%AE%9D%E7%99%BD%E7%9A%AE%E4%B9%A62.0.pdf',
+					icon: assetsOrigin + '/img/slbApp/new-ui/white-paper.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: '下载',
 					to: { name: 'Download' },
-					icon: picDisplayPath + 'slbApp/new-ui/download.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/download.png',
 					iconColor: '#1989fa',
 					isShow: true
 				},
 				{
 					title: 'routes.settings',
 					to: { name: 'Settings' },
-					icon: picDisplayPath + 'slbApp/new-ui/setting.png',
+					icon: assetsOrigin + '/img/slbApp/new-ui/setting.png',
 					iconColor: '#1989fa',
 					isShow: true
 				}
@@ -271,9 +271,10 @@ export default defineComponent({
 		// 渠道管理
 		const goEleManage = (path: string | object) => {
 			if (typeof path === 'string') {
-				slb.openAgentManagerUrl(locationOrigin + path)
-				// slb.openAgentManagerUrl('http://mg.2qzs.com/slmer/index.html#/')
-				// window.location.href = locationOrigin + path
+				// slb.openAgentManagerUrl(locationOrigin + path)
+				process.env.NODE_ENV === 'development'
+					? slb.openAgentManagerUrl('http://192.168.0.99:8080/#/')
+					: slb.openAgentManagerUrl(locationOrigin + path)
 			} else {
 				push(path)
 			}
@@ -318,7 +319,7 @@ export default defineComponent({
 		box-sizing: border-box;
 		height: 284 * @fontSize;
 		color: #fff;
-		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
+		background-image: url('@{baseUrl}/img/slbApp/login/mine-bg.png');
 		background-size: contain;
 		// padding-top: 88 * @fontSize;
 		.mine-img {
@@ -326,6 +327,7 @@ export default defineComponent({
 			height: 120 * @fontSize;
 			margin-right: 40 * @fontSize;
 			margin-left: 50 * @fontSize;
+
 			img {
 				box-sizing: border-box;
 				width: 120 * @fontSize;

@@ -10,7 +10,7 @@ import {
 	IShowJdGoodsByFromApiModel,
 	IShowSelfTaokeOrderSumModel,
 	IMemberCoupleOrderModel
-} from "./model/taoKeModel";
+} from './model/taoKeModel'
 
 enum Api {
 	SHOW_TAOKE_GOODS_FROM_API = 'mg/taoke/showTaoKeGoodsFromApi',
@@ -32,14 +32,16 @@ enum Api {
  * @param p
  * @returns
  */
-export const showTaoKeGoodsFromApi = (p: IShowTaoKeGoodsFromApiModel) => httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_FROM_API, p)
+export const showTaoKeGoodsFromApi = (p: IShowTaoKeGoodsFromApiModel) =>
+	httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_FROM_API, p)
 
 /**
  * 查询淘客产品列表（根據物料Id）
  * @param p
  * @returns
  */
-export const showTaoKeGoodsBymaterialId = (p: IShowTaoKeGoodsBymaterialIdModel) => httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_BY_MATERIAL_ID, p);
+export const showTaoKeGoodsBymaterialId = (p: IShowTaoKeGoodsBymaterialIdModel) =>
+	httpGet<IBaseResT>(Api.SHOW_TAOKE_GOODS_BY_MATERIAL_ID, p)
 
 /**
  * 訂單錄入（會員通過本平臺購買的淘客商品，需要在本平臺錄入訂單）
@@ -53,14 +55,16 @@ export const memberCoupleOrder = (p: IMemberCoupleOrderModel) => httpGet<IBaseRe
  * @param p.orderId oScRetStatus 訂單狀態（為1，才有算力）
  * @returns 總算力
  */
-export const showSelfTaokeOrderSum = (p: IShowSelfTaokeOrderSumModel) => httpGet<IBaseResT>(Api.SHOW_SELF_TAOKE_ORDER_SUM, p)
+export const showSelfTaokeOrderSum = (p: IShowSelfTaokeOrderSumModel) =>
+	httpGet<IBaseResT>(Api.SHOW_SELF_TAOKE_ORDER_SUM, p)
 
 /**
  * 查询京東产品列表
  * @param p
  * @returns
  */
-export const showJdGoodsByFromApi = (p: IShowJdGoodsByFromApiModel) => httpGet<IBaseResT>(Api.SHOW_JD_GOODS_BY_FROM_API, p)
+export const showJdGoodsByFromApi = (p: IShowJdGoodsByFromApiModel) =>
+	httpGet<IBaseResT>(Api.SHOW_JD_GOODS_BY_FROM_API, p)
 
 /**
  * 查询京東产品列表(物料id)
@@ -74,13 +78,13 @@ export const showJdjxByEliteId = (p: IJdGoodsListModel) => httpGet<IBaseResT>(Ap
  * @param p
  * @returns
  */
-export const getJdLink = (p: { url: string, couponUrl?: string }) => httpGet<IBaseResT>(Api.GET_JD_LINK, p)
+export const getJdLink = (p: { url: string; couponUrl?: string }) => httpGet<IBaseResT>(Api.GET_JD_LINK, p)
 
 /**
-* 查询拼多多产品列表
-* @param p
-* @returns
-*/
+ * 查询拼多多产品列表
+ * @param p
+ * @returns
+ */
 export const showPddGoodsFromApi = (p: IShowPddGoodsFromApiModel) => httpGet<IBaseResT>(Api.SHOW_PDD_GOODS_FROM_API, p)
 
 /**
@@ -91,17 +95,18 @@ export const showPddGoodsFromApi = (p: IShowPddGoodsFromApiModel) => httpGet<IBa
 export const getPddLink = (p: { goodsSign: string }) => httpGet<IBaseResT>(Api.GET_PDD_LINK, p)
 
 /**
-* 查询維品會产品列表
-* @param p
-* @returns
-*/
-export const vopSelectItemsByKeyword = (p: IVopSelectItemsByKeywordModel) => httpGet<IBaseResT>(Api.VOP_SELECT_ITEMS_BY_KEY_WORD, p)
+ * 查询維品會产品列表
+ * @param p
+ * @returns
+ */
+export const vopSelectItemsByKeyword = (p: IVopSelectItemsByKeywordModel) =>
+	httpGet<IBaseResT>(Api.VOP_SELECT_ITEMS_BY_KEY_WORD, p)
 
 /**
-* 查询維品會产品列表(商品组货码)
-* @param p
-* @returns
-*/
+ * 查询維品會产品列表(商品组货码)
+ * @param p
+ * @returns
+ */
 export const vopSelectGoodsList = (p: IVopSelectGoodsListModel) => httpGet<IBaseResT>(Api.VOP_SELECT_GOODS_LIST, p)
 
 /**

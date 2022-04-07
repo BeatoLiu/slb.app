@@ -201,7 +201,7 @@ export default defineComponent({
 
 		const getMerInfo = () => {
 			// let res =
-			// 	'http://slpay.2qzs.com/slpay/index.html#/payDetail?id=10_DA5859D030EC4464F8723FEAE3A9530E_E1A169704C798EA7E8A8AC832DB742DB_298C9FDD2924191B591630F1A3C1144B_D653D3F3BDF3406658594771A3F0F2A0&mqcCode=0'
+			// 	payOrigin+'/slpay/index.html#/payDetail?id=10_DA5859D030EC4464F8723FEAE3A9530E_E1A169704C798EA7E8A8AC832DB742DB_298C9FDD2924191B591630F1A3C1144B_D653D3F3BDF3406658594771A3F0F2A0&mqcCode=0'
 
 			const query = currentRoute.value.query
 			const params = {

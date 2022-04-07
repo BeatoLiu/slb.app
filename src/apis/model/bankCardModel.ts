@@ -1,4 +1,4 @@
-import { IBaseResPageList } from "./base";
+import { IBaseResPageList } from './base'
 
 /**
  * @description 會員銀行卡（信用卡）列表
@@ -17,33 +17,31 @@ export interface IShowCreditCardListModel {
  * @param mccCardType 1銀行卡 2信用卡
  */
 export interface IShowCreditCardListItem {
-	mccBankName: string;
-	mccBankId: string;
-	mccCard: string;
-	mccCardName: string;
-	mccCode: number;
+	mccBankName: string
+	mccBankId: string
+	mccCard: string
+	mccCardName: string
+	mccCode: number
 	mccTipFlag: number
 }
 export type IShowCreditCardListRes = IBaseResPageList<IShowCreditCardListItem>
-
 
 /**
  *會員刪除銀行卡
  */
 export interface IDeleteCreditCardModel {
-	mccCode: number;
+	mccCode: number
 }
-
 
 /**
  * 會員新增銀行卡
  */
 export type IAddCreditCardModel = {
-	mccBankName: string,
-	mccCard: string,
-	mccCardName: string,
-	mccBankId: string,
-	mccCardImgUrl: string,
+	mccBankName: string
+	mccCard: string
+	mccCardName: string
+	mccBankId: string
+	mccCardImgUrl: string
 	mccCardType: number
 }
 
@@ -56,22 +54,21 @@ export type IUpdateCardByMccCodeModel = IAddCreditCardModel & IDeleteCreditCardM
  * 銀行卡列表
  */
 export interface IShowBankListModel {
-	biType: number;
+	biType: number
 }
 export interface IShowBankListItem {
-	bankId: string;
-	biName: string;
+	bankId: string
+	biName: string
 	biCode: number
 }
 export type IShowBankListRes = IBaseResPageList<IShowBankListItem>
-
 
 /**
  * pos機新增
  */
 export interface IAddCreditPosModel {
-	mcpPosCode: string;
-	mcpUmsName: string;
+	mcpPosCode: string
+	mcpUmsName: string
 	mcpUmsId: number
 }
 
@@ -79,7 +76,7 @@ export interface IAddCreditPosModel {
  * pos機信息
  */
 export type IShowCreditPosListItem = IAddCreditPosModel & {
-	mcpCode: number;
+	mcpCode: number
 }
 export type IShowCreditPosListRes = IBaseResPageList<IShowCreditPosListItem>
 

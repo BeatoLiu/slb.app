@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router'
 import { Field, Button } from 'vant'
 
 import { useI18n } from '@/hooks/setting/useI18n'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 
 import { IPwdLoginModel } from '@/apis/model/loginModel'
 import { pwdLogin } from '@/apis/login'
@@ -62,8 +62,8 @@ export default defineComponent({
 		const { push } = useRouter()
 		const store = useStore()
 		const data = reactive({
-			bgImg: picDisplayPath + 'slbApp/login/lg-bg.png',
-			logo: picDisplayPath + 'slbApp/logo.png'
+			bgImg: assetsOrigin + '/img/slbApp/login/lg-bg.png',
+			logo: assetsOrigin + '/img/slbApp/logo.png'
 		})
 		const params = reactive<IPwdLoginModel>({
 			// memMobile: '15267087635',

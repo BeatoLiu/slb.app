@@ -4,27 +4,26 @@
 //     return path.join(__dirname, dir)
 // }
 
-// const { publicPath, outputDir, assetsDir, filenameHashing } = config
 const outputDir = () => {
 	let dir
 	// console.log(process.env.NODE_ENV)
 	switch (process.env.VUE_APP_ENV) {
-	case 'development':
-		dir = '/api' // 这里是本地的请求url
-		break
-	case 'test': // 注意这里的名字要和设置的模式名字对应起来
-		dir = 'slbAppTest' // 这里是测试环境中的url
-		break
-	case 'production':
-		dir = 'slbApp' // 生产环境url
-		break
+		case 'development':
+			dir = '/api' // 这里是本地的请求url
+			break
+		case 'test': // 注意这里的名字要和设置的模式名字对应起来
+			dir = 'slbAppTest' // 这里是测试环境中的url
+			break
+		case 'production':
+			dir = 'slbApp' // 生产环境url
+			break
 	}
 	return dir
 }
 
 module.exports = {
 	publicPath: './', // outputDir: 'slbApp',
-	outputDir: outputDir(), 
+	outputDir: outputDir(),
 	productionSourceMap: false,
 	filenameHashing: true,
 	lintOnSave: false,
@@ -37,9 +36,8 @@ module.exports = {
 				// target: 'http://localhost:9007/',
 				// target: 'http://192.168.0.10:9007/',
 				target: 'http://192.168.0.161:9007/', // 王
-				// target: 'http://tttest.2qzs.com',
-				// target: 'http://tk.2qzs.com',
-				// target: 'http://192.168.0.112:9002/mg',
+				// target: locationOrigin,
+				// target: "http://tk.2qzs.com",
 				ws: true,
 				changeOrigin: true,
 				pathRewrite: {
@@ -51,8 +49,7 @@ module.exports = {
 				// target: 'http://192.168.0.10:9009/',
 				target: 'http://192.168.0.161:9009/', // 王
 				// target: 'http://60.186.192.1:9009/',
-				// target: 'http://tttest.2qzs.com',
-				// target: 'http://slpayservice.2qzs.com/',
+				// target: payName,
 				// target: 'http://192.168.0.112:9002/mg',
 				ws: true,
 				changeOrigin: true,
@@ -69,10 +66,9 @@ module.exports = {
 	//         }
 	//     }
 	// },
-	chainWebpack: (config) => {
+	chainWebpack: config => {
 		config.plugins.delete('prefetch')
 		config.resolve.symlinks(true)
 		// config.resolve.alias.set('@', resolve('src'))
 	}
-
 }

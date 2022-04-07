@@ -8,7 +8,8 @@
 			</div>
 			<div class="price flex-space" v-if="disPrice">
 				<p>
-					￥<span>{{ disPrice }}</span> <span class="discount" v-if="hasPattern">拼团价</span>
+					￥<span>{{ disPrice }}</span> <span>+TAA{{ csTaaPrice }}</span>
+					<!-- <span class="discount" v-if="hasPattern">拼团价</span> -->
 				</p>
 				<p>预返{{ sePower }} TAA</p>
 			</div>
@@ -142,6 +143,7 @@ export default defineComponent({
 			cPrice: '', // 售卖价
 			cWholesalePrice: '', // 原价
 			disPrice: '', // 折扣价
+			csTaaPrice: '', // 折扣价
 			cTotalAmount: 0, // 销售量
 			// csbList: [], //产品信息
 			gpoList: [], // 拼团信息
@@ -221,6 +223,7 @@ export default defineComponent({
 					data.cPrice = Number(res.data.cUnitPrice).toFixed(2)
 					data.cWholesalePrice = Number(res.data.cWholesalePrice).toFixed(2)
 					data.disPrice = Number(res.data.cPrice).toFixed(2) // 现在直接取后端的值
+					data.csTaaPrice = Number(res.data.csTaaPrice).toFixed(2) // 现在直接取后端的值
 					data.cRecPayType = res.data.cRecPayType
 					data.cStockAmount = res.data.cStockAmount
 					// let pcPattern = ''

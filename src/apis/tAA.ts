@@ -1,5 +1,5 @@
 import { httpGet, httpPost } from './axios'
-import { IBaseResT } from './model/base'
+import { IBaseResT } from "./model/base"
 import {
 	ICanTakeOutModel,
 	IGetCurrentTaaDataRes, IGetTotalAssetsRes,
@@ -7,37 +7,39 @@ import {
 	ISelectBenefitOrderListModel,
 	ISelectSignTokenTempTotalListModel,
 	ISelectTakenTokenListModel,
+	ITransferFromSlbAcct2StockAcct,
 	ITransferModel
-} from "./model/tAAModel";
+} from "./model/tAAModel"
 
 enum Api {
 	APP_SIGN = 'taa/appSign',
 	UPDATE_WALLET_URL = 'taa/updateWalletUrl',
-	// SELECT_BENEFIT_ORDER_LIST = 'taa/selectBenefitOrderList',
-	SELECT_BENEFIT_ORDER_LIST_SUM = 'taa/selectBenefitOrderListSum',
-	// SELECT_AVAILABLE_TOKEN_LIST_SUM = 'taa/selectAvailableTokenListSum',
-	CAN_TAKE_OUT = 'taa/canTakeOut',
-	SELECT_TAKE_TOKEN_DETAIL_LIST_SUM = 'taa/selectTakeTokenDetailListSum',
-	// SELECT_AVAILABLE_TOKEN_NO_REAL_TIME_LIST_SUM = 'taa/selectAvailableTokenNoRealTimeListSum',
-	// SELECT_UNLOCK_LIST_SUM = 'taa/selectUnLockListSum',
-	SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM = 'taa/selectSignTokenTempTotalListSum',
-	GET_WALLET_BALANCE = 'taa/getWalletBalance',
-	CREATE_TAKE_TOKEN_DETAIL = 'taa/createTakeTokenDetail',
-	WITHDRAWAL_TAA = 'taa/memCode/withdrawalTaa',
-	SINGLE_WITHDRAWAL = 'taa/singleWithdrawal',
-	SINGLE_ONLINE_PAY = 'taa/singleOnlinePay',
-	ADD_ADVERTISING = 'mg/advertising/addAdvertising',
-	GET_MEMBER_WALLET_URL = 'mem/member/getMemberWalletUrl',
-	UN_RELAX_SUM = 'taa/unRelaxSum',
-	GET_TOTAL_ASSETS_LIST = 'taa/getTotalAssetsList',
-	TRANSFER = 'taa/transfer',
-	GET_MEMBER_WALLET = 'taa/getMemberWallet',
+	SELECT_BENEFIT_ORDER_LIST_SUM = "taa/selectBenefitOrderListSum",
+	CAN_TAKE_OUT = "taa/canTakeOut",
+	SELECT_TAKE_TOKEN_DETAIL_LIST_SUM = "taa/selectTakeTokenDetailListSum",
+	SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM = "taa/selectSignTokenTempTotalListSum",
+	GET_WALLET_BALANCE = "taa/getWalletBalance",
+	CREATE_TAKE_TOKEN_DETAIL = "taa/createTakeTokenDetail",
+	WITHDRAWAL_TAA = "taa/memCode/withdrawalTaa",
+	SINGLE_WITHDRAWAL = "taa/singleWithdrawal",
+	SINGLE_ONLINE_PAY = "taa/singleOnlinePay",
+	ADD_ADVERTISING = "mg/advertising/addAdvertising",
+	GET_MEMBER_WALLET_URL = "mem/member/getMemberWalletUrl",
+	UN_RELAX_SUM = "taa/unRelaxSum",
+	GET_TOTAL_ASSETS_LIST = "taa/getTotalAssetsList",
+	TRANSFER = "taa/transfer",
+	GET_MEMBER_WALLET = "taa/getMemberWallet",
 
-	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = 'taa/changeWalletAcctOnChainForOutZs',
-	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = 'taa/changeWalletAcctOnChainForInZs',
-	GET_TRANSFER_INFO_K_LINE_GRAPH = 'taa/getTransferInfoKLineGraph',
-	GET_CURRENT_TAA_DATA = 'taa/getCurrentTaaData',
-	GET_TAA_RISE_AND_FALL = 'taa/getTaaRiseAndFall'
+	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_OUT_ZS = "taa/changeWalletAcctOnChainForOutZs",
+	CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS = "taa/changeWalletAcctOnChainForInZs",
+	GET_TRANSFER_INFO_K_LINE_GRAPH = "taa/getTransferInfoKLineGraph",
+	GET_CURRENT_TAA_DATA = "taa/getCurrentTaaData",
+	GET_TAA_RISE_AND_FALL = "taa/getTaaRiseAndFall",
+	TRANSFER_FROM_SLB_ACCT_2_STOCK_ACCT = "mg/stock/transferFromSlbAcct2StockAcct",
+	GET_STOCK_TAA_K_LINE_DATA = "mg/stock/getStockTaaKLineData",
+
+	GET_TAA_RISE_AND_FALL1 = "mg/stock/getTaaRiseAndFall",
+	GET_STOCK_TAA_DATA = "mg/stock/getStockTaaData",
 }
 
 /**
@@ -66,13 +68,6 @@ export const getMemberWalletUrl = () => httpGet<IBaseResT>(Api.GET_MEMBER_WALLET
 export const updateWalletUrl = (p: { walletUrl: string }) => httpGet<IBaseResT>(Api.UPDATE_WALLET_URL, p)
 
 /**
- * @description 訂單列表
- * @param selectBenefitOrderListModel
- * @returns 訂單列表
- */
-// export const selectBenefitOrderList = (p: selectBenefitOrderListModel) => httpGet<selectBenefitOrderListRes>(Api.SELECT_BENEFIT_ORDER_LIST, p)
-
-/**
  * @description 訂單列表總計
  * @returns 訂單列表總計
  * @param p
@@ -91,36 +86,6 @@ export const selectSignTokenTempTotalListSum = (p: ISelectSignTokenTempTotalList
 	p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
 	return httpPost<IBaseResT>(Api.SELECT_SIGN_TOKEN_TEMP_TOTAL_LIST_SUM, p)
 }
-
-/**
-* @description 解锁列表總計(非签到)
-* @param selectBenefitOrderListModel
-* @returns 解锁列表總計
-*/
-// export const selectUnLockListSum = (p: { startTime: string, endTime: string }) => {
-//     p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-//     return httpPost<IBaseResT>(Api.SELECT_UNLOCK_LIST_SUM, p)
-// }
-
-/**
-* @description 解锁列表總計（签到）
-* @param selectBenefitOrderListModel
-* @returns 解锁列表總計
-*/
-// export const selectAvailableTokenNoRealTimeListSum = (p: { startTime: string, endTime: string }) => {
-//     p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-//     return httpPost<IBaseResT>(Api.SELECT_AVAILABLE_TOKEN_NO_REAL_TIME_LIST_SUM, p)
-// }
-
-/**
-* @description 解锁列表總計
-* @param selectBenefitOrderListModel
-* @returns 解锁列表總計
-*/
-// export const selectAvailableTokenListSum = (p: selectAvailableTokenListModel) => {
-//     p.endTime.length < 11 && (p.endTime = p.endTime + ' 23:59:59')
-//     return httpPost<IBaseResT>(Api.SELECT_AVAILABLE_TOKEN_LIST_SUM, p)
-// }
 
 /**
  * @description 可提币總計
@@ -215,19 +180,33 @@ export const changeWalletAcctOnChainForOutZs = (p: ITransferModel) => httpPost<I
 export const changeWalletAcctOnChainForInZs = (p: Omit<ITransferModel, "allianceWalletPassword">) => httpPost<IBaseResT>(Api.CHANGE_WALLET_ACCT_ON_CHAIN_FOR_IN_ZS, p)
 
 /**
- * @description 查询TAA K线图
+ * @description 查询TAA K线图 薄饼交易
  * @returns
  */
 export const getTransferInfoKLineGraph = () => httpPost<IGetTransferInfoKLineGraphRes>(Api.GET_TRANSFER_INFO_K_LINE_GRAPH)
+
+/**
+ * @description Taa走势 自己的交易所
+ */
+export const getStockTaaKLineData = () => httpPost<IBaseResT>(Api.GET_STOCK_TAA_K_LINE_DATA)
 
 /**
  * @description 获取勾画K线图所需数据:获取当天最高价maxPrice、最低价minPrice、交易总数量
  * @returns
  */
 export const getCurrentTaaData = () => httpPost<IGetCurrentTaaDataRes>(Api.GET_CURRENT_TAA_DATA)
+export const getStockTaaData = () => httpPost<IBaseResT>(Api.GET_STOCK_TAA_DATA)
 
 /**
  * @description 获取TAA涨跌百分比
  * @returns
  */
 export const getTaaRiseAndFall = () => httpPost<IBaseResT>(Api.GET_TAA_RISE_AND_FALL)
+export const getTaaRiseAndFall1 = () => httpPost<IBaseResT>(Api.GET_TAA_RISE_AND_FALL1)
+
+/**
+ * @description 从钱包转到交易所账号
+ * @param p
+ */
+export const transferFromSlbAcct2StockAcct = (p: ITransferFromSlbAcct2StockAcct) =>
+	httpPost<IGetTotalAssetsRes>(Api.TRANSFER_FROM_SLB_ACCT_2_STOCK_ACCT, p)

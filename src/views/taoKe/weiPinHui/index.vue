@@ -33,6 +33,7 @@ import WPHListItem from '../components/WPHListItem.vue'
 import { useRouter } from 'vue-router'
 import { useVopJXGoods } from '@/hooks/taoKe/useVopJXGoods'
 import { useOffSetTop } from '@/hooks/web/useOffSetTop'
+import { assetsOrigin } from '@/utils/config'
 
 export default defineComponent({
 	name: 'WPHIndex',
@@ -51,13 +52,12 @@ export default defineComponent({
 		const { push } = useRouter()
 		const data = reactive({
 			gridList: [
-				{ title: '高算力', id: 0, icon: 'http://mg.2qzs.com/img/taoke/chaoshi.png' },
-				{ title: '爆款', id: 1, icon: 'http://mg.2qzs.com/img/taoke/rexiao.png' },
-				// http://mg.2qzs.com/img/taoke/dianqi.png    http://mg.2qzs.com/img/taoke/yiyao.png
-				{ title: '母婴精选', id: 'gkf52p8p', icon: 'http://mg.2qzs.com/img/taoke/cat-7.png' },
-				{ title: '居家精选', id: 'cnrzcs22', icon: 'http://mg.2qzs.com/img/taoke/jiaju.png' },
-				{ title: '运动户外精选', id: 'indvf44e', icon: 'http://mg.2qzs.com/img/taoke/yundong.png' },
-				{ title: '家用电器', id: 'uggxpyh5', icon: 'http://mg.2qzs.com/img/taoke/dianqi.png' }
+				{ title: '高算力', id: 0, icon: assetsOrigin + '/img/taoke/chaoshi.png' },
+				{ title: '爆款', id: 1, icon: assetsOrigin + '/img/taoke/rexiao.png' },
+				{ title: '母婴精选', id: 'gkf52p8p', icon: assetsOrigin + '/img/taoke/cat-7.png' },
+				{ title: '居家精选', id: 'cnrzcs22', icon: assetsOrigin + '/img/taoke/jiaju.png' },
+				{ title: '运动户外精选', id: 'indvf44e', icon: assetsOrigin + '/img/taoke/yundong.png' },
+				{ title: '家用电器', id: 'uggxpyh5', icon: assetsOrigin + '/img/taoke/dianqi.png' }
 			],
 			active: 23,
 			jxCodeList: [

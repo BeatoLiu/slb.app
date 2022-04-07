@@ -51,10 +51,12 @@
 		<!-- 導航 -->
 		<section class="nav-content" v-if="isShowSomething">
 			<div class="nav-container">
-				<p class="title">购物.生活</p>
-				<div class="platform-list flex-space">
+				<p class="title">数联宝+</p>
+				<div class="platform-list flex-start">
 					<div v-for="item in shopList" :key="item.plateName" @click="goPlatform(item)">
-						<div><van-image :src="item.icon" /></div>
+						<div>
+							<van-image :src="item.icon" />
+						</div>
 						<p>{{ t(item.plateName) }}</p>
 					</div>
 				</div>
@@ -74,14 +76,21 @@
 				</NoticeBar>
 			</div>
 		</section> -->
-		<!--理財入口 @click="$router.push({ name: 'YiDuoBao' })" -->
-		<section>
+		<section @click="getRules">
 			<div class="lc-index">
 				<div>
-					<img :src="lcImg" alt="" />
+					<img :src="bannerImg + '?t=' + new Date().getTime()" alt="" />
 				</div>
 			</div>
 		</section>
+		<!--理財入口 @click="$router.push({ name: 'YiDuoBao' })" -->
+		<!--		<section>-->
+		<!--			<div class="lc-index">-->
+		<!--				<div>-->
+		<!--					<img :src="lcImg + '?t=' + new Date().getTime()" alt="" />-->
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</section>-->
 		<!-- 特惠热销 -->
 		<section>
 			<div class="benefit">
@@ -179,8 +188,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineComponent, reactive, ref, toRefs, computed, onActivated } from 'vue'
 import { Search, List, Image, Icon, Dialog, Toast, Sticky } from 'vant'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin, locationOrigin, payOrigin } from '@/utils/config'
 import slb from './../utils/jslb-1.0.0'
+import bannerImg from '@/assets/img/banner.gif'
 
 import { useI18n } from '@/hooks/setting/useI18n'
 import { useHomeGoodsList } from '@/hooks/web/useHomeGoodsList'
@@ -210,6 +220,7 @@ export default defineComponent({
 		})
 		const { t } = useI18n()
 		const { push } = useRouter()
+		// console.log(process.env.NODE_ENV)
 		const { offSetTop } = useOffSetTop()
 		const store = useStore()
 		const memCode = computed(() => store.state.user.userInfo.memCode)
@@ -225,11 +236,12 @@ export default defineComponent({
 			return calcPower / taaPrice.value
 		}
 		const data = reactive({
+			bannerImg,
 			// 搜索關鍵字，可能不需要
 			keywords: '',
 			// 輪播圖
 			swipeImages: [
-				{ img: picDisplayPath + 'secret/banners/ele-entry.png', url: 'http://mg.2qzs.com/slmer/index.html' }
+				{ img: assetsOrigin + '/img/secret/banners/ele-entry.png', url: locationOrigin + '/slmer/index.html' }
 			],
 
 			// 最上面菜单
@@ -237,7 +249,7 @@ export default defineComponent({
 				{
 					id: 1,
 					title: '扫一扫',
-					icon: picDisplayPath + 'slbApp/home/scan.png',
+					icon: assetsOrigin + '/img/slbApp/home/scan.png',
 					iconColor: '#fff',
 					to: '',
 					isShow: true
@@ -245,7 +257,7 @@ export default defineComponent({
 				{
 					id: 2,
 					title: '收款',
-					icon: picDisplayPath + 'slbApp/home/make-collections.png',
+					icon: assetsOrigin + '/img/slbApp/home/make-collections.png',
 					iconColor: '#fff',
 					to: { name: 'CollectionsQR' },
 					isShow: true
@@ -254,7 +266,7 @@ export default defineComponent({
 				{
 					id: 3,
 					title: 'routes.payForSUSD',
-					icon: picDisplayPath + 'slbApp/home/recharge.png',
+					icon: assetsOrigin + '/img/slbApp/home/recharge.png',
 					iconColor: '#fff',
 					to: { name: 'PayForSUSD' },
 					isShow: true
@@ -262,7 +274,7 @@ export default defineComponent({
 				{
 					id: 4,
 					title: '信用卡还款',
-					icon: picDisplayPath + 'slbApp/home/credit.png',
+					icon: assetsOrigin + '/img/slbApp/home/credit.png',
 					iconColor: '#fff',
 					to: { name: 'CreditCard' },
 					isShow: true
@@ -270,59 +282,93 @@ export default defineComponent({
 			],
 			// 各平臺list
 			platformList: [
-				{ plateName: 'taoKe.tb.plateName', icon: picDisplayPath + 'slbApp/home/tb.png', to: 'TBIndex' },
-				{ plateName: 'taoKe.jd.plateName', icon: picDisplayPath + 'slbApp/home/jd.png', to: 'JDIndex' },
+				{ plateName: 'taoKe.tb.plateName', icon: assetsOrigin + '/img/slbApp/home/tb.png', to: 'TBIndex' },
+				{ plateName: 'taoKe.jd.plateName', icon: assetsOrigin + '/img/slbApp/home/jd.png', to: 'JDIndex' },
 				{
 					plateName: 'taoKe.tb.elmName',
-					icon: picDisplayPath + 'slbApp/home/elm.png',
+					icon: assetsOrigin + '/img/slbApp/home/elm.png',
 					to: 'https://s.click.ele.me/HVzfsnu',
 					type: '_blank'
 				},
-				{ plateName: 'taoKe.others.wphName', icon: picDisplayPath + 'slbApp/home/wph.png', to: 'WPHIndex' },
-				{ plateName: 'taoKe.pdd.plateName', icon: picDisplayPath + 'slbApp/home/pdd.png', to: 'PDDIndex' },
+				{ plateName: 'taoKe.others.wphName', icon: assetsOrigin + '/img/slbApp/home/wph.png', to: 'WPHIndex' },
+				{ plateName: 'taoKe.pdd.plateName', icon: assetsOrigin + '/img/slbApp/home/pdd.png', to: 'PDDIndex' },
 				{
 					plateName: 'taoKe.tb.tmName',
-					icon: picDisplayPath + 'slbApp/home/tm.png',
+					icon: assetsOrigin + '/img/slbApp/home/tm.png',
 					to: 'taobao://s.click.taobao.com/t?union_lens=lensId%3AOPT%401602760358%400b5996e3_0ec9_1752bf639c9_e4ea%4001%3BeventPageId%3A20150318019999659&e=m%3D2%26s%3DR%2FXxNtE%2Fd5Jw4vFB6t2Z2iperVdZeJviU%2F9%2F0taeK29yINtkUhsv0B1RVA3Mk9CvA4NubRp%2Bh3fFwuxlvvcqslm8qW4P%2BzTEuudk%2FF1RTTLTDz05MmO4rcZs%2FlxbxCv%2Fogfc9UhHI0lKaJluSZBCVo5N7u7NTPnpvgfyVVUAbkzCbAGjvJeFYhvzeiceWLrTM7kxpdONUAK2ZesAkYM2UrHfv3%2BBYcPW%2FknKiHyNnnzx2TVyAt4KVV6jEit7Q%2BTTDDIVBsijSCjzGbClblec8wZuqbA1a%2BDEQLQFOpoRkV6yOsMozO%2BVvnxPh9IGwtCqZA1eON6i3S4Cld0SfNEBg9uNrcWnRI1T%2FwM%2FEqaICMTs%2BS44FcFJ9I2W8V7dx%2BtpotIIAR%2FK5Kni%2BR%2FIz1fMNA%3D%3D',
 					type: '_blank'
 				},
 				{
 					plateName: 'taoKe.others.mtName',
-					icon: picDisplayPath + 'slbApp/home/mt.png',
+					icon: assetsOrigin + '/img/slbApp/home/mt.png',
 					to: 'imeituan://www.meituan.com/web?lch=cps:waimai:3:f4a39a1b4d941c8a6495e883598a5429:zs186581877889958425&url=https%3A%2F%2Fclick.meituan.com%2Ft%3Ft%3D1%26c%3D1%26p%3DOWMpZ-uzIFOVe6JyOONs3dXuqV0qcAf-r-KCvHdXiNfIMGLDenU9eNeSS39KvPnR3aH7L-yA6SRm2_TrsCUj99pkcrKEcIWa_JwB2WXzKFPdcxMJuo6e94TFHjPKta6wMVobopHG5RVy3Jk12eYEI--Roiyiw5K46nmWP20OwSsBVHtUbTRL1FY7cj-hhsk2D2nXU-yvpv-zXjuRABJ662C0sjla3ufPjrE-452Uyu4xXk_CkCcEBI81eYse9z40pdNZyqt1u_2AgQy1l7GfpGUknlUvFIWWo85nx7a1kMFg6Grl4zIVM89c10wiIwtp3jVynK7xSH_LsQya7yhLxfmPLvRGjiOVC51ucCdyTzQfbL5rH1oD5K12DBtJhB3mE0to2hUSR2EWAe-TkcEXCFpGvi7cRf1Zpa-3_DiBNuC9AT7oPeE8NcMZuuV-loUlZnvFIOJKrzivZhjO8pD3LQCUVjTW2uNpnNnbwf54qbhP1UC4Y_aZ9k_HmalO2fYql0D4h_Vz5dI1B-ZW51mRlNd1CTCRxFMLVT0xOYuSYky45J_kckZcJAZg1YsPwb2XWFXjN9W3RbDXby9LnwzyiS1SeFKO90lndFACALbOQPr-KbcIPELLyBXskaSpmAjUey80oKS1z4rlf02t_EuLDUcFk_yww1sD76H-GdXQ2YWk8N90BLgjraKtAc_HgOgYwYekeIiU2Ty1JF1Rmy0u5ikKNH3wGxDX5PSZZUsqUEs'
 				},
 				{
 					plateName: 'taoKe.others.tjjdName',
-					icon: picDisplayPath + 'slbApp/home/tjjd.png',
+					icon: assetsOrigin + '/img/slbApp/home/tjjd.png',
 					to: 'http://hotels.ctrip.com/?AllianceID=1277137&sid=3509633&ouid=&popup=close&autoawaken=close',
 					type: '_blank'
 				},
 				{
 					plateName: 'taoKe.others.tjjpName',
-					icon: picDisplayPath + 'slbApp/home/tjjp.png',
+					icon: assetsOrigin + '/img/slbApp/home/tjjp.png',
 					to: 'http://flights.ctrip.com/?AllianceID=1277137&sid=3509633&popup=close&autoawaken=close&sourceid=&ouid',
 					type: '_blank'
 				},
 				{
 					plateName: 'taoKe.others.xclyName',
-					icon: picDisplayPath + 'slbApp/home/xcly.png',
+					icon: assetsOrigin + '/img/slbApp/home/xcly.png',
 					to: 'http://www.ctrip.com/?AllianceID=1277137&sid=3509633&ouid=&app=0101F00',
 					type: '_blank'
 				}
 			],
 			shopList: [
 				{
-					plateName: 'taoKe.jd.plateName',
-					icon: picDisplayPath + 'slbApp/home/jd.png',
-					to: 'http://mg.2qzs.com/slbAppJD/index.html',
+					plateName: '京东直购',
+					icon: assetsOrigin + '/img/slbApp/home/jd.png',
+					// locationOrigin + '/slbAppJD/index.html#/?t=' + new Date().getTime(),
+					to:
+						process.env.NODE_ENV === 'production'
+							? locationOrigin + '/slbAppJD/index.html#/?t=' + new Date().getTime()
+							: 'http://192.168.0.99:8093/#/',
 					type: '_blank'
+				},
+				{
+					plateName: '乔老爷',
+					icon: assetsOrigin + '/img/slbApp/home/jo.png',
+					// locationOrigin + '/slbAppJD/index.html#/?t=' + new Date().getTime(),
+					to: 'MrJo'
+				},
+				{
+					plateName: '华一堂',
+					icon: assetsOrigin + '/img/slbApp/home/jo.png',
+					// locationOrigin + '/slbAppJD/index.html#/?t=' + new Date().getTime(),
+					to: 'HuaYiTang'
 				}
+				// {
+				// 	plateName: 'TAA交易',
+				// 	icon: assetsOrigin + '/img/slbApp/home/jd.png',
+				// 	to:
+				// 		// locationOrigin +
+				// 		// '/slbAppExchange/index.html#/?token=' +
+				// 		// localStorage.token +
+				// 		// '&t=' +
+				// 		// new Date().getTime(),
+				// 		process.env.NODE_ENV === 'production'
+				// 			? locationOrigin +
+				// 			  '/slbAppExchange/index.html#/?token=' +
+				// 			  localStorage.token +
+				// 			  '&t=' +
+				// 			  new Date().getTime()
+				// 			: 'http://192.168.0.99:8094/#/?token=' + localStorage.token,
+				// 	type: '_blank'
+				// }
 			],
 			catList: [
 				{
 					title: '潮流范',
 					subtitle: '爱自己',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-5.png',
+					icon: assetsOrigin + '/img/taoke/cat-5.png',
 					to: 'TBGridList',
 					type: 'fashion',
 					materialId: 4093
@@ -330,7 +376,7 @@ export default defineComponent({
 				{
 					title: '母婴主题',
 					subtitle: '爱宝宝',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-6.png',
+					icon: assetsOrigin + '/img/taoke/cat-6.png',
 					to: 'TBGridList',
 					type: 'mom',
 					materialId: 4040
@@ -338,7 +384,7 @@ export default defineComponent({
 				{
 					title: '高算力',
 					subtitle: '更多算力',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-7.png',
+					icon: assetsOrigin + '/img/taoke/cat-7.png',
 					to: 'TBGridList',
 					type: 'benefit',
 					materialId: 13366
@@ -346,7 +392,7 @@ export default defineComponent({
 				{
 					title: '热销',
 					subtitle: '款款好物',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-9.png',
+					icon: assetsOrigin + '/img/taoke/cat-9.png',
 					to: 'TBGridList',
 					type: 'hot',
 					materialId: 28026
@@ -354,7 +400,7 @@ export default defineComponent({
 				{
 					title: '大额券',
 					subtitle: '大额券等你拿',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-10.png',
+					icon: assetsOrigin + '/img/taoke/cat-10.png',
 					to: 'TBGridList',
 					type: 'ticket',
 					materialId: 27446
@@ -362,7 +408,7 @@ export default defineComponent({
 				{
 					title: '淘生活',
 					subtitle: '小惊喜',
-					icon: 'http://mg.2qzs.com/img/taoke/cat-11.png',
+					icon: assetsOrigin + '/img/taoke/cat-11.png',
 					to: 'TBGridList',
 					type: 'life',
 					materialId: 30443
@@ -370,10 +416,10 @@ export default defineComponent({
 			],
 			// 獲得taa的滾動消息
 			memTAAList: [],
-			lcImg: picDisplayPath + 'slbApp/home/lc-banner.png',
-			teHuiImg: picDisplayPath + 'slbApp/home/9.9.png',
-			dhbImg: picDisplayPath + 'slbApp/home/dhb.png',
-			bagImg: picDisplayPath + 'slbApp/home/bag.png'
+			lcImg: assetsOrigin + '/img/slbApp/home/lc-banner.png',
+			teHuiImg: assetsOrigin + '/img/slbApp/home/9.9.png',
+			dhbImg: assetsOrigin + '/img/slbApp/home/dhb.png',
+			bagImg: assetsOrigin + '/img/slbApp/home/bag.png'
 		})
 		const taoBaoUrl: ITaoBaoUrl = reactive({
 			//  一淘补贴，天天领补贴，0门槛就能获得最高100元
@@ -397,7 +443,10 @@ export default defineComponent({
 		})
 		// 有些功能不对外开放
 		const isShowSomething = computed(() => {
-			return [500012, 500004, 500111].includes(memCode.value)
+			return (
+				[500004, 512636, 500111, 717260, 500010, 500012, 999739, 2647502].includes(memCode.value) ||
+				new Date().getTime() > new Date('2022/03/12 13:00:00').getTime()
+			)
 		})
 		// 產品列表
 		const { list, loading, finished, getData } = useHomeGoodsList()
@@ -454,12 +503,16 @@ export default defineComponent({
 				push({ name: item.to })
 			}
 		}
+		// 打开taa-jd功能规则
+		const getRules = () => {
+			slb.openAgentManagerUrl(assetsOrigin + '/download/Taa-JD-rules.docx')
+		}
 		// 顶部菜单点击事件
 		const topFunc = (item: any, id: number) => {
 			if (id === 1) {
 				// if (process.env.VUE_APP_ENV === 'test') {
 				try {
-					slb.openScan()
+					slb.qrScan()
 				} catch (err) {
 					// console.log(typeof err)
 					// Toast(JSON.stringify(err))
@@ -544,7 +597,7 @@ export default defineComponent({
 			const strArr = res.split('?id=')
 
 			// 如果是支付码
-			if (strArr[0] === 'http://slpay.2qzs.com/slpay/index.html#/payDetail') {
+			if (strArr[0] === payOrigin + '/slpay/index.html#/payDetail') {
 				const subArr = strArr[1].split('&mqcCode=')
 				const params = {
 					id: subArr[0],
@@ -560,6 +613,14 @@ export default defineComponent({
 			else if (/^https?:\/\//.test(res)) {
 				slb.openAgentManagerUrl(res)
 			}
+			// 微信付款码
+			// else if(/^1[0-5]\d{16}$/.test(res)) {
+			//
+			// }
+			// // 支付宝付款码
+			// else if(/^((2[5-9])|(30))\d{14,22}$/.test(res)) {
+			//
+			// }
 			// 啥也不是
 			else {
 				push({ name: 'ScanRes', query: { res } })
@@ -582,6 +643,7 @@ export default defineComponent({
 			onload,
 			changeImg,
 			goPlatform,
+			getRules,
 			topFunc,
 			goTaoBao,
 			getGridId,
@@ -617,12 +679,14 @@ export default defineComponent({
 		color: #fff;
 		text-align: center;
 		// background: linear-gradient(180deg, @primaryColor 0%, @primaryColor 100%);
-		background-image: url('http://mg.2qzs.com/img/slbApp/login/mine-bg.png');
+		background-image: url('@{baseUrl}/img/slbApp/login/mine-bg.png');
 		background-repeat: no-repeat;
 		background-size: cover;
+
 		i {
 			font-size: 72 * @fontSize;
 		}
+
 		p {
 			margin-top: 20 * @fontSize;
 			font-size: 24 * @fontSize;
@@ -724,16 +788,18 @@ export default defineComponent({
 					height: 315 * @fontSize;
 					padding-top: 15 * @fontSize;
 					padding-left: 25 * @fontSize;
-					background-image: url('http://mg.2qzs.com/img/slbApp/home/9.9.png');
+					background-image: url('@{baseUrl}/img/slbApp/home/9.9.png');
 					background-repeat: no-repeat;
 					background-position: center;
 					background-size: contain;
+
 					& > p:nth-child(1) {
 						color: #f66343;
 						font-weight: bold;
 						font-size: 32 * @fontSize;
 						line-height: 48 * @fontSize;
 					}
+
 					& > p:nth-child(2) {
 						color: #a58171;
 						font-weight: bold;
@@ -868,13 +934,15 @@ export default defineComponent({
 			height: 84 * @fontSize;
 			padding: 0 20 * @fontSize;
 			color: #fff;
-			background-image: url('http://mg.2qzs.com/img/slbApp/home/tj-title.png');
+			background-image: url('@{baseUrl}/img/slbApp/home/tj-title.png');
 			background-repeat: no-repeat;
 			background-size: 100%;
+
 			& > div {
 				p:nth-child(1) {
 					font-size: 30 * @fontSize;
 				}
+
 				p:nth-child(2) {
 					margin-left: 30 * @fontSize;
 					font-size: 20 * @fontSize;

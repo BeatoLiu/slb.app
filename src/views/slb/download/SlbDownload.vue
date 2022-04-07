@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import { assetsOrigin } from '@/utils/config'
 import { defineComponent, ref } from 'vue'
 import VueQr from 'vue-qr/src/packages/vue-qr.vue'
 import useClipboard from '../../../hooks/web/useClipboard'
@@ -49,7 +50,7 @@ export default defineComponent({
 	},
 	setup() {
 		const clipboard = useClipboard()
-		const downUrl = ref('http://mg.2qzs.com/download/app-slb.1.1.0.apk')
+		const downUrl = ref(assetsOrigin + '/download/app-slb.1.1.0.apk')
 		return {
 			downUrl,
 			clipboard

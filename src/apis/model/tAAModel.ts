@@ -1,4 +1,4 @@
-import { IBaseDateParams, IBasePageDateParams, IBaseResT } from "./base";
+import { IBaseDateParams, IBasePageDateParams, IBaseResT } from "./base"
 
 /**
  * taa訂單列表
@@ -129,9 +129,18 @@ export type IGetTransferInfoKLineGraphRes = IBaseResT<IGetTransferInfoKLineGraph
  * @param tokenPrice 当前价格
  */
 interface IGetCurrentTaaDataItem {
-    maxPrice: number;
-    minPrice: number;
-    tokenCount: number;
-    tokenPrice: number
+	maxPrice: number;
+	minPrice: number;
+	tokenCount: number;
+	tokenPrice: number
 }
+
 export type IGetCurrentTaaDataRes = IBaseResT<IGetCurrentTaaDataItem>
+
+/**
+ * @description 钱包转到交易所账号
+ */
+export interface ITransferFromSlbAcct2StockAcct {
+	chAmount: string;
+	currencyType: number
+}

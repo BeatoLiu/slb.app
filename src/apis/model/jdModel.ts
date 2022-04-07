@@ -1,25 +1,23 @@
-import { IBaseResT } from "./base";
+import { IBaseResT } from './base'
 
 export interface ISku {
-    sku: number
+	sku: number
 }
-
 
 export interface IGetProductDetailStyleModel extends ISku {
-    queryExts: string[]
+	queryExts: string[]
 }
-
 
 export interface IGetProductSkuImageMode {
-    skuIdList: number[]
+	skuIdList: number[]
 }
 export interface IGetProductSkuImageItem {
-    id: number;
-    path: string;
-    isPrimary: number;
-    orderSort: number
+	id: number
+	path: string
+	isPrimary: number
+	orderSort: number
 }
 interface IGetProductSkuImageInfo {
-    [key: string]: IGetProductSkuImageItem[]
+	[key: string]: IGetProductSkuImageItem[]
 }
 export type IGetProductSkuImageRes = IBaseResT<IGetProductSkuImageInfo>

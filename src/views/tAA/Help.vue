@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
 import { useRouter } from 'vue-router'
 
@@ -42,7 +42,7 @@ export default defineComponent({
 			// type,
 			proto: '0xe10EBE772A01D53745a5a6DAc9C67fFb39C0b40F',
 			zsdtProto: '0x36C7FE89982167a501835c60cCBA9fE502a4250b',
-			img: picDisplayPath + (type === 'tp' ? 'slbApp/taa_help.png' : 'slbApp/nabox.png'),
+			img: assetsOrigin + (type === 'tp' ? '/img/slbApp/taa_help.png' : '/img/slbApp/nabox.png'),
 			wallet:
 				type === 'tp'
 					? 'https://dapp.mytokenpocket.vip/apk/TokenPocket-pro.apk?t=1632388655537'

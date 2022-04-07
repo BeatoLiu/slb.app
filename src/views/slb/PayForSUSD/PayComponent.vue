@@ -132,7 +132,7 @@ export default defineComponent({
 			if (radio.value === 'alipay') {
 				// qrText.value = 'http://192.168.0.10:9009/slPay/saleSusdFromSlb?' + stringify(params)
 				// 支付宝是前端直接用这个地址生成二维码
-				// qrText.value = 'http://slpayservice.2qzs.com/slPay/saleSusdFromSlb?' + stringify(params)
+				// qrText.value = payName+'/slPay/saleSusdFromSlb?' + stringify(params)
 				// flag = true
 				await saleSusdFromSlb(params).then(res => {
 					if (res.resultCode === 1) {

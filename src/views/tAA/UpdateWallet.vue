@@ -65,7 +65,7 @@ import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue'
 import { Toast, Field, CellGroup, Button, Icon, ImagePreview } from 'vant'
 import { getMemberWalletUrl, updateWalletUrl } from '@/apis/tAA'
 import { useRouter } from 'vue-router'
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 import useClipboard from '../../hooks/web/useClipboard'
 import { useStore } from '@/store'
 
@@ -106,8 +106,8 @@ export default defineComponent({
 
 			showHelpImg: false,
 			helpImages: [
-				picDisplayPath + 'slbApp/slb/wallet-help-1.png',
-				picDisplayPath + 'slbApp/slb/wallet-help-2.png'
+				assetsOrigin + '/img/slbApp/slb/wallet-help-1.png',
+				assetsOrigin + '/img/slbApp/slb/wallet-help-2.png'
 			],
 			steps: ['1、打开去中心化钱包首页，点击“收款”', '2、复制钱包地址，在数联宝APP粘贴即可'],
 			idx: 0

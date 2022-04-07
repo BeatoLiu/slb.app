@@ -17,7 +17,19 @@ declare namespace slb {
 	 * @description 唤起扫一扫
 	 * @param options
 	 */
-	function openScan(options?: any): void;
+	function qrScan(options?: any): void;
+
+	/**
+	 * @description 唤起扫一扫
+	 * @param options
+	 */
+	function qrScan2(options?: any): void;
+
+	/**
+	 * @description 唤起扫一扫
+	 * @param options
+	 */
+	function qrScan3(options?: any): void;
 
 	/**
 	 * @description 唤起tp钱包
@@ -29,6 +41,18 @@ declare namespace slb {
 	 * @description 清除缓存
 	 */
 	function clearCache(): void;
+
+	/**
+	 * @description 清除缓存
+	 * @param url 地址
+	 */
+	function clearCacheHistory(url: string): void;
+
+	/**
+	 * @description 清除缓存
+	 * @param url 地址
+	 */
+	function clearCacheFile(url: string): void;
 
 	/**
 	 * @description 打开第三方网址

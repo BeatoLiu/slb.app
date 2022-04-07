@@ -1,5 +1,5 @@
-import { httpGet, httpPost } from "./axios";
-import { IBaseResT } from "./model/base";
+import { httpGet, httpPost } from './axios'
+import { IBaseResT } from './model/base'
 import {
 	IAddDeliveryAddressModel,
 	IBindMemberAliPayAcctModel,
@@ -13,7 +13,7 @@ import {
 	ISetMemberAllianceWalletPwdModel,
 	IShowSelfDeliveryAddressItem,
 	IShowSelfDeliveryAddressRes
-} from './model/memModel';
+} from './model/memModel'
 
 enum Api {
 	GET_MEMBER_CASH_ACCT = 'mem/memberAcct/getMemberCashAcct',
@@ -37,7 +37,6 @@ enum Api {
 	SET_MEMBER_ALLIANCE_WALLET_PWD = 'mem/member/setMemberAllianceWalletPwd',
 	SET_ALLIANCE_WALLET_PWD_SEND_SMS = 'mem/member/setAllianceWalletPwdSendSms',
 	BIND_MEMBER_ID_CARD_INFO = 'mem/member/bindMemberIdCardInfo'
-
 }
 
 /**
@@ -65,21 +64,22 @@ export const nodePayProxy = (p: INodePayProxyModel) => httpGet<IBaseResT>(Api.NO
 export const parseAliPayAcct = () => httpGet<IBaseResT>(Api.PARSE_ALIPAY_ACCT)
 
 /**
-* @description 修改提現帳號時，發送短信驗證碼
-* @returns
-*/
+ * @description 修改提現帳號時，發送短信驗證碼
+ * @returns
+ */
 export const sendBindAliPayAcctSms = () => httpGet<IBaseResT>(Api.SEND_BIND_ALIPAY_ACCT_SMS)
 
 /**
  * @description 會員修改提現帳號
  * @returns
  */
-export const bindMemberAliPayAcct = (p: IBindMemberAliPayAcctModel) => httpGet<IBaseResT>(Api.BIND_MEMBER_ALIPAY_ACCT, p)
+export const bindMemberAliPayAcct = (p: IBindMemberAliPayAcctModel) =>
+	httpGet<IBaseResT>(Api.BIND_MEMBER_ALIPAY_ACCT, p)
 
 /**
-* @description 查看會員個人信息
-* @returns
-*/
+ * @description 查看會員個人信息
+ * @returns
+ */
 export const getMemberByCode = () => httpGet<IBaseResT>(Api.GET_MEMBER_BY_CODE)
 
 /**
@@ -89,9 +89,9 @@ export const getMemberByCode = () => httpGet<IBaseResT>(Api.GET_MEMBER_BY_CODE)
 export const changeIncomeType = (p: IChangeIncomeTypeModel) => httpGet<IBaseResT>(Api.CHANGE_INCOME_TYPE, p)
 
 /**
-* @description 獲取地址
-* @returns
-*/
+ * @description 獲取地址
+ * @returns
+ */
 export const showSelfDeliveryAddress = () => httpGet<IShowSelfDeliveryAddressRes>(Api.SHOW_SELF_DELIVERY_ADDRESS)
 
 /**
@@ -101,34 +101,39 @@ export const showSelfDeliveryAddress = () => httpGet<IShowSelfDeliveryAddressRes
 export const addDeliveryAddress = (p: IAddDeliveryAddressModel) => httpPost<IBaseResT>(Api.ADD_DELIVERY_ADDRESS, p)
 
 /**
-* @description 修改地址
-* @returns
-*/
-export const modifyDeliveryAddress = (p: IModifyDeliveryAddressModel) => httpPost<IBaseResT>(Api.MODIFY_DELIVERY_ADDRESS, p)
+ * @description 修改地址
+ * @returns
+ */
+export const modifyDeliveryAddress = (p: IModifyDeliveryAddressModel) =>
+	httpPost<IBaseResT>(Api.MODIFY_DELIVERY_ADDRESS, p)
 
 /**
-* @description 設置默認地址
-* @returns
-*/
-export const modifyAcquiesceDeliveryAddress = (p: IModifyAcquiesceDeliveryAddressModel) => httpGet<IBaseResT>(Api.MODIFY_ACQUIESCE_DELIVERY_ADDRESS, p)
+ * @description 設置默認地址
+ * @returns
+ */
+export const modifyAcquiesceDeliveryAddress = (p: IModifyAcquiesceDeliveryAddressModel) =>
+	httpGet<IBaseResT>(Api.MODIFY_ACQUIESCE_DELIVERY_ADDRESS, p)
 
 /**
  * @description 查询默认地址
  * @returns
  */
-export const showAcquiesceDeliveryAddress = () => httpGet<IBaseResT<IShowSelfDeliveryAddressItem>>(Api.SHOW_ACQUIESCE_DELIVERY_ADDRESS)
+export const showAcquiesceDeliveryAddress = () =>
+	httpGet<IBaseResT<IShowSelfDeliveryAddressItem>>(Api.SHOW_ACQUIESCE_DELIVERY_ADDRESS)
 
 /**
-* @description 刪除地址
-* @returns
-*/
-export const deletedDeliveryAddress = (p: IModifyAcquiesceDeliveryAddressModel) => httpGet<IBaseResT>(Api.DELETE_DELIVERY_ADDRESS, p)
+ * @description 刪除地址
+ * @returns
+ */
+export const deletedDeliveryAddress = (p: IModifyAcquiesceDeliveryAddressModel) =>
+	httpGet<IBaseResT>(Api.DELETE_DELIVERY_ADDRESS, p)
 
 /**
  * @description 设置会员联盟钱包地址对应密码
  * @returns
  */
-export const setMemberAllianceWalletPwd = (p: ISetMemberAllianceWalletPwdModel) => httpPost<IBaseResT>(Api.SET_MEMBER_ALLIANCE_WALLET_PWD, p)
+export const setMemberAllianceWalletPwd = (p: ISetMemberAllianceWalletPwdModel) =>
+	httpPost<IBaseResT>(Api.SET_MEMBER_ALLIANCE_WALLET_PWD, p)
 
 /**
  * @description 会员设置联盟钱包支付密码时进行手机号短信的验证

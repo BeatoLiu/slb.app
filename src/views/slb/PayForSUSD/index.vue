@@ -102,7 +102,7 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { Button, ImagePreview, NumberKeyboard, Radio, RadioGroup, Toast } from 'vant'
 
-import { picDisplayPath } from '@/utils/config'
+import { assetsOrigin } from '@/utils/config'
 import { showDictionary } from '@/apis/common'
 
 import PayComponent from './PayComponent.vue'
@@ -154,11 +154,11 @@ export default defineComponent({
 
 			showHelpImg: false,
 			helpImages: [
-				picDisplayPath + 'slbApp/slb/help/sd_help_1.jpg',
-				picDisplayPath + 'slbApp/slb/help/sd_help_2.jpg',
-				picDisplayPath + 'slbApp/slb/help/sd_help_3.jpg',
-				picDisplayPath + 'slbApp/slb/help/sd_help_4.jpg',
-				picDisplayPath + 'secret/help/sd/sd_help_5.jpg'
+				assetsOrigin + '/img/slbApp/slb/help/sd_help_1.jpg',
+				assetsOrigin + '/img/slbApp/slb/help/sd_help_2.jpg',
+				assetsOrigin + '/img/slbApp/slb/help/sd_help_3.jpg',
+				assetsOrigin + '/img/slbApp/slb/help/sd_help_4.jpg',
+				assetsOrigin + '/img/secret/help/sd/sd_help_5.jpg'
 			],
 			steps: [
 				'1、打开“数联宝”APP，选择“数点兑换”',
@@ -177,7 +177,7 @@ export default defineComponent({
 		})
 
 		const dis = computed(() => {
-			const permissionList = ['512636', '500111', '717260', '500010', '539241', '500012', '999739', '657129']
+			const permissionList = ['512636', '500111', '500010', '539241', '500012', '999739']
 			if (permissionList.includes(memCode.value + '')) {
 				return true
 			}
