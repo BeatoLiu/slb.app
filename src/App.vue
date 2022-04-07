@@ -28,7 +28,6 @@ import { useRouter } from 'vue-router'
 
 import { useI18n } from './hooks/setting/useI18n'
 import { useTitle } from './hooks/web/useTitle'
-// !如果用'@/utils'，会提示Cannot find module的错误，除非将项目独自用vscode打开，但项目多，不适合每个打开，所以用相对路径，不用别名
 import { isIOSorANDROID } from './utils'
 
 export default defineComponent({

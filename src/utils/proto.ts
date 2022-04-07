@@ -1,5 +1,6 @@
 // 国文协议
-export const wjsProto = '<h2 style="text-align:center">溢多宝理财产品说明</h2>' +
+export const wjsProto =
+	'<h2 style="text-align:center">溢多宝理财产品说明</h2>' +
 	'<br/>' +
 	'<h3>一、购买资格</h3>' +
 	'<p>本产品限年满18岁持有“大陆地区身份证的用户购买，购买前需开通网商银行账户。2000元一份，按份数购买。主动购买支持SUSD、USDT、微信支付、银行卡支付等，具体支付方式请以收银台页面展示为准。</p>' +
