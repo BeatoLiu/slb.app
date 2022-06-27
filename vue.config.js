@@ -37,7 +37,7 @@ module.exports = {
 				// target: 'http://192.168.0.10:9007/',
 				target: 'http://192.168.0.161:9007/', // 王
 				// target: locationOrigin,
-				// target: "http://tk.2qzs.com",
+				
 				ws: true,
 				changeOrigin: true,
 				pathRewrite: {
